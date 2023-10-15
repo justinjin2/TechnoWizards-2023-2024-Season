@@ -82,8 +82,9 @@ public class TeamPropDetector
     }
 
     public void closeWebcam() {
-        webcam.closeCameraDevice();
         webcam.stopStreaming();
+        webcam.closeCameraDevice();
+
     }
 
     public TSEDetectorPipeline getPipeline() {
