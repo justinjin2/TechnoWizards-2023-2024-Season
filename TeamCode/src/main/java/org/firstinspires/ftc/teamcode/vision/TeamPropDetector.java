@@ -67,7 +67,8 @@ public class TeamPropDetector
             @Override
             public void onOpened()
             {
-                // webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
 
             }
             @Override
