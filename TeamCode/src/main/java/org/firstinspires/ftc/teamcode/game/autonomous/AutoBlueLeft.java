@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 public class AutoBlueLeft extends LinearOpMode {
 
 
+
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
     private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
