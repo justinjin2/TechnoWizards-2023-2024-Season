@@ -68,8 +68,6 @@ public class TeamPropDetector
             public void onOpened()
             {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-
-
             }
             @Override
             public void onError(int errorCode)
@@ -82,8 +80,8 @@ public class TeamPropDetector
     }
 
     public void closeWebcam() {
-        webcam.closeCameraDevice();
         webcam.stopStreaming();
+        webcam.closeCameraDevice();
     }
 
     public TSEDetectorPipeline getPipeline() {
