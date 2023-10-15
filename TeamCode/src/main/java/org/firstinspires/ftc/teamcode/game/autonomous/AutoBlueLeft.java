@@ -1,22 +1,12 @@
 package org.firstinspires.ftc.teamcode.game.autonomous;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.vision.PropColor;
-import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
 @Config
 @Autonomous(group = "Meet One")
-public class AutoBlueLeft extends LinearOpMode {
-
-
-
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
-
-    private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
+public class AutoBlueLeft extends Auto{
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,29 +14,25 @@ public class AutoBlueLeft extends LinearOpMode {
         // Do hardware stuff
         // initialize robot
 
-        TeamPropDetector teamPropDetector =  new TeamPropDetector(PropColor.BLUE, hardwareMap);
-
-
         while (!isStarted()) {
-            position = teamPropDetector.getPipeline().getPosition();
+            setPosition(getPropDetector().getPipeline().getPosition());
             updateTelemetry();
         }
 
-        teamPropDetector.closeWebcam();
+        getPropDetector().closeWebcam();
+        startTimer();
 
         while (!isStopRequested()) {
             updateTelemetry();
         }
 
+
     }
 
 
-    private void updateTelemetry() {
-        telemetry.addData("TSE Position", position.name());
+    public void updateTelemetry() {
+        telemetry.addData("TSE Position", getPosition().name());
         telemetry.update();
     }
-
-
-
 
 }
