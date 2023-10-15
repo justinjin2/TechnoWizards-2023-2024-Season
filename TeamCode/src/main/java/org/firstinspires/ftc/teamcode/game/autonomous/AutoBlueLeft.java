@@ -26,12 +26,14 @@ public class AutoBlueLeft extends LinearOpMode {
         TeamPropDetector teamPropDetector =  new TeamPropDetector(PropColor.BLUE, hardwareMap);
 
 
-        waitForStart();
+        while (!isStarted()) {
+            position = teamPropDetector.getPipeline().getPosition();
+            updateTelemetry();
+        }
 
         teamPropDetector.closeWebcam();
 
         while (!isStopRequested()) {
-            position = teamPropDetector.getPipeline().getPosition();
             updateTelemetry();
         }
 
