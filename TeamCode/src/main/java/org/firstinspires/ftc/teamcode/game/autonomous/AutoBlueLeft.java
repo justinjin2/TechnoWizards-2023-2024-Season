@@ -23,7 +23,8 @@ public class AutoBlueLeft extends LinearOpMode {
         // Do hardware stuff
         // initialize robot
 
-        TeamPropDetector teamPropDetector =  new TeamPropDetector(PropColor.BLUE);
+
+        TeamPropDetector teamPropDetector =  new TeamPropDetector(PropColor.BLUE, hardwareMap);
 
         position = teamPropDetector.getPipeline().getPosition();
 

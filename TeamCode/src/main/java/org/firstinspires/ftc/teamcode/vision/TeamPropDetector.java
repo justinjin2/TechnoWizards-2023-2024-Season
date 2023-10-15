@@ -21,7 +21,9 @@
 
 package org.firstinspires.ftc.teamcode.vision;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -51,9 +53,8 @@ public class TeamPropDetector
     private final String webcamName = "Webcam 1";
     private final PropColor propColor;
 
-    public TeamPropDetector(PropColor propColor) {
+    public TeamPropDetector(PropColor propColor, HardwareMap hardwareMap) {
         this.propColor = propColor;
-
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         pipeline = new TSEDetectorPipeline(propColor);
