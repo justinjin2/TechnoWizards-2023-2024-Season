@@ -23,6 +23,7 @@ package org.firstinspires.ftc.teamcode.vision;
 
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -46,6 +47,7 @@ import java.util.List;
  * 100% accurate) method of detecting the Freight Frenzy when lined up with
  * the sample regions over the 3 markers.
  */
+
 public class TeamPropDetector
 {
     OpenCvWebcam webcam;
@@ -88,7 +90,6 @@ public class TeamPropDetector
         return pipeline;
     }
 
-
     public static class TSEDetectorPipeline extends OpenCvPipeline
     {
         /*
@@ -117,9 +118,9 @@ public class TeamPropDetector
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(20,120);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(125,120);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(230,120);
+        public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(26,150);
+        public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(145,135);
+        public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(268,145);
         static final int REGION_WIDTH = 25;
         static final int REGION_HEIGHT = 25;
 

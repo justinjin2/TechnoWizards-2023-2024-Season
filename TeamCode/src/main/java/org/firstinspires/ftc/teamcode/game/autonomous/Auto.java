@@ -15,7 +15,7 @@ public abstract class Auto extends LinearOpMode {
     private TeamPropDetector propDetector;
     private ElapsedTime elapsedTime = new ElapsedTime();
 
-    public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    // public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
