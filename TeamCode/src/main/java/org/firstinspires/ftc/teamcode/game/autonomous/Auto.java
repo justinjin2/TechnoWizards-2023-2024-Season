@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
@@ -15,7 +16,11 @@ public abstract class Auto extends LinearOpMode {
     private TeamPropDetector propDetector;
     private ElapsedTime elapsedTime = new ElapsedTime();
 
-    public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    public SampleMecanumDrive drive;
+
+    public final Claw claw = new Claw();
+
+
 
 
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
@@ -27,6 +32,7 @@ public abstract class Auto extends LinearOpMode {
     }
 
     public void startTimer() {
+        elapsedTime.reset();
         elapsedTime.startTime();
     }
 
@@ -38,8 +44,13 @@ public abstract class Auto extends LinearOpMode {
         this.propDetector = new TeamPropDetector(PropColor.BLUE, hardwareMap);
     }
 
+    public  void initDrive() {
+        this.drive = new SampleMecanumDrive(hardwareMap);
+    }
+
+
     public int getSecondsLeft() {
-        return (int) (30 - (getTimeMilliseconds() / 1000));
+        return (int) (30 - elapsedTime.seconds());
     }
 
     public TeamPropDetector getPropDetector() {
