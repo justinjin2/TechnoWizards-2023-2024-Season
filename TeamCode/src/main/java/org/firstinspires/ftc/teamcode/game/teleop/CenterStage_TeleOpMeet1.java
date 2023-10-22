@@ -39,7 +39,7 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Initialize SampleMecanumDrive
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        telemetry = dashboard.getTelemetry();
+
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad currentGamepad2 = new Gamepad();
 
