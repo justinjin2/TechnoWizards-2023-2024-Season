@@ -20,6 +20,7 @@ public abstract class Auto extends LinearOpMode {
 
     public final Claw claw = new Claw();
 
+    private Trajectories trajectories;
 
 
 
@@ -29,6 +30,10 @@ public abstract class Auto extends LinearOpMode {
 
     public TeamPropDetector.TSEDetectorPipeline.TSEPosition getPosition() {
         return this.position;
+    }
+
+    public Trajectories getTrajectories() {
+        return trajectories;
     }
 
     public void startTimer() {
@@ -46,6 +51,7 @@ public abstract class Auto extends LinearOpMode {
 
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
+        this.trajectories = new Trajectories(drive);
     }
 
 
@@ -58,8 +64,5 @@ public abstract class Auto extends LinearOpMode {
     }
 
     abstract void updateTelemetry();
-
-
-
 
 }

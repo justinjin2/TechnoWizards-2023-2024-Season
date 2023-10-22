@@ -10,13 +10,12 @@ import org.firstinspires.ftc.teamcode.vision.PropColor;
 @Autonomous(group = "Meet One")
 public class AutoBlueLeft extends Auto{
 
-
-
     @Override
     public void runOpMode() throws InterruptedException {
 
         // Do hardware stuff
         // initialize robot
+
 
         initPropDetector(PropColor.BLUE);
         initDrive();
@@ -31,6 +30,7 @@ public class AutoBlueLeft extends Auto{
         startTimer();
 
         // start doing stuff
+        // drive.followTrajectorySequence(getTrajectories().getBlueRight(getPosition()));
 
         while (!isStopRequested()) {
             updateTelemetry();
@@ -38,7 +38,6 @@ public class AutoBlueLeft extends Auto{
 
 
     }
-
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
