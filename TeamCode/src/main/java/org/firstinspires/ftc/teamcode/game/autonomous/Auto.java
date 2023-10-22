@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
@@ -11,9 +12,11 @@ public abstract class Auto extends LinearOpMode {
 
     public static FtcDashboard dashboard = FtcDashboard.getInstance();
     private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
-
     private TeamPropDetector propDetector;
     private ElapsedTime elapsedTime = new ElapsedTime();
+
+    public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
 
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
         this.position = position;
@@ -33,6 +36,10 @@ public abstract class Auto extends LinearOpMode {
 
     public void initPropDetector(PropColor color) {
         this.propDetector = new TeamPropDetector(PropColor.BLUE, hardwareMap);
+    }
+
+    public int getSecondsLeft() {
+        return (int) (30 - (getTimeMilliseconds() / 1000));
     }
 
     public TeamPropDetector getPropDetector() {

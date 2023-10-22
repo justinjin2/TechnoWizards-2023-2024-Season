@@ -26,6 +26,9 @@ public class AutoBlueLeft extends Auto{
         getPropDetector().closeWebcam();
         startTimer();
 
+
+        // start doing stuff
+
         while (!isStopRequested()) {
             updateTelemetry();
         }
@@ -36,6 +39,7 @@ public class AutoBlueLeft extends Auto{
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
+        telemetry.addData("Seconds Left: ", getSecondsLeft());
         telemetry.update();
     }
 
