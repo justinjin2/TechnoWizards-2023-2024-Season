@@ -16,8 +16,10 @@ public class Claw {
 
     public final int slideStart = 0;
     public final int slideLow = 200;
+    public final int slideMaxHeight = 3412;
+    public int slideManual = 120;
 
-    private final double clawMotor_MaxVelocity = 500; // Max speed of the deliverSlide
+    private final double clawMotor_MaxVelocity = 2700; // Max speed of the deliverSlide
     public void init(HardwareMap hwMap) {
         clawMotorLeft = hwMap.get(DcMotorEx.class,"clawMotorLeft");
         clawMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -29,7 +31,7 @@ public class Claw {
         clawMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         clawMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        clawMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
+        clawMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
 
         clawArm = hwMap.get(Servo.class, "clawArm");
         clawWrist = hwMap.get(Servo.class, "clawWrist");
@@ -69,6 +71,38 @@ public class Claw {
 
         clawMotorLeft.setVelocity(clawMotor_MaxVelocity);
         clawMotorRight.setVelocity(clawMotor_MaxVelocity);
+    }
+    public void slideManualRun(int incrementPosition) {
+        int currentPositionLeft, currentPositionRight, meanPosition;
+
+        currentPositionLeft = clawMotorLeft.getCurrentPosition();
+        currentPositionRight = clawMotorRight.getCurrentPosition();
+        meanPosition = (Math.abs(currentPositionLeft) + Math.abs(currentPositionRight)) / 2;
+
+        if (incrementPosition > 0) {
+            if ((meanPosition + incrementPosition) < slideMaxHeight) {
+                clawMotorLeft.setTargetPosition(currentPositionLeft + incrementPosition);
+                clawMotorRight.setTargetPosition(currentPositionRight + incrementPosition);
+            } else {
+                clawMotorLeft.setTargetPosition(slideMaxHeight);
+                clawMotorRight.setTargetPosition(slideMaxHeight);
+            }
+        }
+        if (incrementPosition < 0) {
+            if ((meanPosition + incrementPosition) > slideStart) {
+                clawMotorLeft.setTargetPosition(currentPositionLeft + incrementPosition);
+                clawMotorRight.setTargetPosition(currentPositionRight + incrementPosition);
+            } else {
+                clawMotorLeft.setTargetPosition(slideStart);
+                clawMotorRight.setTargetPosition(slideStart);
+            }
+        }
+        clawMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        clawMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        clawMotorLeft.setVelocity(clawMotor_MaxVelocity);
+        clawMotorRight.setVelocity(clawMotor_MaxVelocity);
+
     }
 
     public void resetDelivery(){

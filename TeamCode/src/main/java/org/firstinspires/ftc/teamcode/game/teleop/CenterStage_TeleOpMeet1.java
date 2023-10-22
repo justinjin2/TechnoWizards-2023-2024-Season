@@ -101,8 +101,8 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
             if (!currentGamepad1.dpad_up && previousGamepad1.dpad_up) {claw.wristUp();}
             if (!currentGamepad1.dpad_down && previousGamepad1.dpad_down) {claw.wristDown();}
 
-            if (!currentGamepad1.y && previousGamepad1.y) {claw.clawSlideRunToPosition(claw.slideLow);}
-            if (!currentGamepad1.a && previousGamepad1.a) {claw.clawSlideRunToPosition(claw.slideStart);}
+            if (!currentGamepad1.y && previousGamepad1.y) {claw.slideManualRun(claw.slideManual);}
+            if (!currentGamepad1.a && previousGamepad1.a) {claw.slideManualRun(-claw.slideManual);}
 
 //            if (gamepad2.dpad_up) intake.intakeSlideRunToPosition(intakeSlideRunManual);
 //            if (gamepad2.dpad_down) intake.intakeSlideRunToPosition(0);
@@ -146,6 +146,8 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("Loop Timer", loopTimer.milliseconds());
+            telemetry.addData("Left Slide Position", claw.clawMotorLeftPosition());
+            telemetry.addData("Right Slide Position", claw.clawMotorRightPosition());
             telemetry.update();
         }
     }
