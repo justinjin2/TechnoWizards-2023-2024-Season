@@ -14,7 +14,10 @@ public class Claw {
     private Servo clawArm;
     private Servo clawWrist;
 
-    private final double clawMotor_MaxVelocity = 2700; // Max speed of the deliverSlide
+    public final int slideStart = 0;
+    public final int slideLow = 200;
+
+    private final double clawMotor_MaxVelocity = 500; // Max speed of the deliverSlide
     public void init(HardwareMap hwMap) {
         clawMotorLeft = hwMap.get(DcMotorEx.class,"clawMotorLeft");
         clawMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -26,6 +29,8 @@ public class Claw {
         clawMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         clawMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        clawMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
+
         clawArm = hwMap.get(Servo.class, "clawArm");
         clawWrist = hwMap.get(Servo.class, "clawWrist");
 
@@ -36,12 +41,24 @@ public class Claw {
     public double clawMotorRightPosition() {
         return  clawMotorRight.getCurrentPosition();
     }
-    public void clawArmOpen() {
-        clawArm.setPosition(1);
+    //increase means close, decrease means open
+    public void openArm() {
+        clawArm.setPosition(0.35);
     }
-    public void clawArmClose() {
-        clawArm.setPosition(0);
+    public void closeArm() {
+        clawArm.setPosition(0.46);
     }
+    //decrease means down, increase means up
+    public void wristDown(){
+        clawWrist.setPosition(0.12);
+    }
+    public void wristUp(){
+        clawWrist.setPosition(0.65);
+    }
+    public void resetArm(){clawArm.setPosition(0.5);}
+    public void resetWrist(){clawWrist.setPosition(0.5);}
+
+
     public void clawSlideRunToPosition(int position) {
 
         clawMotorLeft.setTargetPosition(position);
