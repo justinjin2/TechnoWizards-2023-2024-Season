@@ -21,7 +21,7 @@ public class AutoBlueLeft extends Auto{
         initDrive();
 
 
-        while (!isStarted()) {
+        while (!isStarted() && !isStopRequested()) {
             setPosition(getPropDetector().getPipeline().getPosition());
             updateTelemetry();
         }
@@ -32,8 +32,9 @@ public class AutoBlueLeft extends Auto{
         // start doing stuff
         // drive.followTrajectorySequence(getTrajectories().getBlueRight(getPosition()));
 
-        while (!isStopRequested()) {
-            updateTelemetry();
+        while (!isStopRequested() && opModeIsActive()) {
+            telemetry.addData("30 seconds count-down", 30 - (int)getTimeSeconds());
+            telemetry.update();
         }
 
 
@@ -41,7 +42,6 @@ public class AutoBlueLeft extends Auto{
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
-        telemetry.addData("Seconds Left: ", getSecondsLeft());
         telemetry.update();
     }
 

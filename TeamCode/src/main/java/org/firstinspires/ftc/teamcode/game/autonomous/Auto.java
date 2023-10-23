@@ -41,8 +41,8 @@ public abstract class Auto extends LinearOpMode {
         elapsedTime.startTime();
     }
 
-    public double getTimeMilliseconds() {
-        return elapsedTime.milliseconds();
+    public double getTimeSeconds() {
+        return elapsedTime.seconds();
     }
 
     public void initPropDetector(PropColor color) {
