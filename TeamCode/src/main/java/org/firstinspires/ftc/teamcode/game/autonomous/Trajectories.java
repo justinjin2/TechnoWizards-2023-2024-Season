@@ -21,8 +21,13 @@ public class Trajectories {
 
         // Needs drive.trajectorySequenceBuilder
         if (position == TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER) {
-            blueLeft = null;
-
+            blueLeft = drive.trajectorySequenceBuilder(new Pose2d(11.84, 66.28, Math.toRadians(-90.00)))
+                    .splineTo(new Vector2d(17.16, 27.02), Math.toRadians(-90.00))
+                    .setReversed(true)
+                    .splineToConstantHeading(new Vector2d(17.36, 47.93), Math.toRadians(-90.00))
+                    .setReversed(false)
+                    .splineTo(new Vector2d (51.29, 35.70), Math.toRadians(-3.58))
+                    .build();
 
             drive.setPoseEstimate(blueLeft.start());
         }
