@@ -30,7 +30,7 @@ public class AutoBlueLeft extends Auto{
         startTimer();
 
         // start doing stuff
-        // drive.followTrajectorySequence(getTrajectories().getBlueRight(getPosition()));
+        drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition()));
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData("30 seconds count-down", 30 - (int)getTimeSeconds());
