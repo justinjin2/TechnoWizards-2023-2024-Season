@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 
+import dalvik.system.DelegateLastClassLoader;
+
 /**
  * This opmode demonstrates how to create a teleop using just the SampleMecanumDrive class without
  * the need for an external robot class. This will allow you to do some cool things like
@@ -25,15 +27,20 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
     ElapsedTime deliverySlideTimer;
-    ElapsedTime deliveryServoTimer;
+    ElapsedTime armCloseTimer;
+    ElapsedTime armOpenTimer;
+    ElapsedTime wristUpTimer;
+    ElapsedTime slideHalfDownTimer;
 
-//    public enum Delivery_State {
-//        DELIVERY_IDLE,
-//        DELIVERY_CONE_GRAB,
-//        DELIVERY_READY,
-//        DELIVERY_EXTEND,
-//        DELIVERY_RELEASE
-//    }
+    public enum Arm_State {
+        ARM_IDLE,
+        ARM_PIXEL_GRAB,
+        ARM_WRIST_READY,
+        ARM_CLAW_OPEN,
+        ARM_SLIDE_DOWN,
+        ARM_EXTEND,
+        ARM_RELEASE
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,10 +56,11 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
         Claw claw = new Claw();
         claw.init(hardwareMap);
 
-        claw.resetArm();
-        claw.resetWrist();
+        claw.wristDown();
+        claw.openArm();
 
-//        Delivery_State deliveryState = Delivery_State.DELIVERY_IDLE;
+
+        Arm_State armState = Arm_State.ARM_IDLE;
 
         // We want to turn off velocity control for teleop
         // Velocity control per wheel is not necessary outside of motion profiled auto
@@ -71,7 +79,10 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
 
         loopTimer = new ElapsedTime();
         deliverySlideTimer = new ElapsedTime();
-        deliveryServoTimer = new ElapsedTime();
+        armCloseTimer = new ElapsedTime();
+        armOpenTimer = new ElapsedTime();
+        wristUpTimer = new ElapsedTime();
+        slideHalfDownTimer = new ElapsedTime();
         telemetry.update();
         waitForStart();
 
@@ -95,14 +106,71 @@ public class CenterStage_TeleOpMeet1 extends LinearOpMode {
 
             // Update everything. Odometry. Etc.
             drive.update();
-            if (!currentGamepad1.right_bumper && previousGamepad1.right_bumper) {claw.closeArm();}
-            if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper) {claw.openArm();}
 
-            if (!currentGamepad1.dpad_up && previousGamepad1.dpad_up) {claw.wristUp();}
-            if (!currentGamepad1.dpad_down && previousGamepad1.dpad_down) {claw.wristDown();}
+            if (!currentGamepad1.right_bumper && previousGamepad1.right_bumper) {
+                claw.wristDown();
+                claw.closeArm();
+                armCloseTimer.reset();
+                armState = Arm_State.ARM_PIXEL_GRAB;
+            }
+            if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper) {
+                claw.openArm();
+                armOpenTimer.reset();
+                armState = Arm_State.ARM_CLAW_OPEN;
+            }
+            if (!currentGamepad1.a && previousGamepad1.a) {
+                claw.clawSlideRunToPosition(claw.slideLow);
+            }
+            if (!currentGamepad1.x && previousGamepad1.x) {
+                claw.clawSlideRunToPosition(claw.slideMedium);
+            }
+            if (!currentGamepad1.y && previousGamepad1.y) {
+                claw.clawSlideRunToPosition(claw.slideMaxHeight);
+            }
+            if (!currentGamepad1.b && previousGamepad1.b) {
+                claw.clawSlideRunToPosition(claw.slideStart);
+                claw.wristDown();
+                claw.openArm();
+            }
+            if (!currentGamepad1.dpad_up && previousGamepad1.dpad_up) {claw.slideManualRun(claw.slideManual);}
+            if (!currentGamepad1.dpad_down && previousGamepad1.dpad_down) {claw.slideManualRun(-claw.slideManual);}
 
-            if (!currentGamepad1.y && previousGamepad1.y) {claw.slideManualRun(claw.slideManual);}
-            if (!currentGamepad1.a && previousGamepad1.a) {claw.slideManualRun(-claw.slideManual);}
+            //old testing code
+//            if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper) {claw.openArm();}
+//
+//            if (!currentGamepad1.dpad_up && previousGamepad1.dpad_up) {claw.wristUp();}
+//            if (!currentGamepad1.dpad_down && previousGamepad1.dpad_down) {claw.wristDown();}
+//
+//            if (!currentGamepad1.y && previousGamepad1.y) {claw.slideManualRun(claw.slideManual);}
+//            if (!currentGamepad1.a && previousGamepad1.a) {claw.slideManualRun(-claw.slideManual);}
+
+            switch (armState) {
+                case ARM_PIXEL_GRAB:
+                    if ((armCloseTimer.milliseconds() > claw.armCloseTime)) {
+                        claw.wristUp();
+                        wristUpTimer.reset();
+                        armState = Arm_State.ARM_WRIST_READY;
+                    }
+                    break;
+                case ARM_WRIST_READY:
+                    if ((wristUpTimer.milliseconds() > claw.armWristUpTime)) {
+                        armState = Arm_State.ARM_IDLE;
+                    }
+                    break;
+                case ARM_CLAW_OPEN:
+                    if ((armOpenTimer.milliseconds() > claw.armOpenTime)) {
+                        claw.clawSlideRunToPosition(claw.slideStart);
+                        slideHalfDownTimer.reset();
+                        armState = Arm_State.ARM_SLIDE_DOWN;
+                    }
+                    break;
+                case ARM_SLIDE_DOWN:
+                    if ((slideHalfDownTimer.milliseconds() > claw.slideHalfDownTime)) {
+                        claw.wristDown();
+                        armState = Arm_State.ARM_IDLE;
+                    }
+                    break;
+            }
 
 //            if (gamepad2.dpad_up) intake.intakeSlideRunToPosition(intakeSlideRunManual);
 //            if (gamepad2.dpad_down) intake.intakeSlideRunToPosition(0);

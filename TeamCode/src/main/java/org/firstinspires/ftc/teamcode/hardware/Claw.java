@@ -15,9 +15,16 @@ public class Claw {
     private Servo clawWrist;
 
     public final int slideStart = 0;
-    public final int slideLow = 200;
-    public final int slideMaxHeight = 3412;
-    public int slideManual = 120;
+    public final int slideLow = 1400;
+    public final int slideMedium = 2800;
+    public final int slideMaxHeight = 4000;
+    public int slideManual = 250;
+
+    //servo wait times
+    public final double armCloseTime = 100;
+    public final double armOpenTime = 100;
+    public final double armWristUpTime = 150;
+    public final double slideHalfDownTime = 1000;
 
     private final double clawMotor_MaxVelocity = 2700; // Max speed of the deliverSlide
     public void init(HardwareMap hwMap) {
@@ -48,14 +55,14 @@ public class Claw {
         clawArm.setPosition(0.35);
     }
     public void closeArm() {
-        clawArm.setPosition(0.46);
+        clawArm.setPosition(0.47);
     }
     //decrease means down, increase means up
     public void wristDown(){
-        clawWrist.setPosition(0.12);
+        clawWrist.setPosition(0.11);
     }
     public void wristUp(){
-        clawWrist.setPosition(0.65);
+        clawWrist.setPosition(0.79);
     }
     public void resetArm(){clawArm.setPosition(0.5);}
     public void resetWrist(){clawWrist.setPosition(0.5);}
