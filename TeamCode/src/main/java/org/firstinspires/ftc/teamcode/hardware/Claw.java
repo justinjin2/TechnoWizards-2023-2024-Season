@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-//import org.firstinspires.ftc.teamcode.util.Utility;
 public class Claw {
     private DcMotorEx clawMotorLeft;
     private DcMotorEx clawMotorRight;
@@ -15,12 +12,13 @@ public class Claw {
     private Servo clawWrist;
 
     public final int slideStart = 0;
-    public final int slideLow = 1400;
+    public final int slideLow = 1800;
     public final int slideMedium = 2800;
     public final int slideMaxHeight = 4000;
     public int slideManual = 250;
+    public int smallSlideManual = 150;
 
-    //servo wait times
+    // --- Timings --- //
     public final double armCloseTime = 100;
     public final double armOpenTime = 100;
     public final double armWristUpTime = 150;
@@ -55,7 +53,7 @@ public class Claw {
         clawArm.setPosition(0.35);
     }
     public void closeArm() {
-        clawArm.setPosition(0.47);
+        clawArm.setPosition(0.49);
     }
     //decrease means down, increase means up
     public void wristDown(){
@@ -66,8 +64,6 @@ public class Claw {
     }
     public void resetArm(){clawArm.setPosition(0.5);}
     public void resetWrist(){clawWrist.setPosition(0.5);}
-
-
     public void clawSlideRunToPosition(int position) {
 
         clawMotorLeft.setTargetPosition(position);
