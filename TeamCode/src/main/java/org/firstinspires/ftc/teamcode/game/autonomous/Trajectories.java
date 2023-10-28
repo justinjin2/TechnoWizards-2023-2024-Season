@@ -14,34 +14,34 @@ public class Trajectories {
         this.drive = drive;
     }
 
-    public TrajectorySequence getBlueRight(TeamPropDetector.TSEDetectorPipeline.TSEPosition position){
+    public TrajectorySequence getBlueLeft(TeamPropDetector.TSEDetectorPipeline.TSEPosition position){
 
-        TrajectorySequence blueRight = null;
+        TrajectorySequence blueLeft = null;
 
 
         // Needs drive.trajectorySequenceBuilder
         if (position == TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER) {
-            blueRight = null;
+            blueLeft = null;
 
 
-            drive.setPoseEstimate(blueRight.start());
+            drive.setPoseEstimate(blueLeft.start());
         }
         else if (position == TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT) {
-            blueRight = null;
+            blueLeft = null;
 
 
-            drive.setPoseEstimate(blueRight.start());
+            drive.setPoseEstimate(blueLeft.start());
         }
         else {
-            blueRight = null;
+            blueLeft = null;
 
 
-            drive.setPoseEstimate(blueRight.start());
+            drive.setPoseEstimate(blueLeft.start());
         }
 
 
         
-        return blueRight;
+        return blueLeft;
     }
 
 

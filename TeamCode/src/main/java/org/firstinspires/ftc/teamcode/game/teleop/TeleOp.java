@@ -16,11 +16,8 @@ import org.firstinspires.ftc.teamcode.hardware.Claw;
 public class TeleOp extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
-    ElapsedTime deliverySlideTimer;
-    ElapsedTime armCloseTimer;
-    ElapsedTime armOpenTimer;
-    ElapsedTime wristUpTimer;
-    ElapsedTime slideHalfDownTimer;
+
+    ElapsedTime armTimer;
 
     private double driveSpeedRatio = 1.0;
     public ArmState armState = ArmState.IDLE;
@@ -50,11 +47,8 @@ public class TeleOp extends LinearOpMode {
         displayPoseTelemetry();
 
         loopTimer = new ElapsedTime();
-        deliverySlideTimer = new ElapsedTime();
-        armCloseTimer = new ElapsedTime();
-        armOpenTimer = new ElapsedTime();
-        wristUpTimer = new ElapsedTime();
-        slideHalfDownTimer = new ElapsedTime();
+        armTimer = new ElapsedTime();
+
         telemetry.update();
         waitForStart();
 
@@ -89,12 +83,12 @@ public class TeleOp extends LinearOpMode {
             if (!currentGamepad1.right_bumper && previousGamepad1.right_bumper) {
                 claw.wristDown();
                 claw.closeArm();
-                armCloseTimer.reset();
+                armTimer.reset();
                 armState = ArmState.PIXEL_GRAB;
             }
             if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper) {
                 claw.openArm();
-                armOpenTimer.reset();
+                armTimer.reset();
                 armState = ArmState.CLAW_OPEN;
             }
             if (!currentGamepad1.a && previousGamepad1.a) {
@@ -134,26 +128,26 @@ public class TeleOp extends LinearOpMode {
 
             switch (armState) {
                 case PIXEL_GRAB:
-                    if ((armCloseTimer.milliseconds() > claw.armCloseTime)) {
+                    if ((armTimer.milliseconds() > claw.armCloseTime)) {
                         claw.wristUp();
-                        wristUpTimer.reset();
+                        armTimer.reset();
                         armState = ArmState.WRIST_READY;
                     }
                     break;
                 case WRIST_READY:
-                    if ((wristUpTimer.milliseconds() > claw.armWristUpTime)) {
+                    if ((armTimer.milliseconds() > claw.armWristUpTime)) {
                         armState = ArmState.IDLE;
                     }
                     break;
                 case CLAW_OPEN:
-                    if ((armOpenTimer.milliseconds() > claw.armOpenTime)) {
+                    if ((armTimer.milliseconds() > claw.armOpenTime)) {
                         claw.clawSlideRunToPosition(claw.slideStart);
-                        slideHalfDownTimer.reset();
+                        armTimer.reset();
                         armState = ArmState.SLIDE_DOWN;
                     }
                     break;
                 case SLIDE_DOWN:
-                    if ((slideHalfDownTimer.milliseconds() > claw.slideHalfDownTime)) {
+                    if ((armTimer.milliseconds() > claw.slideHalfDownTime)) {
                         claw.wristDown();
                         armState = ArmState.IDLE;
                     }
