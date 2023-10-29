@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.Claw;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(group = "TeleOp")
-public class TeleOp extends LinearOpMode {
+public class CenterStage_Meet1 extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
 

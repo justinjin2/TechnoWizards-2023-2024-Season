@@ -19,7 +19,7 @@ public class Claw {
     public int smallSlideManual = 150;
 
     // --- Timings --- //
-    public final double armCloseTime = 100;
+    public final double armCloseTime = 200;
     public final double armOpenTime = 100;
     public final double armWristUpTime = 150;
     public final double slideHalfDownTime = 1000;
@@ -50,7 +50,7 @@ public class Claw {
     }
     //increase means close, decrease means open
     public void openArm() {
-        clawArm.setPosition(0.35);
+        clawArm.setPosition(0.33);
     }
     public void closeArm() {
         clawArm.setPosition(0.49);
