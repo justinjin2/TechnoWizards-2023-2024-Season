@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.hardware.Claw;
 
 public class Controllers {
 
-    private final TeleOp teleOp;
+    private final CenterStage_Meet1 teleOp;
     private final Claw claw;
 
     private Gamepad currentGamepad1 = new Gamepad();
@@ -15,7 +15,7 @@ public class Controllers {
     private Gamepad previousGamepad2 = new Gamepad();
 
 
-    public Controllers(TeleOp teleOp, Claw claw) {
+    public Controllers(CenterStage_Meet1 teleOp, Claw claw) {
         this.teleOp = teleOp;
         this.claw = claw;
     }
