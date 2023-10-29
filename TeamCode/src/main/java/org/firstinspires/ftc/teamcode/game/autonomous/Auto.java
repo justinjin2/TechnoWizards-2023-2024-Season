@@ -51,7 +51,7 @@ public abstract class Auto extends LinearOpMode {
 
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
-        this.trajectories = new Trajectories(drive);
+        //this.trajectories = new Trajectories(drive);
     }
 
 
