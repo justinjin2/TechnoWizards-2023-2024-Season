@@ -9,10 +9,10 @@ public class Controllers {
     private final CenterStage_Meet1 teleOp;
     private final Claw claw;
 
-    private Gamepad currentGamepad1 = new Gamepad();
-    private Gamepad currentGamepad2 = new Gamepad();
-    private Gamepad previousGamepad1 = new Gamepad();
-    private Gamepad previousGamepad2 = new Gamepad();
+    private final Gamepad currentGamepad1 = new Gamepad();
+    private final Gamepad currentGamepad2 = new Gamepad();
+    private final Gamepad previousGamepad1 = new Gamepad();
+    private final Gamepad previousGamepad2 = new Gamepad();
 
 
     public Controllers(CenterStage_Meet1 teleOp, Claw claw) {
@@ -29,22 +29,22 @@ public class Controllers {
 
     public void readInputs(Gamepad gamepad1, Gamepad gamepad2) {
         if (gamepad1.right_trigger > 0) {
-            teleOp.driveSpeedRatio = 0.35;
+            teleOp.setDriveSpeedRatio(0.35);
         } else {
-            teleOp.driveSpeedRatio = 1.0;
+            teleOp.setDriveSpeedRatio(1.0);
         }
 
         if (!currentGamepad1.right_bumper && previousGamepad1.right_bumper) {
             claw.wristDown();
             claw.closeArm();
             teleOp.armTimer.reset();
-            teleOp.armState = ArmState.PIXEL_GRAB;
+            teleOp.setArmState(ArmState.PIXEL_GRAB);
         }
 
         if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper) {
             claw.openArm();
             teleOp.armTimer.reset();
-            teleOp.armState = ArmState.CLAW_OPEN;
+            teleOp.setArmState(ArmState.CLAW_OPEN);
         }
 
         if (!currentGamepad1.a && previousGamepad1.a) {

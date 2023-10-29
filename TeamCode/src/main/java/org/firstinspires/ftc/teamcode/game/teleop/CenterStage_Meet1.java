@@ -17,8 +17,8 @@ public class CenterStage_Meet1 extends LinearOpMode {
     ElapsedTime loopTimer;
     ElapsedTime armTimer;
 
-    public double driveSpeedRatio = 1.0;
-    public ArmState armState = ArmState.IDLE;
+    private double driveSpeedRatio = 1.0;
+    private ArmState armState = ArmState.IDLE;
     
 
     @Override
@@ -112,6 +112,18 @@ public class CenterStage_Meet1 extends LinearOpMode {
         telemetry.addData("Left Slide Position", claw.clawMotorLeftPosition());
         telemetry.addData("Right Slide Position", claw.clawMotorRightPosition());
         telemetry.update();
+    }
+
+    public void setDriveSpeedRatio(double ratio) {
+        driveSpeedRatio = ratio;
+    }
+
+    public ArmState getArmState() {
+        return armState;
+    }
+
+    public void setArmState(ArmState state) {
+        armState = state;
     }
 
 }
