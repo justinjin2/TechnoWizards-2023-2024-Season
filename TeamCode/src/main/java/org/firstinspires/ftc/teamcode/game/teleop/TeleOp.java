@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.hardware.Claw;
 public class TeleOp extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
-
     ElapsedTime armTimer;
 
     public double driveSpeedRatio = 1.0;
@@ -96,7 +95,6 @@ public class TeleOp extends LinearOpMode {
             }
 
             displayTelemetry(drive, claw);
-
         }
     }
 

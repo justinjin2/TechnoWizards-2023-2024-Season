@@ -10,43 +10,45 @@ import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 public class Trajectories {
 
     private final SampleMecanumDrive drive;
+
+    TrajectorySequence blueLeftCenter;
+
+
+
+
     public Trajectories(SampleMecanumDrive drive) {
         this.drive = drive;
+
+        blueLeftCenter = drive.trajectorySequenceBuilder(new Pose2d(11.84, 66.28, Math.toRadians(-90.00)))
+                .splineTo(new Vector2d(17.16, 27.02), Math.toRadians(-90.00))
+                .setReversed(true)
+                .splineToConstantHeading(new Vector2d(17.36, 47.93), Math.toRadians(-90.00))
+                .setReversed(false)
+                .splineTo(new Vector2d (51.29, 35.70), Math.toRadians(-3.58))
+                .build();
     }
+    
+
 
     public TrajectorySequence getBlueLeft(TeamPropDetector.TSEDetectorPipeline.TSEPosition position){
 
-        TrajectorySequence blueLeft = null;
-
-
-        // Needs drive.trajectorySequenceBuilder
         if (position == TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER) {
-            blueLeft = drive.trajectorySequenceBuilder(new Pose2d(11.84, 66.28, Math.toRadians(-90.00)))
-                    .splineTo(new Vector2d(17.16, 27.02), Math.toRadians(-90.00))
-                    .setReversed(true)
-                    .splineToConstantHeading(new Vector2d(17.36, 47.93), Math.toRadians(-90.00))
-                    .setReversed(false)
-                    .splineTo(new Vector2d (51.29, 35.70), Math.toRadians(-3.58))
-                    .build();
-
-            drive.setPoseEstimate(blueLeft.start());
+            drive.setPoseEstimate(blueLeftCenter.start());
+            return blueLeftCenter;
         }
         else if (position == TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT) {
-            blueLeft = null;
 
+            //TODO: Change This
+            drive.setPoseEstimate(blueLeftCenter.start());
+            return blueLeftCenter;
 
-            drive.setPoseEstimate(blueLeft.start());
         }
         else {
-            blueLeft = null;
-
-
-            drive.setPoseEstimate(blueLeft.start());
+            //TODO: Change This
+            drive.setPoseEstimate(blueLeftCenter.start());
+            return blueLeftCenter;
         }
 
-
-        
-        return blueLeft;
     }
 
 
