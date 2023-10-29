@@ -18,7 +18,7 @@ public abstract class Auto extends LinearOpMode {
 
     public SampleMecanumDrive drive;
 
-    public final Claw claw = new Claw();
+    public Claw claw;
 
     private Trajectories trajectories;
 
@@ -51,6 +51,8 @@ public abstract class Auto extends LinearOpMode {
 
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
+        this.claw = new Claw();
+        claw.init(hardwareMap);
         //this.trajectories = new Trajectories(drive);
     }
 
