@@ -71,7 +71,7 @@ public class AutoBlueLeft extends Auto{
         drive.followTrajectorySequence(sequence2);
 
         while (!isStopRequested() && opModeIsActive()) {
-            telemetry.addData("30 seconds count-down", 30 - (int)getTimeSeconds());
+            telemetry.addData("30 seconds count-down", getSecondsLeft());
             telemetry.update();
         }
 
