@@ -57,10 +57,10 @@ public class Claw {
     }
     //decrease means down, increase means up
     public void wristDown(){
-        clawWrist.setPosition(0.11);
+        clawWrist.setPosition(0.15);
     }
     public void wristUp(){
-        clawWrist.setPosition(0.79);
+        clawWrist.setPosition(0.70);
     }
     public void resetArm(){clawArm.setPosition(0.5);}
     public void resetWrist(){clawWrist.setPosition(0.5);}
