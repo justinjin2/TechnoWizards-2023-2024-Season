@@ -3,28 +3,34 @@ package org.firstinspires.ftc.teamcode.game.autonomous;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
 public class Trajectories {
 
     private final SampleMecanumDrive drive;
+    private final Claw claw;
 
     TrajectorySequence blueLeftCenter;
 
 
 
 
-    public Trajectories(SampleMecanumDrive drive) {
+    public Trajectories(SampleMecanumDrive drive, Claw claw) {
         this.drive = drive;
+        this.claw = claw;
 
-        blueLeftCenter = drive.trajectorySequenceBuilder(new Pose2d(11.84, 66.28, Math.toRadians(-90.00)))
-                .splineTo(new Vector2d(17.16, 27.02), Math.toRadians(-90.00))
-                .setReversed(true)
-                .splineToConstantHeading(new Vector2d(17.36, 47.93), Math.toRadians(-90.00))
-                .setReversed(false)
-                .splineTo(new Vector2d (51.29, 35.70), Math.toRadians(-3.58))
+        blueLeftCenter = drive.trajectorySequenceBuilder(new Pose2d(12, 64.5, Math.toRadians(-90.00)))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .addTemporalMarker(0,() -> {
+                    claw.clawSlideRunToPosition(claw.slideLow);
+                })
+                .splineTo(new Vector2d(12, 35.5), Math.toRadians(-90.00))
+                .splineToConstantHeading(new Vector2d(18, 55), Math.toRadians(-90.00))
+                .splineToLinearHeading(new Pose2d(48, 37, Math.toRadians(0)), Math.toRadians(-3))
                 .build();
     }
     
