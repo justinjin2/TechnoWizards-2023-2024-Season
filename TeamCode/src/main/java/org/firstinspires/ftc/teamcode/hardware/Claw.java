@@ -16,6 +16,7 @@ public class Claw {
     public final int slideMedium = 2800;
     public final int slideMaxHeight = 4000;
     public int slideManual = 250;
+    public int slideAutoHeight = 1400;
     public int smallSlideManual = 150;
 
     // --- Timings --- //
