@@ -27,14 +27,6 @@ public class Auto_Blue_Left_AprilTag extends Auto {
 
     final double DESIRED_DISTANCE = 8.0; //  this is how close the camera should get to the target (inches)
 
-    final double SPEED_GAIN  =  0.02  ;   //  Forward Speed Control "Gain". eg: Ramp up to 50% power at a 25 inch error.   (0.50 / 25.0)
-    final double STRAFE_GAIN =  0.015 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
-    final double TURN_GAIN   =  0.01  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
-
-    final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
-
     public enum Delivery_State {
         DELIVERY_IDLE,
         DELIVERY_START,
@@ -123,17 +115,27 @@ public class Auto_Blue_Left_AprilTag extends Auto {
 
         getPropDetector().closeWebcam();
 
-        aprilTag = new AprilTagProcessor.Builder().build();
+        AprilTagProcessor aprilTag = new AprilTagProcessor.Builder()
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                //.setLensIntrinsics()
+                //.setNumThreads()
+                //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                //.setTagLibrary(AprilTagGameDatabase.getSampleTagLibrary())
+
+                .build();
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(aprilTag)
+                .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .build();
 
         startTimer();
         loopTimer.reset();
-
-        claw.clawSlideRunToPosition(claw.slideAutoHeight);
 
         if (getPosition().name().equals("CENTER")) {
             //drive.followTrajectorySequence(traj_center);
@@ -161,46 +163,40 @@ public class Auto_Blue_Left_AprilTag extends Auto {
 
         sleep(2000); //maybe deleted if start using trajectory
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                //  Check to see if we want to track towards this tag
+                if ((detection.id == backboard_tag_id)) {
+                    // Yes, we want to use this tag.
+                    telemetry.addData("Found", "ID %d (%s)", detection.id, detection.metadata.name);
+                    telemetry.addData("Range",  "%5.1f inches", detection.ftcPose.range);
+                    telemetry.addData("Bearing","%3.0f degrees", detection.ftcPose.bearing);
+                    telemetry.addData("Yaw","%3.0f degrees", detection.ftcPose.yaw);
+                    telemetry.update();
+                    rangeError = (detection.ftcPose.range - DESIRED_DISTANCE);
+                    headingError = detection.ftcPose.bearing;
+                    yawError = detection.ftcPose.yaw;
+                    moveToAprilTag(rangeError, headingError, yawError);
+                    delivery_state = Delivery_State.ROBOT_BACKWARD;
 
-        telemetry.addData("# AprilTags Detected", currentDetections.size());
-        telemetry.update();
+                    break;  // don't look any further.
+                } else {
+                    // This tag is in the library, but we do not want to track it right now.
+                    telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                    telemetry.update();
+                }
+            } else {
+                // This tag is NOT in the library, so we don't have enough information to track to it.
+                telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
+                telemetry.update();
+            }
+        }
+
         delivery_state = Delivery_State.DELIVERY_START;
 
         while (!isStopRequested() && opModeIsActive()) {
 
             loopTimer.reset();
-
-            for (AprilTagDetection detection : currentDetections) {
-                if (detection.metadata != null) {
-                    //  Check to see if we want to track towards this tag
-                    if ((detection.id == backboard_tag_id)) {
-                        // Yes, we want to use this tag.
-                        telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
-                        telemetry.addData("Found", "ID %d (%s)", detection.id, detection.metadata.name);
-                        telemetry.addData("Range",  "%5.1f inches", detection.ftcPose.range);
-                        telemetry.addData("Bearing","%3.0f degrees", detection.ftcPose.bearing);
-                        telemetry.addData("Yaw","%3.0f degrees", detection.ftcPose.yaw);
-                        telemetry.update();
-                        rangeError = (detection.ftcPose.range - DESIRED_DISTANCE);
-                        headingError = detection.ftcPose.bearing;
-                        yawError = detection.ftcPose.yaw;
-
-                        speed  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                        turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
-                        strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-
-                        break;  // don't look any further.
-                    } else {
-                        // This tag is in the library, but we do not want to track it right now.
-                        telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
-                        telemetry.update();
-                    }
-                } else {
-                    // This tag is NOT in the library, so we don't have enough information to track to it.
-                    telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
-                    telemetry.update();
-                }
-            }
 
             switch (delivery_state) {
                 case DELIVERY_START:
@@ -212,8 +208,6 @@ public class Auto_Blue_Left_AprilTag extends Auto {
                                 .build();
                         //drive.followTrajectorySequence(forward);
                         delivery_state = Delivery_State.ROBOT_FORWARD;
-                    } else {
-                        moveToAprilTag(speed, strafe, turn);
                     }
                     break;
                 case ROBOT_FORWARD:
@@ -261,24 +255,7 @@ public class Auto_Blue_Left_AprilTag extends Auto {
 
     private void moveToAprilTag(double x, double y, double yaw)
     {
-        double leftFrontPower    =  x -y -yaw;
-        double rightFrontPower   =  x +y +yaw;
-        double leftBackPower     =  x +y -yaw;
-        double rightBackPower    =  x -y +yaw;
-
-        // Normalize wheel powers to be less than 1.0
-        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
-
-        if (max > 1.0) {
-            leftFrontPower /= max;
-            rightFrontPower /= max;
-            leftBackPower /= max;
-            rightBackPower /= max;
-        }
-        drive.setMotorPowers(leftFrontPower, leftBackPower, rightBackPower, rightFrontPower);
-
+        //calculate target location and drive to
     }
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
