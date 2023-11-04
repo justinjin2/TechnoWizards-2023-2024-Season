@@ -118,11 +118,14 @@ public class TeamPropDetector
         /*
          * The core values which define the location and size of the sample regions
          */
-        public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(35,148);
-        public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(150,135);
-        public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(268,148);
-        static final int REGION_WIDTH = 25;
-        static final int REGION_HEIGHT = 25;
+        //public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(35,148);
+        //public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(150,135);
+        //public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(268,148);
+        public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(30,143);
+        public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(145,130);
+        public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(263,143);
+        static final int REGION_WIDTH = 35;
+        static final int REGION_HEIGHT = 35;
 
         static int avgOne;
         static int avgTwo;
