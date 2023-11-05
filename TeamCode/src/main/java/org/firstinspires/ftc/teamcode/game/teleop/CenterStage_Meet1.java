@@ -30,6 +30,7 @@ public class CenterStage_Meet1 extends LinearOpMode {
 
         claw.wristDown();
         claw.openArm();
+        claw.droneClose();
 
         Controllers controllers = new Controllers(this, claw);
 

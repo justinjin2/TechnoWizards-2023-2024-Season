@@ -72,6 +72,12 @@ public class Controllers {
         if (gamepad1.dpad_down) {
             claw.slideManualRun(-claw.smallSlideManual);
         }
+        if (gamepad1.start){
+            claw.droneOpen();
+        }
+        if (gamepad1.back){
+            claw.droneClose();
+        }
     }
 
 

@@ -46,7 +46,7 @@ public abstract class Auto extends LinearOpMode {
     }
 
     public void initPropDetector(PropColor color) {
-        this.propDetector = new TeamPropDetector(PropColor.BLUE, hardwareMap);
+        this.propDetector = new TeamPropDetector(color, hardwareMap);
     }
 
     public  void initDrive() {

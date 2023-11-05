@@ -11,6 +11,8 @@ public class Claw {
     private Servo clawArm;
     private Servo clawWrist;
 
+    private Servo droneServo;
+
     public final int slideStart = 0;
     public final int slideLow = 1800;
     public final int slideMedium = 2800;
@@ -21,7 +23,7 @@ public class Claw {
 
     // --- Timings --- //
     public final double armCloseTime = 200;
-    public final double armOpenTime = 100;
+    public final double armOpenTime = 200;
     public final double armWristUpTime = 150;
     public final double slideHalfDownTime = 1000;
 
@@ -41,6 +43,7 @@ public class Claw {
 
         clawArm = hwMap.get(Servo.class, "clawArm");
         clawWrist = hwMap.get(Servo.class, "clawWrist");
+        droneServo = hwMap.get(Servo.class, "droneServo");
 
     }
     public double clawMotorLeftPosition() {
@@ -54,7 +57,7 @@ public class Claw {
         clawArm.setPosition(0.33);
     }
     public void closeArm() {
-        clawArm.setPosition(0.49);
+        clawArm.setPosition(0.48);
     }
     //decrease means down, increase means up
     public void wristDown(){
@@ -62,6 +65,12 @@ public class Claw {
     }
     public void wristUp(){
         clawWrist.setPosition(0.70);
+    }
+    public void droneOpen(){
+        droneServo.setPosition(0);
+    }
+    public void droneClose(){
+        droneServo.setPosition(1);
     }
     public void resetArm(){clawArm.setPosition(0.5);}
     public void resetWrist(){clawWrist.setPosition(0.5);}
