@@ -39,6 +39,7 @@ public class AutoRed_LeftFSM extends Auto {
 
         claw.closeArm();
         claw.wristUp();
+        claw.droneClose();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
@@ -57,56 +58,45 @@ public class AutoRed_LeftFSM extends Auto {
                 .addTemporalMarker(0, () -> {
                     claw.clawSlideRunToPosition(claw.slideAutoHeight);
                 })
-                .splineTo(new Vector2d(-36, -33.5), Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(-36, 42))
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                .lineToConstantHeading(new Vector2d(-46, 42))
+                .splineTo(new Vector2d(-36, -36), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-52, -48), Math.toRadians(90))
                 .addTemporalMarker(4, () -> {
                     claw.clawSlideRunToPosition(claw.slideStart);
                 })
-                .lineToConstantHeading(new Vector2d(-52, 12))
-                .lineToLinearHeading(new Pose2d(-25, 11, Math.toRadians(0)))
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                .lineToConstantHeading(new Vector2d(15, 11))
-                .splineToLinearHeading(new Pose2d(40, 38, Math.toRadians(0)), Math.toRadians(-3))
-                .addTemporalMarker(8, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
-                })
+                .splineToLinearHeading(new Pose2d(-45, -12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
                 .build();
 
         TrajectorySequence traj_left = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-//                .addTemporalMarker(0, () -> {
-//                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
-//
-//                })
-                .splineToLinearHeading(new Pose2d(-38, 48, Math.toRadians(-50)), Math.toRadians(-60))
-                .lineToConstantHeading(new Vector2d(-30, 39))
-                .lineToConstantHeading(new Vector2d(-30, 43))
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                .lineToLinearHeading(new Pose2d(-52, 42, Math.toRadians(-90)))
-                .lineToConstantHeading(new Vector2d(-52, 12))
-                .lineToLinearHeading(new Pose2d(-25, 12, Math.toRadians(0)))
-                .build();
-
-        TrajectorySequence traj_right = drive.trajectorySequenceBuilder(startPose)
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
                     claw.clawSlideRunToPosition(claw.slideAutoHeight);
                 })
-                .splineToLinearHeading(new Pose2d(-42, 39, Math.toRadians(220)), Math.toRadians(240))
-                .lineToLinearHeading(new Pose2d(-36.5, 46, Math.toRadians(270)))
+                .splineToLinearHeading(new Pose2d(-42, -39, Math.toRadians(130)), Math.toRadians(150))
+                .lineToLinearHeading(new Pose2d(-36, -46, Math.toRadians(90)))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(4, () -> {
                     claw.clawSlideRunToPosition(claw.slideStart);
                 })
-                .lineToConstantHeading(new Vector2d(-36, 12))
-                .lineToLinearHeading(new Pose2d(-25, 12, Math.toRadians(0)))
+                .lineToConstantHeading(new Vector2d(-36, -12))
+                .lineToLinearHeading(new Pose2d(-25, -12, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
                 .build();
 
-
-
-
+        TrajectorySequence traj_right = drive.trajectorySequenceBuilder(startPose)
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+//                .addTemporalMarker(0, () -> {
+//                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+//
+//                })
+                .splineToLinearHeading(new Pose2d(-39, -50, Math.toRadians(45)), Math.toRadians(30))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .lineToConstantHeading(new Vector2d(-32, -37))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .splineToConstantHeading(new Vector2d(-52, -48), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-45, -12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
+                .build();
 
         while (!isStarted() && !isStopRequested()) {
             setPosition(getPropDetector().getPipeline().getPosition());
@@ -131,24 +121,26 @@ public class AutoRed_LeftFSM extends Auto {
                     .build();
             //drive.followTrajectorySequence(traj_center2);
         }
-        if (getPosition().name().equals("LEFT")) drive.followTrajectorySequence(traj_left);{
+        if (getPosition().name().equals("LEFT")) {
+            drive.followTrajectorySequence(traj_left);
             Pose2d currentLeftPose = drive.getPoseEstimate();
             TrajectorySequence traj_left2 = drive.trajectorySequenceBuilder(currentLeftPose)
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                     .forward(5)
                     .build();
-            drive.followTrajectorySequence(traj_left2);
+            //drive.followTrajectorySequence(traj_left2);
         }
-        if (getPosition().name().equals("RIGHT")) drive.followTrajectorySequence(traj_right); {
+        if (getPosition().name().equals("RIGHT")) {
+            drive.followTrajectorySequence(traj_right);
             Pose2d currentRightPose = drive.getPoseEstimate();
             TrajectorySequence traj_right2 = drive.trajectorySequenceBuilder(currentRightPose)
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                     .forward(5)
                     .build();
-            drive.followTrajectorySequence(traj_right2);
+            //drive.followTrajectorySequence(traj_right2);
         }
 
-        delivery_state = Delivery_State.DELIVERY_START;
+        //delivery_state = Delivery_State.DELIVERY_START;
 
         while (!isStopRequested() && opModeIsActive()) {
 

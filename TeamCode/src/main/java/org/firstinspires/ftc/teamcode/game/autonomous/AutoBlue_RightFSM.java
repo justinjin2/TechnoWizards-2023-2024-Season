@@ -40,6 +40,7 @@ public class AutoBlue_RightFSM extends Auto {
 
         claw.closeArm();
         claw.wristUp();
+        claw.droneClose();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
@@ -64,7 +65,7 @@ public class AutoBlue_RightFSM extends Auto {
                     claw.clawSlideRunToPosition(claw.slideStart);
                 })
                 .splineToLinearHeading(new Pose2d(-45, 10, Math.toRadians(-6)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(40, 10, Math.toRadians(-6)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(-6)), Math.toRadians(0))
 //                .lineToConstantHeading(new Vector2 d(-52, 12))
 //                .lineToLinearHeading(new Pose2d(-25, 11, Math.toRadians(0)))
 //                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -82,12 +83,12 @@ public class AutoBlue_RightFSM extends Auto {
 //
 //                })
                 .splineToLinearHeading(new Pose2d(-39, 50, Math.toRadians(-50)), Math.toRadians(-60))
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                .lineToConstantHeading(new Vector2d(-30, 39))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .lineToConstantHeading(new Vector2d(-31, 39))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .splineToConstantHeading(new Vector2d(-52, 48), Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-45, 10, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(40, 10, Math.toRadians(7)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(7)), Math.toRadians(0))
 
 //                .lineToConstantHeading(new Vector2d(-30, 43))
 //                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -109,12 +110,8 @@ public class AutoBlue_RightFSM extends Auto {
                 })
                 .lineToConstantHeading(new Vector2d(-36, 14))
                 .lineToLinearHeading(new Pose2d(-25, 14, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(40, 10, Math.toRadians(9)), Math.toRadians(5))
+                .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(9)), Math.toRadians(5))
                 .build();
-
-
-
-
 
         while (!isStarted() && !isStopRequested()) {
             setPosition(getPropDetector().getPipeline().getPosition());
@@ -140,7 +137,7 @@ public class AutoBlue_RightFSM extends Auto {
                     //.splineToConstantHeading(new Vector2d(44, 38), Math.toRadians(0))
                     //.splineToLinearHeading(new Pose2d(48, 38, Math.toRadians(0)), Math.toRadians(0))
                     .build();
-            drive.followTrajectorySequence(traj_center2);
+            //drive.followTrajectorySequence(traj_center2);
         }
         if (getPosition().name().equals("LEFT")) {
             drive.followTrajectorySequence(traj_left);
@@ -148,7 +145,7 @@ public class AutoBlue_RightFSM extends Auto {
             TrajectorySequence traj_left2 = drive.trajectorySequenceBuilder(currentLeftPose)
                     .strafeLeft(26)
                     .build();
-            drive.followTrajectorySequence(traj_left2);
+            //drive.followTrajectorySequence(traj_left2);
         }
         if (getPosition().name().equals("RIGHT")) {
             drive.followTrajectorySequence(traj_right);
@@ -156,7 +153,7 @@ public class AutoBlue_RightFSM extends Auto {
             TrajectorySequence traj_right2 = drive.trajectorySequenceBuilder(currentRightPose)
                     .strafeLeft(24)
                     .build();
-            drive.followTrajectorySequence(traj_right2);
+            //drive.followTrajectorySequence(traj_right2);
         }
 
         //delivery_state = Delivery_State.DELIVERY_START;

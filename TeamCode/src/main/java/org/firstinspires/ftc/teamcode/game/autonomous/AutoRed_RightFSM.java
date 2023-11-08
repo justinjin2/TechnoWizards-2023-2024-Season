@@ -39,6 +39,7 @@ public class AutoRed_RightFSM extends Auto {
 
         claw.closeArm();
         claw.wristUp();
+        claw.droneClose();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
@@ -81,7 +82,7 @@ public class AutoRed_RightFSM extends Auto {
                 .addTemporalMarker(0, () -> {
                     claw.clawSlideRunToPosition(claw.slideAutoHeight);
                 })
-                .splineToLinearHeading(new Pose2d(19,-34, Math.toRadians(40)), Math.toRadians(40))
+                .splineToLinearHeading(new Pose2d(18,-34, Math.toRadians(30)), Math.toRadians(30))
                 .lineToConstantHeading(new Vector2d(12, -55))
                 .lineToSplineHeading(new Pose2d(48, -44, Math.toRadians(0)))
                 .build();

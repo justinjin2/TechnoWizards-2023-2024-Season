@@ -39,6 +39,7 @@ public class AutoBlue_LeftFSM extends Auto {
 
         claw.closeArm();
         claw.wristUp();
+        claw.droneClose();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
