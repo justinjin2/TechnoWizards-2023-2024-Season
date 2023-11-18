@@ -214,6 +214,7 @@ public class AutoBlue_RightFSM extends Auto {
             telemetry.addData("30 seconds count-down", getSecondsLeft());
             telemetry.update();
         }
+        PoseStorage.currentPose = drive.getPoseEstimate(); //transfer pose to TeleOp
     }
 
     public void updateTelemetry() {

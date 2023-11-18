@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
@@ -198,6 +199,7 @@ public class AutoRed_LeftFSM extends Auto {
             telemetry.addData("30 seconds count-down", getSecondsLeft());
             telemetry.update();
         }
+        PoseStorage.currentPose = drive.getPoseEstimate(); //transfer pose to TeleOp
     }
 
     public void updateTelemetry() {

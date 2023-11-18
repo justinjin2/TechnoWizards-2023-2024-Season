@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 
@@ -24,6 +25,12 @@ public class CenterStage_Meet1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        StandardTrackingWheelLocalizer myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+
+        // Retrieve our pose from the PoseStorage.currentPose static field
+        // See AutoTransferPose.java for further details
+        myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
         Claw claw = new Claw();
         claw.init(hardwareMap);
