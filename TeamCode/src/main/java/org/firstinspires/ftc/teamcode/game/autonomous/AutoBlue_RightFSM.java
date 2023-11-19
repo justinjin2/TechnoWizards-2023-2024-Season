@@ -55,7 +55,7 @@ public class AutoBlue_RightFSM extends Auto {
 
 
         TrajectorySequence traj_center = drive.trajectorySequenceBuilder(startPose)
-                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
                     claw.clawSlideRunToPosition(claw.slideAutoHeight);
                 })
@@ -64,8 +64,9 @@ public class AutoBlue_RightFSM extends Auto {
                 .addTemporalMarker(4, () -> {
                     claw.clawSlideRunToPosition(claw.slideStart);
                 })
-                .splineToLinearHeading(new Pose2d(-45, 10, Math.toRadians(-6)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(-6)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-45, 10, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(45)), Math.toRadians(0))
+
 //                .lineToConstantHeading(new Vector2 d(-52, 12))
 //                .lineToLinearHeading(new Pose2d(-25, 11, Math.toRadians(0)))
 //                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))

@@ -29,7 +29,9 @@ public class TeleOpFieldCentric extends LinearOpMode {
 
         // Retrieve our pose from the PoseStorage.currentPose static field
         // See AutoTransferPose.java for further details
-        drive.setPoseEstimate(PoseStorage.currentPose);
+        //drive.setPoseEstimate(PoseStorage.currentPose);
+        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(0));
+        drive.setPoseEstimate(startPose);
 
         waitForStart();
 
