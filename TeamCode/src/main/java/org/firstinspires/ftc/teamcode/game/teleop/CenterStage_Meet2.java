@@ -10,16 +10,15 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
+import org.firstinspires.ftc.teamcode.hardware.Slide;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(group = "TeleOp")
-public class CenterStage_Meet1 extends LinearOpMode {
+public class CenterStage_Meet2 extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
-    ElapsedTime armTimer;
 
     private double driveSpeedRatio = 1.0;
-    private ArmState armState = ArmState.IDLE;
     
 
     @Override
@@ -32,25 +31,17 @@ public class CenterStage_Meet1 extends LinearOpMode {
         // See AutoTransferPose.java for further details
         myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
-        Claw claw = new Claw();
-        claw.init(hardwareMap);
+        Slide slide = new Slide();
+        slide.init(hardwareMap);
 
-        claw.wristDown();
-        claw.openArm();
-        claw.droneClose();
-
-        Controllers controllers = new Controllers(this, claw);
-
-        armState = ArmState.IDLE;
+        Controllers controllers = new Controllers(this, slide);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
 
-        displayPoseTelemetry();
+        //displayPoseTelemetry();
 
         loopTimer = new ElapsedTime();
-        armTimer = new ElapsedTime();
-
         telemetry.update();
         waitForStart();
 
@@ -58,7 +49,6 @@ public class CenterStage_Meet1 extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             loopTimer.reset();
-
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y * driveSpeedRatio,
@@ -72,36 +62,9 @@ public class CenterStage_Meet1 extends LinearOpMode {
             drive.update();
 
             controllers.readInputs(gamepad1, gamepad2);
-
-            switch (armState) {
-                case PIXEL_GRAB:
-                    if ((armTimer.milliseconds() > claw.armCloseTime)) {
-                        claw.wristUp();
-                        armTimer.reset();
-                        armState = ArmState.WRIST_READY;
-                    }
-                    break;
-                case WRIST_READY:
-                    if ((armTimer.milliseconds() > claw.armWristUpTime)) {
-                        armState = ArmState.IDLE;
-                    }
-                    break;
-                case CLAW_OPEN:
-                    if ((armTimer.milliseconds() > claw.armOpenTime)) {
-                        claw.clawSlideRunToPosition(claw.slideStart);
-                        armTimer.reset();
-                        armState = ArmState.SLIDE_DOWN;
-                    }
-                    break;
-                case SLIDE_DOWN:
-                    if ((armTimer.milliseconds() > claw.slideHalfDownTime)) {
-                        claw.wristDown();
-                        armState = ArmState.IDLE;
-                    }
-                    break;
-            }
-
-            displayTelemetry(drive, claw);
+            telemetry.addData("Motor 1 Position:", slide.motor1Position());
+            telemetry.addData("Motor 2 Position:", slide.motor2Position());
+            telemetry.update();
         }
     }
 
@@ -109,16 +72,10 @@ public class CenterStage_Meet1 extends LinearOpMode {
         telemetry.addData("startX", PoseStorage.currentPose.getX());
         telemetry.addData("startY", PoseStorage.currentPose.getY());
         telemetry.addData("startHeading", PoseStorage.currentPose.getHeading());
+
     }
 
-    public void displayTelemetry(SampleMecanumDrive drive, Claw claw) {
-        Pose2d poseEstimate = drive.getPoseEstimate();
-        telemetry.addData("x", poseEstimate.getX());
-        telemetry.addData("y", poseEstimate.getY());
-        telemetry.addData("heading", poseEstimate.getHeading());
-        telemetry.addData("Loop Timer", loopTimer.milliseconds());
-        telemetry.addData("Left Slide Position", claw.clawMotorLeftPosition());
-        telemetry.addData("Right Slide Position", claw.clawMotorRightPosition());
+    public void displayTelemetry(SampleMecanumDrive drive) {
         telemetry.update();
     }
 
@@ -126,12 +83,5 @@ public class CenterStage_Meet1 extends LinearOpMode {
         driveSpeedRatio = ratio;
     }
 
-    public ArmState getArmState() {
-        return armState;
-    }
-
-    public void setArmState(ArmState state) {
-        armState = state;
-    }
 
 }
