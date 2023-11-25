@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.game.autonomous;
+package org.firstinspires.ftc.teamcode.game.autonomous.old;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -9,13 +9,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.game.autonomous.Auto;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
 @Disabled
 @Config
 @Autonomous(group = "Meet One")
-public class AutoBlueLeft extends Auto{
+public class AutoBlueLeft extends Auto {
 
     @Override
     public void runOpMode() throws InterruptedException {
