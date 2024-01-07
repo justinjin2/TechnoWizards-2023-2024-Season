@@ -18,10 +18,7 @@ import org.firstinspires.ftc.teamcode.vision.PropColor;
 import java.util.List;
 
 @Autonomous(group = "Meet Three")
-public class AutoBlueLeft_Meet3 extends Auto_Meet3 {
-
-    ElapsedTime loopTimer;
-    ElapsedTime clawOpenTimer;
+public class AutoBlueLeft_Meet3 extends Auto {
 
     private RobotState robotState = RobotState.IDLE;
 
@@ -38,12 +35,6 @@ public class AutoBlueLeft_Meet3 extends Auto_Meet3 {
         PTO pto = new PTO();
 
 
-
-        intake.init(hardwareMap);
-        delivery.init(hardwareMap);
-        v4Bar.init(hardwareMap);
-        claw.init(hardwareMap);
-        pto.init(hardwareMap);
 
         delivery.resetMotor(); //reset motor encoder
         intake.resetMotor();
@@ -164,6 +155,7 @@ public class AutoBlueLeft_Meet3 extends Auto_Meet3 {
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
+        telemetry.addData("Time Left: ", getSecondsLeft());
         telemetry.update();
     }
 

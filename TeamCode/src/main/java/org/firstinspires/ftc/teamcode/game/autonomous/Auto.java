@@ -13,12 +13,20 @@ import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public abstract class Auto_Meet3 extends LinearOpMode {
+public abstract class Auto extends LinearOpMode {
 
-    public static FtcDashboard dashboard = FtcDashboard.getInstance();
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
+
     private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
     private TeamPropDetector propDetector;
-    private ElapsedTime elapsedTime = new ElapsedTime();
+
+    private final ElapsedTime elapsedTime = new ElapsedTime();
+
+
+    private final ElapsedTime loopTimer = new ElapsedTime();
+    private final ElapsedTime generalTimer = new ElapsedTime();
+
+
 
     public SampleMecanumDrive drive;
 
@@ -28,7 +36,7 @@ public abstract class Auto_Meet3 extends LinearOpMode {
     public PTO pto;
     public Claw claw;
 
-    public static int autoDeliveryPosition = 200;
+    public static int DELIVER_POSITION = 200;
 
     private Trajectories trajectories;
 
@@ -44,11 +52,18 @@ public abstract class Auto_Meet3 extends LinearOpMode {
         return trajectories;
     }
 
+    /**
+     * Starts the timer that should run for the whole game
+     */
     public void startTimer() {
         elapsedTime.reset();
         elapsedTime.startTime();
     }
 
+    /**
+     * Gets the time
+     * @return time left in the game in seconds
+     */
     public double getTimeSeconds() {
         return elapsedTime.seconds();
     }
@@ -59,11 +74,14 @@ public abstract class Auto_Meet3 extends LinearOpMode {
 
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
+
         this.intake = new Intake();
         this.delivery = new Delivery();
         this.v4Bar = new V4Bar();
         this.pto = new PTO();
         this.claw = new Claw();
+
+        this.trajectories = new Trajectories(drive);
 
         intake.init(hardwareMap);
         delivery.init(hardwareMap);
@@ -71,7 +89,6 @@ public abstract class Auto_Meet3 extends LinearOpMode {
         claw.init(hardwareMap);
         pto.init(hardwareMap);
     }
-
 
     public int getSecondsLeft() {
         return (int) (30 - elapsedTime.seconds());
@@ -81,6 +98,17 @@ public abstract class Auto_Meet3 extends LinearOpMode {
         return propDetector;
     }
 
+    public FtcDashboard getDashboard() {
+        return dashboard;
+    }
+
     abstract void updateTelemetry();
 
+    public ElapsedTime getLoopTimer() {
+        return loopTimer;
+    }
+
+    public ElapsedTime getGeneralTimer() {
+        return generalTimer;
+    }
 }
