@@ -44,9 +44,7 @@ public class AutoBlueLeft_Meet3 extends Auto {
         claw.closeBothClaw();
 
         RobotState robotState = RobotState.IDLE;
-        
-//        loopTimer = new ElapsedTime();
-//        clawOpenTimer = new ElapsedTime();
+
 
         Pose2d startPose = new Pose2d(12, 64, Math.toRadians(90));
         drive.setPoseEstimate(startPose);

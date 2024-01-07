@@ -17,33 +17,44 @@ public abstract class Auto extends LinearOpMode {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
+    // ------- Team Prop ------- //
     private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
     private TeamPropDetector propDetector;
 
+
+    // ------- Timers ------- //
     private final ElapsedTime elapsedTime = new ElapsedTime();
+    public final ElapsedTime loopTimer = new ElapsedTime();
+    public final ElapsedTime generalTimer = new ElapsedTime();
 
-
-    private final ElapsedTime loopTimer = new ElapsedTime();
-    private final ElapsedTime generalTimer = new ElapsedTime();
-
-
-
+    // ------- Drive ------- //
     public SampleMecanumDrive drive;
+    private Trajectories trajectories;
 
+    // ------- Hardware ------- //
     public Intake intake;
     public Delivery delivery;
     public V4Bar v4Bar;
     public PTO pto;
     public Claw claw;
 
+    // ------- Constants ------- //
     public static int DELIVER_POSITION = 200;
 
-    private Trajectories trajectories;
-
+    /**
+     * Used to set the position of the prop after we start the game, to retrieve that value
+     * when getting the robot's trajectory
+     *
+     * @param position The position that is retrieved from getPosition()
+     */
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
         this.position = position;
     }
 
+    /**
+     * Gets the position of the Team Prop Detector Pipeline
+     * @return TSEPosition Enum
+     */
     public TeamPropDetector.TSEDetectorPipeline.TSEPosition getPosition() {
         return this.position;
     }
@@ -118,13 +129,8 @@ public abstract class Auto extends LinearOpMode {
         return dashboard;
     }
 
+    /**
+     * Updates the telemetry
+     */
     abstract void updateTelemetry();
-
-    public ElapsedTime getLoopTimer() {
-        return loopTimer;
-    }
-
-    public ElapsedTime getGeneralTimer() {
-        return generalTimer;
-    }
 }
