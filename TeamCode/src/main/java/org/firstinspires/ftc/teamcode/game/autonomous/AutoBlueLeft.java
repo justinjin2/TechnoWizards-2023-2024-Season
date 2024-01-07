@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.game.autonomous;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -26,13 +25,13 @@ public class AutoBlueLeft extends Auto{
         initPropDetector(PropColor.BLUE);
         initDrive();
 
-        claw.closeArm();
-        claw.wristUp();
+        clawOld.closeArm();
+        clawOld.wristUp();
 
         TrajectorySequence sequence = drive.trajectorySequenceBuilder(new Pose2d(12, 64.5, Math.toRadians(-90.00)))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0,() -> {
-                    claw.clawSlideRunToPosition(claw.slideLow);
+                    clawOld.clawSlideRunToPosition(clawOld.slideLow);
                 })
                 .splineTo(new Vector2d(12, 35.5), Math.toRadians(-90.00))
                 .splineToConstantHeading(new Vector2d(18, 55), Math.toRadians(-90.00))
@@ -43,7 +42,7 @@ public class AutoBlueLeft extends Auto{
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .lineToConstantHeading(new Vector2d(51.1, 37))
                 .addTemporalMarker(1, ()-> {
-                    claw.openArm();
+                    clawOld.openArm();
                 })
                 .build();
 
@@ -51,7 +50,7 @@ public class AutoBlueLeft extends Auto{
                 .lineToConstantHeading(new Vector2d(48, 37))
                 .lineToConstantHeading(new Vector2d(48, 12))
                 .addTemporalMarker(4,() -> {
-                    claw.clawSlideRunToPosition(claw.slideStart);
+                    clawOld.clawSlideRunToPosition(clawOld.slideStart);
                 })
                 .build();
 

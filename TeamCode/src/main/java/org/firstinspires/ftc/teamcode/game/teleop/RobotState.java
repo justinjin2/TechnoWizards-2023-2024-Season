@@ -1,0 +1,23 @@
+package org.firstinspires.ftc.teamcode.game.teleop;
+
+public enum RobotState {
+    IDLE,
+    DELIVERY_START,
+    DELIVERY_READY,
+    DELIVERY_DONE,
+    INTAKE_START,
+    INTAKE_BACKSPIN,
+    INTAKE_STOP,
+    V4BAR_UP_STAGE1,
+    V4BAR_UP_STAGE2,
+    CLAW_ANGLE_STAGE1,
+    CLAW_ANGLE_STAGE2,
+    V4BAR_DOWN,
+    ROBOT_FORWARD,
+    CLAW_OPEN,
+    ROBOT_BACKWARD,
+    PIXEL_GRAB,
+    WRIST_READY,
+    SLIDE_DOWN,
+    SLIDE_ANGLE_DOWN,
+}

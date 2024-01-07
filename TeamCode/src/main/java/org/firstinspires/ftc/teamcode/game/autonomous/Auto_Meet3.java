@@ -5,11 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.hardware.Claw_Meet1;
+import org.firstinspires.ftc.teamcode.hardware.Claw;
+import org.firstinspires.ftc.teamcode.hardware.Delivery;
+import org.firstinspires.ftc.teamcode.hardware.Intake;
+import org.firstinspires.ftc.teamcode.hardware.PTO;
+import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public abstract class Auto extends LinearOpMode {
+public abstract class Auto_Meet3 extends LinearOpMode {
 
     public static FtcDashboard dashboard = FtcDashboard.getInstance();
     private TeamPropDetector.TSEDetectorPipeline.TSEPosition position;
@@ -18,11 +22,15 @@ public abstract class Auto extends LinearOpMode {
 
     public SampleMecanumDrive drive;
 
-    public Claw_Meet1 clawOld;
+    public Intake intake;
+    public Delivery delivery;
+    public V4Bar v4Bar;
+    public PTO pto;
+    public Claw claw;
+
+    public static int autoDeliveryPosition = 200;
 
     private Trajectories trajectories;
-
-
 
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
         this.position = position;
@@ -51,9 +59,17 @@ public abstract class Auto extends LinearOpMode {
 
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
-        this.clawOld = new Claw_Meet1();
-        clawOld.init(hardwareMap);
-        //this.trajectories = new Trajectories(drive);
+        this.intake = new Intake();
+        this.delivery = new Delivery();
+        this.v4Bar = new V4Bar();
+        this.pto = new PTO();
+        this.claw = new Claw();
+
+        intake.init(hardwareMap);
+        delivery.init(hardwareMap);
+        v4Bar.init(hardwareMap);
+        claw.init(hardwareMap);
+        pto.init(hardwareMap);
     }
 
 

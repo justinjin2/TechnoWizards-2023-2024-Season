@@ -38,9 +38,9 @@ public class AutoBlue_RightFSM extends Auto {
         initPropDetector(PropColor.BLUE);
         initDrive();
 
-        claw.closeArm();
-        claw.wristUp();
-        claw.droneClose();
+        clawOld.closeArm();
+        clawOld.wristUp();
+        clawOld.droneClose();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
@@ -57,12 +57,12 @@ public class AutoBlue_RightFSM extends Auto {
         TrajectorySequence traj_center = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                 })
                 .splineTo(new Vector2d(-36, 36), Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(-52, 48), Math.toRadians(270))
                 .addTemporalMarker(4, () -> {
-                    claw.clawSlideRunToPosition(claw.slideStart);
+                    clawOld.clawSlideRunToPosition(clawOld.slideStart);
                 })
                 .splineToLinearHeading(new Pose2d(-45, 10, Math.toRadians(0)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(40, 12, Math.toRadians(45)), Math.toRadians(0))
@@ -101,13 +101,13 @@ public class AutoBlue_RightFSM extends Auto {
         TrajectorySequence traj_right = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                 })
                 .splineToLinearHeading(new Pose2d(-42, 39, Math.toRadians(220)), Math.toRadians(240))
                 .lineToLinearHeading(new Pose2d(-36.5, 46, Math.toRadians(270)))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(4, () -> {
-                    claw.clawSlideRunToPosition(claw.slideStart);
+                    clawOld.clawSlideRunToPosition(clawOld.slideStart);
                 })
                 .lineToConstantHeading(new Vector2d(-36, 14))
                 .lineToLinearHeading(new Pose2d(-25, 14, Math.toRadians(0)))
@@ -132,7 +132,7 @@ public class AutoBlue_RightFSM extends Auto {
             telemetry.update();
             TrajectorySequence traj_center2 = drive.trajectorySequenceBuilder(currentCenterPose)
                     .addTemporalMarker(0, () -> {
-                        claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                        clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                     })
                     .strafeLeft(17)
                     //.splineToConstantHeading(new Vector2d(44, 38), Math.toRadians(0))
@@ -176,13 +176,13 @@ public class AutoBlue_RightFSM extends Auto {
                     break;
                 case ROBOT_FORWARD:
                     if (!drive.isBusy()) {
-                        claw.openArm();
+                        clawOld.openArm();
                         armOpenTimer.reset();
                         delivery_state = Delivery_State.CLAW_OPEN;
                     }
                     break;
                 case CLAW_OPEN:
-                    if ((armOpenTimer.milliseconds() > claw.armOpenTime)) {
+                    if ((armOpenTimer.milliseconds() > clawOld.armOpenTime)) {
                         Pose2d currentPose2 = drive.getPoseEstimate();
                         TrajectorySequence backward = drive.trajectorySequenceBuilder(currentPose2)
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -194,9 +194,9 @@ public class AutoBlue_RightFSM extends Auto {
                     break;
                 case ROBOT_BACKWARD:
                     if (!drive.isBusy()) {
-                        claw.clawSlideRunToPosition(claw.slideStart);
-                        claw.openArm();
-                        claw.wristUp();
+                        clawOld.clawSlideRunToPosition(clawOld.slideStart);
+                        clawOld.openArm();
+                        clawOld.wristUp();
                         delivery_state = Delivery_State.DELIVERY_DONE;
                     }
                     break;

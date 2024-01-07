@@ -21,8 +21,6 @@
 
 package org.firstinspires.ftc.teamcode.vision;
 
-
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -69,7 +67,7 @@ public class TeamPropDetector
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
             @Override
             public void onError(int errorCode)
@@ -121,16 +119,15 @@ public class TeamPropDetector
         //public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(35,148);
         //public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(150,135);
         //public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(268,148);
-        public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(30,143);
-        public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(145,130);
-        public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(263,143);
+        public static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,130);
+        public static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(138,125);
+        public static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(280,130);
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 35;
 
         static int avgOne;
         static int avgTwo;
         static int avgThree;
-
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -151,7 +148,6 @@ public class TeamPropDetector
                 REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
                 REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
-
         Mat region1_Cb, region2_Cb, region3_Cb;
         Mat region1_Cr, region2_Cr, region3_Cr;
         Mat YCrCb = new Mat();
@@ -161,10 +157,8 @@ public class TeamPropDetector
 
         static List<String> data = new ArrayList<>();
 
-
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile TSEPosition position = TSEPosition.LEFT;
-
 
         void inputToCrCb(Mat input)
         {
@@ -190,12 +184,7 @@ public class TeamPropDetector
         @Override
         public Mat processFrame(Mat input)
         {
-
             inputToCrCb(input);
-
-
-
-
             if (propColor == PropColor.RED) {
                 // Detect RED (Cr)
                 avg1 = (int) Core.mean(region1_Cr).val[0];
@@ -212,7 +201,6 @@ public class TeamPropDetector
             avgTwo = avg2;
             avgThree = avg3;
 
-
             Imgproc.rectangle(
                     input, // Buffer to draw on
                     region1_pointA, // First point which defines the rectangle
@@ -227,14 +215,12 @@ public class TeamPropDetector
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-
             Imgproc.rectangle(
                     input, // Buffer to draw on
                     region3_pointA, // First point which defines the rectangle
                     region3_pointB, // Second point which defines the rectangle
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
-
 
             /*
              * Find the max of the 3 averages
@@ -299,9 +285,6 @@ public class TeamPropDetector
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-
-
-
 
             return input;
         }

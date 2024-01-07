@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -53,8 +52,8 @@ public class Auto_Blue_Left_AprilTag extends Auto {
         initPropDetector(PropColor.BLUE);
         initDrive();
 
-        claw.closeArm();
-        claw.wristUp();
+        clawOld.closeArm();
+        clawOld.wristUp();
 
         Delivery_State delivery_state = Delivery_State.DELIVERY_IDLE;
         loopTimer = new ElapsedTime();
@@ -79,7 +78,7 @@ public class Auto_Blue_Left_AprilTag extends Auto {
         TrajectorySequence traj_center = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                 })
                 .splineTo(new Vector2d(12, 36), Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(18, 55), Math.toRadians(-90))
@@ -89,7 +88,7 @@ public class Auto_Blue_Left_AprilTag extends Auto {
         TrajectorySequence traj_left = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
 
                 })
                 //.splineTo(new Vector2d(15, 35), Math.toRadians(-30))
@@ -101,7 +100,7 @@ public class Auto_Blue_Left_AprilTag extends Auto {
         TrajectorySequence traj_right = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
-                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                 })
                 .splineToLinearHeading(new Pose2d(12, 59, Math.toRadians(270)), Math.toRadians(270))
                 .splineTo(new Vector2d(6, 35), Math.toRadians(200))
@@ -213,13 +212,13 @@ public class Auto_Blue_Left_AprilTag extends Auto {
                     break;
                 case ROBOT_FORWARD:
                     if (!drive.isBusy()) {
-                        claw.openArm();
+                        clawOld.openArm();
                         armOpenTimer.reset();
                         delivery_state = Delivery_State.CLAW_OPEN;
                     }
                     break;
                 case CLAW_OPEN:
-                    if ((armOpenTimer.milliseconds() > claw.armOpenTime)) {
+                    if ((armOpenTimer.milliseconds() > clawOld.armOpenTime)) {
                         Pose2d currentPose2 = drive.getPoseEstimate();
                         TrajectorySequence backward = drive.trajectorySequenceBuilder(currentPose2)
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -231,9 +230,9 @@ public class Auto_Blue_Left_AprilTag extends Auto {
                     break;
                 case ROBOT_BACKWARD:
                     if (!drive.isBusy()) {
-                        claw.clawSlideRunToPosition(claw.slideStart);
-                        claw.openArm();
-                        claw.wristUp();
+                        clawOld.clawSlideRunToPosition(clawOld.slideStart);
+                        clawOld.openArm();
+                        clawOld.wristUp();
                         delivery_state = Delivery_State.DELIVERY_DONE;
                     }
                     break;

@@ -5,28 +5,28 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.hardware.Claw;
+import org.firstinspires.ftc.teamcode.hardware.Claw_Meet1;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
 public class Trajectories {
 
     private final SampleMecanumDrive drive;
-    private final Claw claw;
+    private final Claw_Meet1 clawOld;
 
     TrajectorySequence blueLeftCenter;
 
 
 
 
-    public Trajectories(SampleMecanumDrive drive, Claw claw) {
+    public Trajectories(SampleMecanumDrive drive, Claw_Meet1 clawOld) {
         this.drive = drive;
-        this.claw = claw;
+        this.clawOld = clawOld;
 
         blueLeftCenter = drive.trajectorySequenceBuilder(new Pose2d(12, 64.5, Math.toRadians(-90.00)))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0,() -> {
-                    claw.clawSlideRunToPosition(claw.slideLow);
+                    clawOld.clawSlideRunToPosition(clawOld.slideLow);
                 })
                 .splineTo(new Vector2d(12, 35.5), Math.toRadians(-90.00))
                 .splineToConstantHeading(new Vector2d(18, 55), Math.toRadians(-90.00))

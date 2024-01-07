@@ -1,125 +1,98 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Claw {
-    private DcMotorEx clawMotorLeft;
-    private DcMotorEx clawMotorRight;
-    private Servo clawArm;
-    private Servo clawWrist;
+    public ServoImplEx leftClaw, rightClaw;
+    public ServoImplEx clawRotation;
+    private DigitalChannel leftClawSensor, rightClawSensor;
 
-    private Servo droneServo;
+    public ServoImplEx testServo;
 
-    public final int slideStart = 0;
-    public final int slideLow = 1800;
-    public final int slideMedium = 2800;
-    public final int slideMaxHeight = 4000;
-    public int slideManual = 250;
-    public int slideAutoHeight = 1400;
-    public int smallSlideManual = 150;
+    public double clawOpenTime = 300;
 
-    // --- Timings --- //
-    public final double armCloseTime = 200;
-    public final double armOpenTime = 200;
-    public final double armWristUpTime = 150;
-    public final double slideHalfDownTime = 1000;
+    public double leftClawOpenPosition = 1.0;
+    public double rightClawOpenPosition = 1.0;
+    public double leftClawClosePosition = 0.38;
+    public double rightClawClosePosition = 0.43;
+    public double clawAngleCenter = 0.5;
 
-    private final double clawMotor_MaxVelocity = 2700; // Max speed of the deliverSlide
-    public void init(HardwareMap hwMap) {
-        clawMotorLeft = hwMap.get(DcMotorEx.class,"clawMotorLeft");
-        clawMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        clawMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        clawMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    public double clawAngleIntake = 0.28;
+    public double clawAngleDeliveryStage1 = 0.21;
+    public double clawAngleToHeight = 0.02;
 
-        clawMotorRight = hwMap.get(DcMotorEx.class,"clawMotorRight");
-        clawMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        clawMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        clawMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    public int clawAngleStage1Time = 200;
+    public int clawAngleStage2Time = 200;
 
-        clawMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
+    private double clawRotationStep = 0.01;
+    private double testServoCenter = 0.5;
 
-        clawArm = hwMap.get(Servo.class, "clawArm");
-        clawWrist = hwMap.get(Servo.class, "clawWrist");
-        droneServo = hwMap.get(Servo.class, "droneServo");
+    public void init(HardwareMap hwmap) {
+        leftClaw = hwmap.get(ServoImplEx.class, "leftClaw");
+        rightClaw = hwmap.get(ServoImplEx.class, "rightClaw");
+        clawRotation = hwmap.get(ServoImplEx.class, "clawRotation");
+        leftClawSensor = hwmap.get(DigitalChannel.class, "leftClawSensor");
+        rightClawSensor = hwmap.get(DigitalChannel.class, "rightClawSensor");
 
-    }
-    public double clawMotorLeftPosition() {
-        return  clawMotorLeft.getCurrentPosition();
-    }
-    public double clawMotorRightPosition() {
-        return  clawMotorRight.getCurrentPosition();
-    }
-    //increase means close, decrease means open
-    public void openArm() {
-        clawArm.setPosition(0.33);
-    }
-    public void closeArm() {
-        clawArm.setPosition(0.48);
-    }
-    //decrease means down, increase means up
-    public void wristDown(){
-        clawWrist.setPosition(0.15);
-    }
-    public void wristUp(){
-        clawWrist.setPosition(0.70);
-    }
-    public void droneOpen(){
-        droneServo.setPosition(0);
-    }
-    public void droneClose(){
-        droneServo.setPosition(1);
-    }
-    public void resetArm(){clawArm.setPosition(0.5);}
-    public void resetWrist(){clawWrist.setPosition(0.5);}
-    public void clawSlideRunToPosition(int position) {
-
-        clawMotorLeft.setTargetPosition(position);
-        clawMotorRight.setTargetPosition(position);
-
-        clawMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        clawMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        clawMotorLeft.setVelocity(clawMotor_MaxVelocity);
-        clawMotorRight.setVelocity(clawMotor_MaxVelocity);
-    }
-    public void slideManualRun(int incrementPosition) {
-        int currentPositionLeft, currentPositionRight, meanPosition;
-
-        currentPositionLeft = clawMotorLeft.getCurrentPosition();
-        currentPositionRight = clawMotorRight.getCurrentPosition();
-        meanPosition = (Math.abs(currentPositionLeft) + Math.abs(currentPositionRight)) / 2;
-
-        if (incrementPosition > 0) {
-            if ((meanPosition + incrementPosition) < slideMaxHeight) {
-                clawMotorLeft.setTargetPosition(currentPositionLeft + incrementPosition);
-                clawMotorRight.setTargetPosition(currentPositionRight + incrementPosition);
-            } else {
-                clawMotorLeft.setTargetPosition(slideMaxHeight);
-                clawMotorRight.setTargetPosition(slideMaxHeight);
-            }
-        }
-        if (incrementPosition < 0) {
-            if ((meanPosition + incrementPosition) > slideStart) {
-                clawMotorLeft.setTargetPosition(currentPositionLeft + incrementPosition);
-                clawMotorRight.setTargetPosition(currentPositionRight + incrementPosition);
-            } else {
-                clawMotorLeft.setTargetPosition(slideStart);
-                clawMotorRight.setTargetPosition(slideStart);
-            }
-        }
-        clawMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        clawMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        clawMotorLeft.setVelocity(clawMotor_MaxVelocity);
-        clawMotorRight.setVelocity(clawMotor_MaxVelocity);
+        testServo = hwmap.get(ServoImplEx.class, "testServo");
 
     }
 
-    public void resetDelivery(){
-        clawMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        clawMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void setTestServoCenter() { testServo.setPosition(testServoCenter);}
+    public double getTestServoPosition() { return testServo.getPosition(); }
+
+    public void setTestServoUP() {
+        double currentPosition = testServo.getPosition();
+        testServo.setPosition(currentPosition + clawRotationStep);
     }
+
+    public void setTestServoDown() {
+        double currentPosition = testServo.getPosition();
+        testServo.setPosition(currentPosition - clawRotationStep);
+    }
+
+    public void openBothClaw() {
+        leftClaw.setPosition(leftClawOpenPosition);
+        rightClaw.setPosition(rightClawOpenPosition);
+    }
+
+    public void openLeftClaw() { leftClaw.setPosition(leftClawOpenPosition);}
+    public void openRightClaw() { rightClaw.setPosition(rightClawOpenPosition);}
+
+    public void closeBothClaw() {
+        leftClaw.setPosition(leftClawClosePosition);
+        rightClaw.setPosition(rightClawClosePosition);
+    }
+
+    public void closeLeftClaw() { leftClaw.setPosition(leftClawClosePosition);}
+    public void closeRightClaw() { rightClaw.setPosition(rightClawClosePosition);}
+
+    public void setClawAngleCenter() { clawRotation.setPosition(clawAngleCenter);}
+
+    public void setClawAnglePosition(double position) { clawRotation.setPosition(position);}
+
+    public void setClawRotationUp() {
+        double currentPosition = clawRotation.getPosition();
+        clawRotation.setPosition(currentPosition + clawRotationStep);
+    }
+
+    public void setClawRotationDown() {
+        double currentPosition = clawRotation.getPosition();
+        clawRotation.setPosition(currentPosition - clawRotationStep);
+    }
+
+    public void setClawAngleToHeight(double position) {
+        double currentPosition = clawRotation.getPosition();
+        clawRotation.setPosition(currentPosition + position);
+    }
+
+    public double getClawAngle() { return clawRotation.getPosition();}
+
+    public boolean getLeftClawSensor() { return leftClawSensor.getState(); }
+
+    public boolean getRightClawSensor() { return rightClawSensor.getState(); }
 }
