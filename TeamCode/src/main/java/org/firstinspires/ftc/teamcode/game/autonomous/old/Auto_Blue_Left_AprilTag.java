@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.game.autonomous;
+package org.firstinspires.ftc.teamcode.game.autonomous.old;
 
 import android.util.Size;
 
@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.game.autonomous.Auto;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.vision.VisionPortal;

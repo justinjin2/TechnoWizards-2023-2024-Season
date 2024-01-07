@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.game.autonomous;
+package org.firstinspires.ftc.teamcode.game.autonomous.old;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -9,13 +9,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
+import org.firstinspires.ftc.teamcode.game.autonomous.Auto;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
 
 @Config
 @Autonomous(group = "Meet One")
-public class AutoBlue_LeftFSM extends Auto {
+public class AutoRed_LeftFSM extends Auto {
 
     public enum Delivery_State {
         DELIVERY_IDLE,
@@ -35,7 +36,7 @@ public class AutoBlue_LeftFSM extends Auto {
         // Do hardware stuff
         // initialize robot
 
-        initPropDetector(PropColor.BLUE);
+        initPropDetector(PropColor.RED);
         initDrive();
 
         clawOld.closeArm();
@@ -46,7 +47,7 @@ public class AutoBlue_LeftFSM extends Auto {
         loopTimer = new ElapsedTime();
         armOpenTimer = new ElapsedTime();
 
-        Pose2d startPose = new Pose2d(12, 64.5, Math.toRadians(-90.00));
+        Pose2d startPose = new Pose2d(-36, -64.5, Math.toRadians(90.00));
         drive.setPoseEstimate(startPose);
         telemetry.addData("finalX", startPose.getX());
         telemetry.addData("finalY", startPose.getY());
@@ -59,35 +60,45 @@ public class AutoBlue_LeftFSM extends Auto {
                 .addTemporalMarker(0, () -> {
                     clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
                 })
-                .splineTo(new Vector2d(12, 36), Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(18, 55), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(48, 38, Math.toRadians(0)), Math.toRadians(-3))
+                .splineTo(new Vector2d(-36, -36), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-52, -48), Math.toRadians(90))
+                .addTemporalMarker(4, () -> {
+                    clawOld.clawSlideRunToPosition(clawOld.slideStart);
+                })
+                .splineToLinearHeading(new Pose2d(-45, -12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
                 .build();
 
         TrajectorySequence traj_left = drive.trajectorySequenceBuilder(startPose)
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                 .addTemporalMarker(0, () -> {
                     clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
-
                 })
-                //.splineTo(new Vector2d(15, 35), Math.toRadians(-30))
-                .splineToLinearHeading(new Pose2d(19,34, Math.toRadians(-50)), Math.toRadians(-50))
-                .lineToConstantHeading(new Vector2d(12, 55))
-                .lineToSplineHeading(new Pose2d(48, 44, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(-42, -39, Math.toRadians(130)), Math.toRadians(150))
+                .lineToLinearHeading(new Pose2d(-36, -46, Math.toRadians(90)))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .addTemporalMarker(4, () -> {
+                    clawOld.clawSlideRunToPosition(clawOld.slideStart);
+                })
+                .lineToConstantHeading(new Vector2d(-36, -12))
+                .lineToLinearHeading(new Pose2d(-25, -12, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
                 .build();
 
         TrajectorySequence traj_right = drive.trajectorySequenceBuilder(startPose)
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+//                .addTemporalMarker(0, () -> {
+//                    claw.clawSlideRunToPosition(claw.slideAutoHeight);
+//
+//                })
+                .splineToLinearHeading(new Pose2d(-39, -50, Math.toRadians(45)), Math.toRadians(30))
+                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(8, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                .lineToConstantHeading(new Vector2d(-32, -37))
                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                .addTemporalMarker(0, () -> {
-                    clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
-                })
-                .splineToLinearHeading(new Pose2d(12, 59, Math.toRadians(270)), Math.toRadians(270))
-                .splineTo(new Vector2d(6, 35), Math.toRadians(200))
-                .lineToConstantHeading(new Vector2d(23, 55))
-                .splineToLinearHeading(new Pose2d(48, 32, Math.toRadians(0)), Math.toRadians(-26))
+                .splineToConstantHeading(new Vector2d(-52, -48), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-45, -12, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(44, -12, Math.toRadians(3)), Math.toRadians(3))
                 .build();
-
-
 
         while (!isStarted() && !isStopRequested()) {
             setPosition(getPropDetector().getPipeline().getPosition());
@@ -99,11 +110,39 @@ public class AutoBlue_LeftFSM extends Auto {
         startTimer();
         loopTimer.reset();
 
-        if (getPosition().name().equals("CENTER")) drive.followTrajectorySequence(traj_center);
-        if (getPosition().name().equals("LEFT")) drive.followTrajectorySequence(traj_left);
-        if (getPosition().name().equals("RIGHT")) drive.followTrajectorySequence(traj_right);
+        if (getPosition().name().equals("CENTER")) {
+            drive.followTrajectorySequence(traj_center);
+            Pose2d currentCenterPose = drive.getPoseEstimate();
+            TrajectorySequence traj_center2 = drive.trajectorySequenceBuilder(currentCenterPose)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                    .lineToConstantHeading(new Vector2d(15, 12))
+                    .addTemporalMarker(1, () -> {
+                        clawOld.clawSlideRunToPosition(clawOld.slideAutoHeight);
+                    })
+                    .splineToLinearHeading(new Pose2d(40, 38, Math.toRadians(0)), Math.toRadians(-3))
+                    .build();
+            //drive.followTrajectorySequence(traj_center2);
+        }
+        if (getPosition().name().equals("LEFT")) {
+            drive.followTrajectorySequence(traj_left);
+            Pose2d currentLeftPose = drive.getPoseEstimate();
+            TrajectorySequence traj_left2 = drive.trajectorySequenceBuilder(currentLeftPose)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                    .forward(5)
+                    .build();
+            //drive.followTrajectorySequence(traj_left2);
+        }
+        if (getPosition().name().equals("RIGHT")) {
+            drive.followTrajectorySequence(traj_right);
+            Pose2d currentRightPose = drive.getPoseEstimate();
+            TrajectorySequence traj_right2 = drive.trajectorySequenceBuilder(currentRightPose)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                    .forward(5)
+                    .build();
+            //drive.followTrajectorySequence(traj_right2);
+        }
 
-        delivery_state = Delivery_State.DELIVERY_START;
+        //delivery_state = Delivery_State.DELIVERY_START;
 
         while (!isStopRequested() && opModeIsActive()) {
 
@@ -111,10 +150,11 @@ public class AutoBlue_LeftFSM extends Auto {
 
             switch (delivery_state) {
                 case DELIVERY_START:
-                    Pose2d currentPose1 = drive.getPoseEstimate();
-                    TrajectorySequence forward = drive.trajectorySequenceBuilder(currentPose1)
-                            .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(5)
+                    Pose2d currentPose = new Pose2d(48, 38, Math.toRadians(0));
+                    //Pose2d currentPose1 = drive.getPoseEstimate();
+                    TrajectorySequence forward = drive.trajectorySequenceBuilder(currentPose)
+                            .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                            .forward(1)
                             .build();
                     drive.followTrajectorySequence(forward);
                     delivery_state = Delivery_State.ROBOT_FORWARD;
@@ -160,7 +200,6 @@ public class AutoBlue_LeftFSM extends Auto {
             telemetry.addData("30 seconds count-down", getSecondsLeft());
             telemetry.update();
         }
-
         PoseStorage.currentPose = drive.getPoseEstimate(); //transfer pose to TeleOp
     }
 
