@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
+import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -22,7 +23,8 @@ import java.util.List;
 
 public class CenterStage_Meet3 extends LinearOpMode {
 
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
+
     ElapsedTime loopTimer;
     ElapsedTime waitingTimer;
     ElapsedTime intakeBackSpinTimer;
@@ -49,7 +51,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
         // See AutoTransferPose.java for further details
         myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
-        Controllers_Meet3 controllers = new Controllers_Meet3(this, intake, delivery, v4Bar, claw, pto);
+        Controllers controllers = new Controllers(this, intake, delivery, v4Bar, claw, pto);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
@@ -93,9 +95,6 @@ public class CenterStage_Meet3 extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             loopTimer.reset();
 
-            // Will run one bulk read per cycle,
-            // because the caches are being handled manually and cleared
-            // once a loop
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
             }
@@ -114,16 +113,21 @@ public class CenterStage_Meet3 extends LinearOpMode {
 
             controllers.readInputs(gamepad1, gamepad2);
 
-//intake FSM start ----------------------------------------
+            // ----------------------------------------- //
+            // ---------- INTAKE FSM START ------------- //
+            // ----------------------------------------- //
+
             switch (robotState) {
                 case INTAKE_START:
-/*                    if (intake.getLeftPixelSensor()) claw.closeLeftClaw();
+                    /*
+                    if (intake.getLeftPixelSensor()) claw.closeLeftClaw();
                     if (intake.getRightPixelSensor()) claw.closeRightClaw();
                     if (intake.getLeftPixelSensor() && intake.getRightPixelSensor()) {
                         robotState = RobotState.INTAKE_STOP;
                         intakeBackSpinTimer.reset();
                     }
-*/                  intakeBackSpinTimer.reset();
+                    */
+                    intakeBackSpinTimer.reset();
                     break;
                 case INTAKE_BACKSPIN:       //this also wait for claw close
                     if (intakeBackSpinTimer.milliseconds() > intake.backSpinTime) {
@@ -159,14 +163,15 @@ public class CenterStage_Meet3 extends LinearOpMode {
                     break;
                 case DELIVERY_READY:
                     if (waitingTimer.milliseconds() > 200) {
-                        //
                         // intake.setIntakeCenter();
                         robotState = RobotState.IDLE;
                     }
                     break;
             }
 
-//delivery FSM start ----------------------------------------
+            // ----------------------------------------- //
+            // ---------- DELIVERY FSM START ----------- //
+            // ----------------------------------------- //
 
             switch (robotState) {
                 case DELIVERY_START:
@@ -215,12 +220,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
         telemetry.addData("startHeading", PoseStorage.currentPose.getHeading());
     }
 
-    public void displayTelemetry(SampleMecanumDrive drive, Intake intake, Delivery delivery,
-                                 V4Bar v4Bar, Claw claw) {
-        //Pose2d poseEstimate = drive.getPoseEstimate();
-        //telemetry.addData("x", poseEstimate.getX());
-        //telemetry.addData("y", poseEstimate.getY());
-        //telemetry.addData("heading", poseEstimate.getHeading());
+    public void displayTelemetry(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, Claw claw) {
         telemetry.addData("motor1 position", delivery.getMotor1Position());
         telemetry.addData("motor2 position", delivery.getMotor2Position());
         telemetry.addData("slide angle position", delivery.getSlideAnglePosition());

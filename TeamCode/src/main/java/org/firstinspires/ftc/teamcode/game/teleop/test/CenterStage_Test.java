@@ -1,15 +1,17 @@
-package org.firstinspires.ftc.teamcode.game.teleop;
+package org.firstinspires.ftc.teamcode.game.teleop.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
+import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -19,12 +21,13 @@ import java.util.List;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(group = "TeleOp")
 
-public class CenterStagePID_Meet2 extends LinearOpMode {
+public class CenterStage_Test extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
     ElapsedTime loopTimer;
 
     private double driveSpeedRatio = 1.0;
+    private RobotState robotState = RobotState.IDLE;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,7 +44,7 @@ public class CenterStagePID_Meet2 extends LinearOpMode {
         // See AutoTransferPose.java for further details
         myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
-        ControllersPID_Meet2 controllers = new ControllersPID_Meet2(this, intake, delivery, v4Bar, claw);
+        Controllers_Test controllers = new Controllers_Test(this, intake, delivery, v4Bar, claw);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
@@ -53,8 +56,11 @@ public class CenterStagePID_Meet2 extends LinearOpMode {
 
         intake.resetMotor();
         delivery.resetMotor(); //reset all motors encoder
-        claw.setClawAngleCenter();
-        v4Bar.setV4BarInit();
+        //intake.setIntakePosition(intake.intakeCenterPosition);
+        //sleep(400);
+        claw.setClawAnglePosition(claw.clawAngleCenter);
+        v4Bar.setV4BarPosition(v4Bar.v4BarCenterPosition);
+        claw.openBothClaw();
 
         displayPoseTelemetry();
 
@@ -70,6 +76,9 @@ public class CenterStagePID_Meet2 extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
+
+        delivery.redLED.setMode(DigitalChannel.Mode.OUTPUT);
+        delivery.greenLED.setMode(DigitalChannel.Mode.OUTPUT);
 
         while (opModeIsActive() && !isStopRequested()) {
             loopTimer.reset();
@@ -94,6 +103,41 @@ public class CenterStagePID_Meet2 extends LinearOpMode {
             drive.update();
 
             controllers.readInputs(gamepad1, gamepad2);
+
+            switch (robotState) {
+                case PIXEL_GRAB:
+
+                    break;
+                case WRIST_READY:
+
+                    break;
+                case CLAW_OPEN:
+
+                    break;
+                case SLIDE_DOWN:
+
+                    break;
+            }
+
+            if (claw.getLeftClawSensor()) {
+                delivery.greenLED.setState(true);
+                delivery.redLED.setState(false);
+            }
+
+            if (claw.getRightClawSensor()) {
+                delivery.greenLED.setState(false);
+                delivery.redLED.setState(true);
+            }
+
+            if (claw.getLeftClawSensor() && claw.getRightClawSensor()) {
+                delivery.redLED.setState(false);
+                delivery.greenLED.setState(false);
+            }
+
+            if (!claw.getLeftClawSensor() && !claw.getRightClawSensor()) {
+                delivery.redLED.setState(true);
+                delivery.greenLED.setState(true);
+            }
 
             displayTelemetry(drive, intake, delivery, v4Bar, claw);
 
@@ -121,6 +165,13 @@ public class CenterStagePID_Meet2 extends LinearOpMode {
         telemetry.addData("intake position", intake.getIntakeDownPosition());
         telemetry.addData("motor1 current", intake.getMotor1Current());
         telemetry.addData("motor2 current", intake.getMotor2Current());
+        telemetry.addData("test servo position", claw.getTestServoPosition());
+        telemetry.addData("left pixel on", intake.getLeftPixelSensor());
+        telemetry.addData("right pixel on", intake.getRightPixelSensor());
+        telemetry.addData("left claw on", claw.getLeftClawSensor());
+        telemetry.addData("right claw on", claw.getRightClawSensor());
+        telemetry.addData("red LED state", delivery.redLED.getState());
+        telemetry.addData("green LED state", delivery.greenLED.getState());
         telemetry.addData("Loop Timer", loopTimer.milliseconds());
         telemetry.update();
     }

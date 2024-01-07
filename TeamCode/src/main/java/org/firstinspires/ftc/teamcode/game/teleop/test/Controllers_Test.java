@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.game.teleop;
+package org.firstinspires.ftc.teamcode.game.teleop.test;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.game.teleop.test.CenterStage_Test;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;

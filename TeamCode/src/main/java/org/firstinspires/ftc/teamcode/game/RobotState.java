@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.game.teleop;
+package org.firstinspires.ftc.teamcode.game;
 
 public enum RobotState {
     IDLE,

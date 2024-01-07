@@ -68,10 +68,19 @@ public abstract class Auto extends LinearOpMode {
         return elapsedTime.seconds();
     }
 
+
+    /**
+     * Starts the prop detector pipeline, which will open the camera
+     * @param color Color to be detected (RED or BLUE)
+     */
     public void initPropDetector(PropColor color) {
         this.propDetector = new TeamPropDetector(color, hardwareMap);
     }
 
+    /**
+     * Initializes all important hardware an drive
+     * This includes SampleMecanumDrive
+     */
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
 
@@ -90,10 +99,17 @@ public abstract class Auto extends LinearOpMode {
         pto.init(hardwareMap);
     }
 
+    /**
+     * Subtracts 30 from timer to get time left in autonomous
+     * @return seconds left in the game
+     */
     public int getSecondsLeft() {
         return (int) (30 - elapsedTime.seconds());
     }
 
+    /**
+     * @return the prop detector, which can be used to get the location of the team element
+     */
     public TeamPropDetector getPropDetector() {
         return propDetector;
     }
