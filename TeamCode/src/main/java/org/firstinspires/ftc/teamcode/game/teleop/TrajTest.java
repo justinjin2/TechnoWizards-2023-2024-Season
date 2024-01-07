@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.game.teleop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,11 +12,11 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "drive")
-public class SplineTest extends LinearOpMode {
+public class TrajTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(12, 64, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
         telemetry.addData("finalX", startPose.getX());
         telemetry.addData("finalY", startPose.getY());
@@ -28,7 +28,7 @@ public class SplineTest extends LinearOpMode {
         if (isStopRequested()) return;
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(30, 0))
+                .lineTo(new Vector2d(12, 36))
                 .build();
 
         drive.followTrajectory(traj);

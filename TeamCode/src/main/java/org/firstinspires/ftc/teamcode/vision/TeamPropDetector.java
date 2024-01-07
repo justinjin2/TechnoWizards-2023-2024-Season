@@ -158,7 +158,7 @@ public class TeamPropDetector
         static List<String> data = new ArrayList<>();
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile TSEPosition position = TSEPosition.LEFT;
+        private volatile TSEPosition position = TSEPosition.CENTER;
 
         void inputToCrCb(Mat input)
         {
