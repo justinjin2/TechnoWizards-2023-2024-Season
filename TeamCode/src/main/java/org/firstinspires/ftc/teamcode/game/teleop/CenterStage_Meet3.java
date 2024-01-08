@@ -85,7 +85,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
         for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         waitForStart();
@@ -164,6 +164,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
                 case DELIVERY_READY:
                     if (waitingTimer.milliseconds() > 200) {
                         // intake.setIntakeCenter();
+                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         robotState = RobotState.IDLE;
                     }
                     break;
@@ -191,11 +192,13 @@ public class CenterStage_Meet3 extends LinearOpMode {
                         v4Bar.setV4BarPosition(v4Bar.v4BarCenterPosition);
                         claw.setClawAnglePosition(claw.clawAngleIntake);
                         delivery.slideAngleRunToPosition(delivery.slideStart);
+                        waitingTimer.reset();
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
-                    if ((Math.abs(delivery.getSlideAnglePosition()) + 5) > 0) {
+                    if (((Math.abs(delivery.getSlideAnglePosition()) + 5) > 0) &&
+                            (waitingTimer.milliseconds() > claw.clawAngleStage1Time)) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                         robotState = RobotState.DELIVERY_DONE;
                         waitingTimer.reset();

@@ -36,9 +36,9 @@ public class Controllers {
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
             {0, 0.82, 0.23, 0},
-            {150, 0.77, 0.58, 0},
-            {350, 0.77, 0.58, 0},
-            {550, 0.77, 0.58, 0},
+            {200, 0.77, 0.58, 100},
+            {350, 0.77, 0.58, 200},
+            {550, 0.77, 0.58, 300},
     };
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
@@ -70,18 +70,18 @@ public class Controllers {
             teleOp.setRobotState(RobotState.INTAKE_BACKSPIN);
         }
 
-        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
-            intake.setIntakePosition(intake.intakeSafePosition);
-            claw.setClawAnglePosition(claw.clawAngleIntake);
-            claw.openBothClaw();
-        }
-
-        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
-            intake.setIntakePosition(intake.intakeSafePosition);
-            claw.setClawAnglePosition(claw.clawAngleIntake);
-            claw.openBothClaw();
-            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-        }
+//        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
+//            intake.setIntakePosition(intake.intakeSafePosition);
+//            claw.setClawAnglePosition(claw.clawAngleIntake);
+//            claw.openBothClaw();
+//        }
+//
+//        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
+//            intake.setIntakePosition(intake.intakeSafePosition);
+//            claw.setClawAnglePosition(claw.clawAngleIntake);
+//            claw.openBothClaw();
+//            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+//        }
 
         if (currentGamepad2.back && !previousGamepad2.back) {
             intake.setIntakePositionStep(intake.intakeStepDown);

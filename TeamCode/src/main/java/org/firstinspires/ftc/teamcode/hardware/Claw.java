@@ -21,8 +21,9 @@ public class Claw {
     public double rightClawClosePosition = 0.43;
     public double clawAngleCenter = 0.5;
 
-    public double clawAngleIntake = 0.28;
-    public double clawAngleDeliveryStage1 = 0.21;
+    public double clawAngleIntake = 0.16;
+    public double clawAngleDeliveryStage1 = 0.08;
+    public double clawAngleDeliveryStage2 = 0.04;
     public double clawAngleToHeight = 0.02;
 
     public int clawAngleStage1Time = 200;
