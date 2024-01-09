@@ -35,10 +35,9 @@ public class Controllers {
     }
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
-            {0, 0.82, 0.23, 0},
-            {200, 0.77, 0.58, 100},
-            {350, 0.77, 0.58, 200},
-            {550, 0.77, 0.58, 300},
+            {200, 0.77, 0.50, 100},
+            {350, 0.77, 0.50, 200},
+            {550, 0.77, 0.50, 300},
     };
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
@@ -136,13 +135,24 @@ public class Controllers {
         }
 
         if (currentGamepad1.b && !previousGamepad1.b) {
-            delivery.slideRunToPosition_Encoder((int) target[0][0], delivery.slideReturnVelocity);
+            intake.setIntakePosition(intake.intakeSafePosition);
+            delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideReturnVelocity);
+            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+            claw.setClawAnglePosition(claw.clawAngleIntake);
+            delivery.slideAngleRunToPosition((delivery.slideAngleMaxDown));
+        }
+
+        if (currentGamepad1.a && !previousGamepad1.a) {
+            intake.setIntakePosition(intake.intakeSafePosition);
+            teleOp.setRobotState(RobotState.DELIVERY_START);
+            delivery.slideRunToPosition_Encoder((int) target[0][0], delivery.slideRunHighVelocity);
             v4Bar.setV4BarPosition(target[0][1]);
             claw.setClawAnglePosition(target[0][2]);
             delivery.slideAngleRunToPosition((int)target[0][3]);
         }
 
-        if (currentGamepad1.a && !previousGamepad1.a) {
+        if (currentGamepad1.x && !previousGamepad1.x) {
+            intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.DELIVERY_START);
             delivery.slideRunToPosition_Encoder((int) target[1][0], delivery.slideRunHighVelocity);
             v4Bar.setV4BarPosition(target[1][1]);
@@ -150,20 +160,13 @@ public class Controllers {
             delivery.slideAngleRunToPosition((int)target[1][3]);
         }
 
-        if (currentGamepad1.x && !previousGamepad1.x) {
+        if (currentGamepad1.y && !previousGamepad1.y) {
+            intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.DELIVERY_START);
             delivery.slideRunToPosition_Encoder((int) target[2][0], delivery.slideRunHighVelocity);
             v4Bar.setV4BarPosition(target[2][1]);
             claw.setClawAnglePosition(target[2][2]);
             delivery.slideAngleRunToPosition((int)target[2][3]);
-        }
-
-        if (currentGamepad1.y && !previousGamepad1.y) {
-            teleOp.setRobotState(RobotState.DELIVERY_START);
-            delivery.slideRunToPosition_Encoder((int) target[3][0], delivery.slideRunHighVelocity);
-            v4Bar.setV4BarPosition(target[3][1]);
-            claw.setClawAnglePosition(target[3][2]);
-            delivery.slideAngleRunToPosition((int)target[3][3]);
         }
 
         if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)

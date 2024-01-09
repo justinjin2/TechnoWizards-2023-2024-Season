@@ -163,7 +163,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
                     break;
                 case DELIVERY_READY:
                     if (waitingTimer.milliseconds() > 200) {
-                        // intake.setIntakeCenter();
+                        intake.setIntakeCenter();
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         robotState = RobotState.IDLE;
                     }
@@ -206,7 +206,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
                     break;
                 case DELIVERY_DONE:
                     if (waitingTimer.milliseconds() > 400) {
-                        intake.setIntakePosition(intake.intakeSafePosition);
+                        intake.setIntakePosition(intake.intakeCenterPosition);
                         robotState = RobotState.IDLE;
                     }
                     break;
