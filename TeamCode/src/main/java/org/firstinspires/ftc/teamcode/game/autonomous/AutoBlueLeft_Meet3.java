@@ -27,11 +27,11 @@ public class AutoBlueLeft_Meet3 extends Auto {
         initPropDetector(PropColor.BLUE);
         initDrive();
 
-        Intake intake = new Intake();
-        Delivery delivery = new Delivery();
-        V4Bar v4Bar = new V4Bar();
-        Claw claw = new Claw();
-        PTO pto = new PTO();
+//        Intake intake = new Intake();
+//        Delivery delivery = new Delivery();
+//        V4Bar v4Bar = new V4Bar();
+//        Claw claw = new Claw();
+//        PTO pto = new PTO();
 
         intake.init(hardwareMap);
         delivery.init(hardwareMap);
