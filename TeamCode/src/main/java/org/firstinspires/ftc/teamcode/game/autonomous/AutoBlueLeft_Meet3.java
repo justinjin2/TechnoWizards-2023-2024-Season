@@ -33,6 +33,11 @@ public class AutoBlueLeft_Meet3 extends Auto {
         Claw claw = new Claw();
         PTO pto = new PTO();
 
+        intake.init(hardwareMap);
+        delivery.init(hardwareMap);
+        v4Bar.init(hardwareMap);
+        claw.init(hardwareMap);
+        pto.init(hardwareMap);
 
 
         delivery.resetMotor(); //reset motor encoder
