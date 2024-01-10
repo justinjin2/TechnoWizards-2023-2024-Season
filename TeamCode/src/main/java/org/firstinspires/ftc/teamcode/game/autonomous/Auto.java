@@ -26,6 +26,10 @@ public abstract class Auto extends LinearOpMode {
     private final ElapsedTime elapsedTime = new ElapsedTime();
     public final ElapsedTime loopTimer = new ElapsedTime();
     public final ElapsedTime generalTimer = new ElapsedTime();
+    public final ElapsedTime clawOpenTimer = new ElapsedTime();
+
+    public static double clawOpenTime = 350;
+
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
@@ -40,12 +44,16 @@ public abstract class Auto extends LinearOpMode {
 
     // ------- Constants ------- //
     public static int DELIVER_POSITION = 200;
+    public static int slidePosition1 = 300;
+    public static int slidePosition2 = 382;
+    public static double v4barDelivery = 0.82;
+    public static double clawDelivery = 0.45;
 
-    /**
-     * Used to set the position of the prop after we start the game, to retrieve that value
+    /**ion of the prop after we start the game, to retrieve that value
      * when getting the robot's trajectory
      *
-     * @param position The position that is retrieved from getPosition()
+     * @param position The position that is retrieved from getPosition()y = 0.82;
+     *     public static double clawDelivery = .44;
      */
     public void setPosition(TeamPropDetector.TSEDetectorPipeline.TSEPosition position) {
         this.position = position;
@@ -101,7 +109,7 @@ public abstract class Auto extends LinearOpMode {
         this.pto = new PTO();
         this.claw = new Claw();
 
-        this.trajectories = new Trajectories(drive);
+        this.trajectories = new Trajectories(drive, intake, delivery, v4Bar, pto, claw);
 
         intake.init(hardwareMap);
         delivery.init(hardwareMap);

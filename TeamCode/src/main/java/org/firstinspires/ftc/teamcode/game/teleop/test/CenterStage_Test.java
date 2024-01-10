@@ -60,7 +60,7 @@ public class CenterStage_Test extends LinearOpMode {
         //sleep(400);
         claw.setClawAnglePosition(claw.clawAngleCenter);
         v4Bar.setV4BarPosition(v4Bar.v4BarCenterPosition);
-        claw.openBothClaw();
+        claw.closeBothClaw();
 
         displayPoseTelemetry();
 

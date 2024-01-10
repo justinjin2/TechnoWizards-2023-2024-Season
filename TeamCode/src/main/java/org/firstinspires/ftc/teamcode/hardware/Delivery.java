@@ -25,7 +25,7 @@ public class Delivery {
 
     public int slideRunHighVelocity = 2800;
     public int slideReturnVelocity = 1400;
-    public int slideRunLowVelocity = 500;
+    public int slideRunLowVelocity = 1000;
     public int slideAngleVelocity = 2800;
 
     public int slideMaxExtend = 600;

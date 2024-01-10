@@ -20,4 +20,6 @@ public enum RobotState {
     WRIST_READY,
     SLIDE_DOWN,
     SLIDE_ANGLE_DOWN,
+    INIT_POSITION,
+    CLAW_ANGLE_INTAKE,
 }
