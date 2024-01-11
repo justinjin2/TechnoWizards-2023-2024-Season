@@ -15,8 +15,6 @@ import java.util.List;
 @Autonomous(group = "Meet Three")
 public class AutoRedRight_Meet3 extends Auto {
 
-    private RobotState robotState = RobotState.IDLE;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -60,9 +58,7 @@ public class AutoRedRight_Meet3 extends Auto {
         startTimer();
 
 
-//        if (getPosition().name().equals("CENTER")) drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
-//        if (getPosition().name().equals("LEFT")) drive.followTrajectorySequence(traj_left);
-//        if (getPosition().name().equals("RIGHT")) drive.followTrajectorySequence(traj_right);
+        // TODO: drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
 
         robotState = RobotState.DELIVERY_START;
 

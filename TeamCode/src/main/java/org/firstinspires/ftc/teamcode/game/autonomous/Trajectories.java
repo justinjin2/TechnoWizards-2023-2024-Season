@@ -62,6 +62,39 @@ public class Trajectories {
 
         return sequence;
     }
+
+    public TrajectorySequence getRedRight(TeamPropDetector.TSEDetectorPipeline.TSEPosition position, Pose2d startPose) {
+
+        TrajectorySequence sequence;
+
+        if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(12, 38))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                    })
+                    .lineTo(new Vector2d(12, 41))
+                    .lineToLinearHeading(new Pose2d(38, 35.7,Math.toRadians(190)))
+                    .build();
+        }
+        else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(12, 36))
+                    .build();
+        }
+        else {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(12, 36))
+                    .build();
+        }
+
+        return sequence;
+    }
     
 
 
