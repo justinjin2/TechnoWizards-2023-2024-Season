@@ -46,7 +46,7 @@ public class Trajectories {
                         claw.setClawAnglePosition(Auto.clawDelivery);
                     })
                     .lineTo(new Vector2d(12, 41))
-                    .lineToLinearHeading(new Pose2d(38, 36,Math.toRadians(190)))
+                    .lineToLinearHeading(new Pose2d(38, 35.7,Math.toRadians(190)))
                         .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
