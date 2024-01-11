@@ -64,11 +64,9 @@ public class AutoBlueLeft_Meet3 extends Auto {
         startTimer();
 
 
-        if (getPosition().name().equals("CENTER")) drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
-//        if (getPosition().name().equals("LEFT")) drive.followTrajectorySequence(traj_left);
-//        if (getPosition().name().equals("RIGHT")) drive.followTrajectorySequence(traj_right);
+        drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
 
-        robotState = RobotState.DELIVERY_START;
+//        robotState = RobotState.DELIVERY_START;
 
 
         while (!isStopRequested() && opModeIsActive()) {

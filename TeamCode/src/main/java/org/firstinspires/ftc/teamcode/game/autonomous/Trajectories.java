@@ -51,7 +51,7 @@ public class Trajectories {
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(12, 36))
+                    .lineTo(new Vector2d(24, 44))
                     .build();
         }
         else {
