@@ -39,7 +39,7 @@ public class AutoRedRight_Meet3 extends Auto {
         robotState = RobotState.IDLE;
 
 
-        Pose2d startPose = new Pose2d(12, 64, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(12, -64, Math.toRadians(270));
         drive.setPoseEstimate(startPose);
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
