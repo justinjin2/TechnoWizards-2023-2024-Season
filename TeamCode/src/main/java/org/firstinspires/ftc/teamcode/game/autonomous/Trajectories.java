@@ -66,7 +66,19 @@ public class Trajectories {
         }
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(12, 36))
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(9, 40, Math.toRadians(35)), Math.toRadians(190))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .setReversed(false)
+                    .addTemporalMarker(2.5, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                    })
+                    .lineTo(new Vector2d(12, 43))
+                    .lineToLinearHeading(new Pose2d(38, 31, Math.toRadians(190)))
                     .build();
         }
 
