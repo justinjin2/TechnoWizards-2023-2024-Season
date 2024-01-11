@@ -13,7 +13,7 @@ public class Claw {
 
     public ServoImplEx testServo;
 
-    public double clawOpenTime = 300;
+    public double clawOpenTime = 350;
 
     public double leftClawOpenPosition = 1.0;
     public double rightClawOpenPosition = 1.0;
@@ -23,7 +23,7 @@ public class Claw {
 
     public double clawAngleIntake = 0.17;
     public double clawAngleDeliveryStage1 = 0.10;
-    public double clawAngleDeliveryStage2 = 0.10;
+    public double clawAngleDeliveryStage2 = 0.08;
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
 
     public int clawAngleStage1Time = 200;

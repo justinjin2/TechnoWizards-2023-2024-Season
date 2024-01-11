@@ -63,16 +63,14 @@ public class AutoBlueLeft_Meet3 extends Auto {
 
         startTimer();
 
-
         drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
 
         robotState = RobotState.DELIVERY_START;
 
 
         while (!isStopRequested() && opModeIsActive()) {
-//
             loopTimer.reset();
-//
+
             // Will run one bulk read per cycle,
             // because the caches are being handled manually and cleared
             // once a loop
@@ -123,7 +121,9 @@ public class AutoBlueLeft_Meet3 extends Auto {
                     break;
 
             }
-
+            telemetry.addData("loop timer", loopTimer.milliseconds());
+            telemetry.addData("time left", getSecondsLeft());
+            telemetry.update();
         }
 
         PoseStorage.currentPose = drive.getPoseEstimate();
@@ -131,7 +131,6 @@ public class AutoBlueLeft_Meet3 extends Auto {
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
-        telemetry.addData("Time Left: ", getSecondsLeft());
         telemetry.update();
     }
 
