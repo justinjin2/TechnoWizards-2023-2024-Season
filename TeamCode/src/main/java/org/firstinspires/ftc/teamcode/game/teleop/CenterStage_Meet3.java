@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,8 +20,7 @@ import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 
 import java.util.List;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(group = "TeleOp")
-
+@TeleOp(group = "Meet 3")
 public class CenterStage_Meet3 extends LinearOpMode {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -47,8 +47,6 @@ public class CenterStage_Meet3 extends LinearOpMode {
         Claw claw = new Claw();
         PTO pto = new PTO();
 
-        // Retrieve our pose from the PoseStorage.currentPose static field
-        // See AutoTransferPose.java for further details
         myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
         Controllers controllers = new Controllers(this, intake, delivery, v4Bar, claw, pto);
@@ -63,7 +61,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
         pto.init(hardwareMap);
 
         intake.resetMotor();
-        delivery.resetMotor(); //reset all motors encoder
+        delivery.resetMotor();
 
         intake.setIntakePosition(intake.intakeSafePosition);
         sleep(400);
