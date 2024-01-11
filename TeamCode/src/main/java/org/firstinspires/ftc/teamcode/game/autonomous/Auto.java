@@ -47,7 +47,7 @@ public abstract class Auto extends LinearOpMode {
     // ------- Constants ------- //
     public static int DELIVER_POSITION = 200;
     public static int SLIDE_POSITION_ONE = 300;
-    public static int SLIDE_POSITION_TWO = 393;
+    public static int SLIDE_POSITION_TWO = 392;
     public static double V4BAR_DELIVERY = 0.82;
     public static double CLAW_DELIVERY = 0.458;
 

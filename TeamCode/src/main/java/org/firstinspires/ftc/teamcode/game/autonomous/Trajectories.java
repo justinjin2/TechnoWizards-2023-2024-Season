@@ -52,6 +52,16 @@ public class Trajectories {
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .lineTo(new Vector2d(24, 44))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .lineTo(new Vector2d(24, 52))
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                    })
+                    .lineToLinearHeading(new Pose2d(38, 44.7,Math.toRadians(180)))
                     .build();
         }
         else {

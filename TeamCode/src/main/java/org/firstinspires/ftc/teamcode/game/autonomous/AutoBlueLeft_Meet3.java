@@ -66,7 +66,7 @@ public class AutoBlueLeft_Meet3 extends Auto {
 
         drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
 
-//        robotState = RobotState.DELIVERY_START;
+        robotState = RobotState.DELIVERY_START;
 
 
         while (!isStopRequested() && opModeIsActive()) {
