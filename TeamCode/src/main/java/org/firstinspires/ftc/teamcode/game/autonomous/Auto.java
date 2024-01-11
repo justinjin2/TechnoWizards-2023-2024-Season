@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -28,12 +29,13 @@ public abstract class Auto extends LinearOpMode {
     public final ElapsedTime generalTimer = new ElapsedTime();
     public final ElapsedTime clawOpenTimer = new ElapsedTime();
 
-    public static double clawOpenTime = 350;
+    public static double CLAW_OPEN_TIME = 350;
 
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
     private Trajectories trajectories;
+    public RobotState robotState;
 
     // ------- Hardware ------- //
     public Intake intake;
@@ -44,10 +46,10 @@ public abstract class Auto extends LinearOpMode {
 
     // ------- Constants ------- //
     public static int DELIVER_POSITION = 200;
-    public static int slidePosition1 = 300;
-    public static int slidePosition2 = 393;
-    public static double v4barDelivery = 0.82;
-    public static double clawDelivery = 0.458;
+    public static int SLIDE_POSITION_ONE = 300;
+    public static int SLIDE_POSITION_TWO = 393;
+    public static double V4BAR_DELIVERY = 0.82;
+    public static double CLAW_DELIVERY = 0.458;
 
     /**ion of the prop after we start the game, to retrieve that value
      * when getting the robot's trajectory

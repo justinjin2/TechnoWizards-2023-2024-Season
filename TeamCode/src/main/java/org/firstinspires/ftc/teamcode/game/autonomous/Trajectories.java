@@ -41,9 +41,9 @@ public class Trajectories {
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
                     .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.slidePosition1, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.v4barDelivery);
-                        claw.setClawAnglePosition(Auto.clawDelivery);
+                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
                     .lineTo(new Vector2d(12, 41))
                     .lineToLinearHeading(new Pose2d(38, 35.7,Math.toRadians(190)))
