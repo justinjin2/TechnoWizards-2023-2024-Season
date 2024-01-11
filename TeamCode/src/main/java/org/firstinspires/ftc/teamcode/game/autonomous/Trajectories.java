@@ -79,7 +79,7 @@ public class Trajectories {
 
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(12, 38))
+                    .lineTo(new Vector2d(12, -38))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -88,8 +88,8 @@ public class Trajectories {
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
-                    .lineTo(new Vector2d(12, 41))
-                    .lineToLinearHeading(new Pose2d(38, 35.7,Math.toRadians(190)))
+                    .lineTo(new Vector2d(12, -41))
+                    .lineToLinearHeading(new Pose2d(38, -35.7,Math.toRadians(0)))
                     .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
