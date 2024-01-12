@@ -18,7 +18,7 @@ public class AutoRedRight_Meet3 extends Auto {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initPropDetector(PropColor.BLUE);
+        initPropDetector(PropColor.RED);
         initDrive();
 
         intake.init(hardwareMap);
@@ -57,11 +57,9 @@ public class AutoRedRight_Meet3 extends Auto {
 
         startTimer();
 
-
-        // TODO: drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
+        drive.followTrajectorySequence(getTrajectories().getRedRight(getPosition(), startPose));
 
         robotState = RobotState.DELIVERY_START;
-
 
         while (!isStopRequested() && opModeIsActive()) {
 
@@ -106,7 +104,7 @@ public class AutoRedRight_Meet3 extends Auto {
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                         Pose2d currentPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(currentPose)
-                                .lineToConstantHeading(new Vector2d(48, 12))
+                                .lineToConstantHeading(new Vector2d(48, -12))
                                 .build();
                         drive.followTrajectorySequence(parking);
                         robotState = RobotState.IDLE;
@@ -115,6 +113,9 @@ public class AutoRedRight_Meet3 extends Auto {
 
             }
 
+            telemetry.addData("loop timer", loopTimer.milliseconds());
+            telemetry.addData("time left", getSecondsLeft());
+            telemetry.update();
         }
 
         PoseStorage.currentPose = drive.getPoseEstimate();
@@ -122,7 +123,6 @@ public class AutoRedRight_Meet3 extends Auto {
 
     public void updateTelemetry() {
         telemetry.addData("TSE Position", getPosition().name());
-        telemetry.addData("Time Left: ", getSecondsLeft());
         telemetry.update();
     }
 

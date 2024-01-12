@@ -63,7 +63,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
         intake.resetMotor();
         delivery.resetMotor();
 
-        intake.setIntakePosition(intake.intakeSafePosition);
+        intake.setIntakePosition(intake.intakeInitPosition);
         sleep(400);
         claw.setClawAnglePosition(claw.clawAngleIntake);
         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
