@@ -6,6 +6,7 @@ public enum RobotState {
     DELIVERY_READY,
     DELIVERY_DONE,
     INTAKE_START,
+    INTAKE_DONE,
     INTAKE_BACKSPIN,
     INTAKE_STOP,
     V4BAR_UP_STAGE1,

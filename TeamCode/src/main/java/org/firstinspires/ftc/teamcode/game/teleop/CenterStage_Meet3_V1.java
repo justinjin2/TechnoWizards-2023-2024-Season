@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import java.util.List;
 
 @TeleOp(group = "Meet 3")
-public class CenterStage_Meet3 extends LinearOpMode {
+public class CenterStage_Meet3_V1 extends LinearOpMode {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -49,7 +49,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
 
         myLocalizer.setPoseEstimate(PoseStorage.currentPose);
 
-        Controllers controllers = new Controllers(this, intake, delivery, v4Bar, claw, pto);
+        Controllers_V1 controllers = new Controllers_V1(this, intake, delivery, v4Bar, claw, pto);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
@@ -148,21 +148,13 @@ public class CenterStage_Meet3 extends LinearOpMode {
                 case CLAW_ANGLE_STAGE1:
                     if (clawAngleTimer.milliseconds() > claw.clawAngleStage1Time) {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
-                        robotState = RobotState.V4BAR_UP_STAGE2;
-                        v4BarUpTimer.reset();
-                    }
-                    break;
-                case V4BAR_UP_STAGE2:
-                    if (v4BarUpTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
-                        robotState = RobotState.DELIVERY_READY;
+                        robotState = RobotState.INTAKE_DONE;
                         waitingTimer.reset();
                     }
                     break;
-                case DELIVERY_READY:
+                case INTAKE_DONE:
                     if (waitingTimer.milliseconds() > 200) {
                         intake.setIntakeCenter();
-                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         robotState = RobotState.IDLE;
                     }
                     break;
@@ -174,7 +166,43 @@ public class CenterStage_Meet3 extends LinearOpMode {
 
             switch (robotState) {
                 case DELIVERY_START:
-                    intake.setIntakePosition(intake.intakeSafePosition);
+                    robotState = RobotState.V4BAR_UP_STAGE2;
+                    waitingTimer.reset();   //waiting for intake move to safe position
+                    break;
+                case V4BAR_UP_STAGE2:
+                    if (waitingTimer.milliseconds() > 200) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
+                        robotState = RobotState.CLAW_ANGLE_STAGE2;
+                        v4BarUpTimer.reset();
+                    }
+                    break;
+                case CLAW_ANGLE_STAGE2:
+                    if (waitingTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
+                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+                        robotState = RobotState.DELIVERY_READY;
+                    }
+                case DELIVERY_READY:
+                    if (controllers.deliveryKey == 'a') {
+                        delivery.slideRunToPosition_Encoder((int) controllers.target[0][0], delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(controllers.target[0][1]);
+                        claw.setClawAnglePosition(controllers.target[0][2]);
+                        delivery.slideAngleRunToPosition((int)controllers.target[0][3]);
+                    }
+
+                    if (controllers.deliveryKey == 'x') {
+                        delivery.slideRunToPosition_Encoder((int) controllers.target[1][0], delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(controllers.target[1][1]);
+                        claw.setClawAnglePosition(controllers.target[1][2]);
+                        delivery.slideAngleRunToPosition((int)controllers.target[1][3]);
+                    }
+
+                    if (controllers.deliveryKey == 'y') {
+                        delivery.slideRunToPosition_Encoder((int) controllers.target[2][0], delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(controllers.target[2][1]);
+                        claw.setClawAnglePosition(controllers.target[2][2]);
+                        delivery.slideAngleRunToPosition((int)controllers.target[2][3]);
+                    }
+
                     clawOpenTimer.reset();
                     break;
                 case CLAW_OPEN:
@@ -206,6 +234,7 @@ public class CenterStage_Meet3 extends LinearOpMode {
                     if (waitingTimer.milliseconds() > 400) {
                         intake.setIntakePosition(intake.intakeCenterPosition);
                         robotState = RobotState.IDLE;
+                        controllers.deliveryKey = '\0';
                     }
                     break;
             }

@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.PTO;
 import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 
-public class Controllers {
+public class Controllers_V1 {
 
-    private final CenterStage_Meet3 teleOp;
+    private final CenterStage_Meet3_V1 teleOp;
     private final Intake intake;
     private final Delivery delivery;
     private final V4Bar v4Bar;
@@ -24,8 +24,8 @@ public class Controllers {
     private final Gamepad previousGamepad2 = new Gamepad();
 
 
-    public Controllers(CenterStage_Meet3 teleOp, Intake intake, Delivery delivery,
-                       V4Bar v4Bar, Claw claw, PTO pto) {
+    public Controllers_V1(CenterStage_Meet3_V1 teleOp, Intake intake, Delivery delivery,
+                          V4Bar v4Bar, Claw claw, PTO pto) {
         this.teleOp = teleOp;
         this.intake = intake;
         this.delivery = delivery;
@@ -39,6 +39,8 @@ public class Controllers {
             {375, 0.73, 0.61, 160},
             {510, 0.73, 0.63, 318},
     };
+
+    public char deliveryKey = '\0';
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
         previousGamepad1.copy(currentGamepad1);
@@ -149,34 +151,28 @@ public class Controllers {
         if (currentGamepad1.a && !previousGamepad1.a) {
             intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.DELIVERY_START);
-            delivery.slideRunToPosition_Encoder((int) target[0][0], delivery.slideRunHighVelocity);
-            v4Bar.setV4BarPosition(target[0][1]);
-            claw.setClawAnglePosition(target[0][2]);
-            delivery.slideAngleRunToPosition((int)target[0][3]);
+            deliveryKey = 'a';
         }
 
         if (currentGamepad1.x && !previousGamepad1.x) {
             intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.DELIVERY_START);
-            delivery.slideRunToPosition_Encoder((int) target[1][0], delivery.slideRunHighVelocity);
-            v4Bar.setV4BarPosition(target[1][1]);
-            claw.setClawAnglePosition(target[1][2]);
-            delivery.slideAngleRunToPosition((int)target[1][3]);
+            deliveryKey = 'x';
         }
 
         if (currentGamepad1.y && !previousGamepad1.y) {
             intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.DELIVERY_START);
-            delivery.slideRunToPosition_Encoder((int) target[2][0], delivery.slideRunHighVelocity);
-            v4Bar.setV4BarPosition(target[2][1]);
-            claw.setClawAnglePosition(target[2][2]);
-            delivery.slideAngleRunToPosition((int)target[2][3]);
+            deliveryKey = 'y';
         }
 
-        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)
+        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
             delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
-
-        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down)
+            deliveryKey = '\0';
+        }
+        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down) {
             delivery.slideRunToPositionManual_Encoder(-delivery.slideIncreaseManual);
+            deliveryKey = '\0';
+        }
     }
 }
