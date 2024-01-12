@@ -35,9 +35,9 @@ public class Controllers {
     }
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
-            {200, 0.77, 0.50, 100},
-            {350, 0.77, 0.50, 200},
-            {550, 0.77, 0.50, 300},
+            {375, 0.76, 0.57, 0},
+            {375, 0.73, 0.61, 160},
+            {510, 0.73, 0.63, 318},
     };
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
@@ -56,14 +56,14 @@ public class Controllers {
         }
 
 //--------------  Intake Keys ------------------------------------------------------
-        if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper) {
+        if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
             claw.openBothClaw();
             intake.intakeStart();
-            intake.setIntakePosition(intake.intakeSafePosition);
+            intake.setIntakePosition(intake.intakeDownPosition);
             teleOp.setRobotState(RobotState.INTAKE_START);
         }
 
-        if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
+        if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper) {
             claw.closeBothClaw();
             intake.intakeBackSpin();
             teleOp.setRobotState(RobotState.INTAKE_BACKSPIN);
@@ -92,6 +92,10 @@ public class Controllers {
 
         if (currentGamepad2.b && !previousGamepad2.b) {
             intake.intakeBackSpin();
+        }
+        if (currentGamepad2.x && !previousGamepad2.x) {
+            intake.intakeStop();
+            delivery.resetMotor();
         }
 
         if (currentGamepad2.y && !previousGamepad2.y) {
