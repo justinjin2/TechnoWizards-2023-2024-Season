@@ -117,27 +117,33 @@ public class Controllers_V1 {
         if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {
             delivery.setSlideAngleStep(delivery.slideAngleStep);
             claw.setClawAngleToHeight(claw.clawAngleToHeight);
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper) {
             delivery.setSlideAngleStep(-delivery.slideAngleStep);
             claw.setClawAngleToHeight(-claw.clawAngleToHeight);
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.back && !previousGamepad1.back) {
             v4Bar.setV4BarStepDown();
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.start && !previousGamepad1.start) {
             v4Bar.setV4BarStepUp();
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.dpad_left && !previousGamepad1.dpad_left) {
             claw.setClawRotationUp();
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.dpad_right && !previousGamepad1.dpad_right) {
             claw.setClawRotationDown();
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.b && !previousGamepad1.b) {
@@ -146,6 +152,7 @@ public class Controllers_V1 {
             delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideReturnVelocity);
             v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
             claw.setClawAnglePosition(claw.clawAngleIntake);
+            deliveryKey = '\0';
         }
 
         if (currentGamepad1.a && !previousGamepad1.a) {

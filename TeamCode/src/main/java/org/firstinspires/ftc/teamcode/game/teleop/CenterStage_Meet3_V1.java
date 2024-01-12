@@ -234,6 +234,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                     if (waitingTimer.milliseconds() > 400) {
                         intake.setIntakePosition(intake.intakeCenterPosition);
                         robotState = RobotState.IDLE;
+                        delivery.resetMotor();
                         controllers.deliveryKey = '\0';
                     }
                     break;
