@@ -17,6 +17,7 @@ public class Delivery {
     ElapsedTime deliveryTimeout;
 
     DcMotorEx slideRotation;
+    public ServoImplEx droneLauncher;
     public DigitalChannel redLED;
     public DigitalChannel greenLED;
     PTO pto = new PTO();
@@ -35,6 +36,9 @@ public class Delivery {
     public int slideAngleMaxUp = 480;
     public int slideAngleMaxDown = 0;
     public int slideAngleStep = 80;
+
+    public double droneInit = 0.5;
+    public double droneLaunch = 0.7;
 
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;
@@ -59,12 +63,16 @@ public class Delivery {
         slideRotation.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        droneLauncher = hwmap.get(ServoImplEx.class, "droneLauncher");
+
         redLED = hwmap.get(DigitalChannel.class, "redLED");
         greenLED = hwmap.get(DigitalChannel.class, "greenLED");
 
         pto.init(hwmap);
         v4Bar.init(hwmap);
         claw.init(hwmap);
+
+        droneLauncher.setPosition(droneInit);
     }
 
     public void slideRunToTarget_PID(double position) {
@@ -172,6 +180,10 @@ public class Delivery {
         pto.motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         pto.motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+    public void droneInit() { droneLauncher.setPosition(droneInit); }
+
+    public void droneLaunch() {droneLauncher.setPosition(droneLaunch);}
 
     public int getMotor1Position() {
         return pto.motor1.getCurrentPosition();

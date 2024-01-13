@@ -108,6 +108,10 @@ public class Controllers_V1 {
             claw.closeBothClaw();
         }
 
+        if (currentGamepad2.right_trigger > 0) {
+            delivery.droneLaunch();
+        }
+
 //-------------- Delivery Keys -----------------------------------------------------
         if (currentGamepad1.left_trigger > 0) {
             claw.openBothClaw();
