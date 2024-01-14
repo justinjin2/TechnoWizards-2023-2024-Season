@@ -12,6 +12,7 @@ public class V4Bar {
     public double v4BarStep = 0.01;
 
     public double v4BarIntake = 0.27;
+    public double v4BarParker = 0.35;
     public double v4BarDeliveryStage1 = 0.29;
     public double v4BarDeliveryStage2 = 0.84;
 

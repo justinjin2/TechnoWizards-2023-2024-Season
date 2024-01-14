@@ -184,8 +184,8 @@ public class CenterStage_Meet3 extends LinearOpMode {
                     }
                     break;
                 case SLIDE_DOWN:
-                    if (((Math.abs(delivery.getMotor1Position()) - 180) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 180 < 0))
+                    if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
+                            (Math.abs(delivery.getMotor2Position()) - 250 < 0))
                     {
                         v4Bar.setV4BarPosition(v4Bar.v4BarCenterPosition);
                         claw.setClawAnglePosition(claw.clawAngleIntake);

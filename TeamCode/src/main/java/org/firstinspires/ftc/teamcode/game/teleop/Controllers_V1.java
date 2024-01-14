@@ -35,7 +35,7 @@ public class Controllers_V1 {
     }
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
-            {375, 0.76, 0.57, 0},
+            {375, 0.76, 0.53, 0},
             {375, 0.73, 0.61, 160},
             {510, 0.73, 0.63, 318},
     };
@@ -61,7 +61,7 @@ public class Controllers_V1 {
         if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
             claw.openBothClaw();
             intake.intakeStart();
-            intake.setIntakePosition(intake.intakeDownPosition);
+            intake.setIntakePosition(intake.intakeSafePosition);
             teleOp.setRobotState(RobotState.INTAKE_START);
         }
 
@@ -89,7 +89,7 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad2.start && !previousGamepad2.start) {
-            intake.setIntakePositionStep(intake.intakeStepUp);
+            delivery.droneLaunch();
         }
 
         if (currentGamepad2.b && !previousGamepad2.b) {
@@ -108,9 +108,9 @@ public class Controllers_V1 {
             claw.closeBothClaw();
         }
 
-        if (currentGamepad2.right_trigger > 0) {
-            delivery.droneLaunch();
-        }
+//        if (currentGamepad2.right_trigger > 0) {
+//            delivery.droneLaunch();
+//        }
 
 //-------------- Delivery Keys -----------------------------------------------------
         if (currentGamepad1.left_trigger > 0) {
