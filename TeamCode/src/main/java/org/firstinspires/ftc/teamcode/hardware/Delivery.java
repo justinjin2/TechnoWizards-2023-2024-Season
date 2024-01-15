@@ -38,7 +38,7 @@ public class Delivery {
     public int slideAngleStep = 80;
 
     public double droneInit = 0.5;
-    public double droneLaunch = 0.7;
+    public double droneLaunch = 1.0;
 
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;
