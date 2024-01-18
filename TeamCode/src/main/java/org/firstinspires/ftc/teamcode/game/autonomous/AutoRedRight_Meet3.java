@@ -79,7 +79,7 @@ public class AutoRedRight_Meet3 extends Auto {
                     }
                     break;
                 case CLAW_OPEN:
-                    if (((Math.abs(delivery.getMotor2Position()) + 15) > Auto.SLIDE_POSITION_TWO) ||
+                    if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto.SLIDE_POSITION_TWO) ||
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto.SLIDE_POSITION_TWO) ||
                             (generalTimer.milliseconds() > 1000)) {
                         claw.openBothClaw();
@@ -88,22 +88,40 @@ public class AutoRedRight_Meet3 extends Auto {
                     }
                     break;
                 case SLIDE_DOWN:
-                    if (clawOpenTimer.milliseconds() > Auto.CLAW_OPEN_TIME){
+                    if (clawOpenTimer.milliseconds() > Auto.CLAW_OPEN_TIME) {
                         delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
-                        robotState = RobotState.CLAW_ANGLE_INTAKE;
+                        robotState = RobotState.SLIDE_DOWN_HALF;
                     }
                     break;
-                case CLAW_ANGLE_INTAKE:
-                    if (((Math.abs(delivery.getMotor2Position()) - 150) < delivery.slideStart) ||
-                            (Math.abs(delivery.getMotor2Position()) - 150 < delivery.slideStart)) {
-                        claw.setClawAnglePosition(claw.clawAngleIntake);
-                        robotState = RobotState.V4BAR_DOWN;
+                case SLIDE_DOWN_HALF:
+                    if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
+                            (Math.abs(delivery.getMotor2Position()) - 250 < 0)) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+                        delivery.slideAngleRunToPosition(delivery.slideStart);
+                        robotState = RobotState.SLIDE_ANGLE_DOWN;
                     }
                     break;
-                case V4BAR_DOWN:
-                    if (((Math.abs(delivery.getMotor2Position()) - 5) > delivery.slideStart) ||
-                            (Math.abs(delivery.getMotor2Position()) - 5 > delivery.slideStart)) {
+                case SLIDE_ANGLE_DOWN: //slide angle has to be down first
+                    if (((Math.abs(delivery.getSlideAnglePosition()) - 15) < 0) &&
+                            (((Math.abs(delivery.getMotor1Position()) - 5) < 0) ||
+                                    (Math.abs(delivery.getMotor2Position()) - 5 < 0))) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+                        robotState = RobotState.V4BAR_DOWN_MIDDLE;
+                        generalTimer.reset();
+                    }
+                    break;
+                case V4BAR_DOWN_MIDDLE:
+                    if (generalTimer.milliseconds() > 300) {
+                        intake.setIntakePosition(intake.intakeInitPosition);
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+                        claw.setClawAnglePosition(claw.clawAngleIntake);
+                        robotState = RobotState.DELIVERY_DONE;
+                        generalTimer.reset();
+                    }
+                    break;
+                case DELIVERY_DONE:
+                    if (generalTimer.milliseconds() > 100) {
                         Pose2d currentPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(currentPose)
                                 .lineToConstantHeading(new Vector2d(48, -12))
@@ -112,7 +130,6 @@ public class AutoRedRight_Meet3 extends Auto {
                         robotState = RobotState.IDLE;
                     }
                     break;
-
             }
 
             telemetry.addData("loop timer", loopTimer.milliseconds());

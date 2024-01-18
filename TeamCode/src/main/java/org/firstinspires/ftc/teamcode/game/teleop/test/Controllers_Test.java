@@ -88,11 +88,11 @@ public class Controllers_Test {
         //}
 
         if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left) {
-            claw.setTestServoUP();
+            claw.closeLeftClaw();
         }
 
         if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right) {
-            claw.setTestServoDown();
+            claw.closeRightClaw();
         }
 
         if (currentGamepad2.start && !previousGamepad2.start) {

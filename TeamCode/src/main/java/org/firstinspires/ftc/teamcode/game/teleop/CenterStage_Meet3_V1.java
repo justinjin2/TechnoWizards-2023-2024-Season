@@ -31,6 +31,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
     ElapsedTime v4BarUpTimer;
     ElapsedTime clawAngleTimer;
     ElapsedTime clawOpenTimer;
+    ElapsedTime clawCloseTimer;
 
     private double driveSpeedRatio = 1.0;
     private RobotState robotState = RobotState.IDLE;
@@ -77,6 +78,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
         v4BarUpTimer = new ElapsedTime();
         clawAngleTimer = new ElapsedTime();
         clawOpenTimer = new ElapsedTime();
+        clawCloseTimer = new ElapsedTime();
 
         telemetry.update();
 
@@ -117,16 +119,24 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
 
             switch (robotState) {
                 case INTAKE_START:
-                    /*
-                    if (intake.getLeftPixelSensor()) claw.closeLeftClaw();
-                    if (intake.getRightPixelSensor()) claw.closeRightClaw();
-                    if (intake.getLeftPixelSensor() && intake.getRightPixelSensor()) {
-                        robotState = RobotState.INTAKE_STOP;
+                    if (intake.getLeftPixelSensor() < intake.pixelDetectDistance) claw.closeLeftClaw();
+                    if (intake.getRightPixelSensor() < intake.pixelDetectDistance) claw.closeRightClaw();
+                    //if (claw.getLeftClawSensor() && claw.getRightClawSensor()) {
+                    //    robotState = RobotState.CLAW_CLOSE;
+                    //}
+
+                    if ((intake.getLeftPixelSensor() < intake.pixelDetectDistance) &&
+                            (intake.getRightPixelSensor() < intake.pixelDetectDistance)) {
+                        robotState = RobotState.CLAW_CLOSE;
+                    }
+                    clawCloseTimer.reset();
+                    break;
+                case CLAW_CLOSE:
+                    if (clawCloseTimer.milliseconds() > claw.clawCloseTime) {
+                        robotState = RobotState.INTAKE_BACKSPIN;
+                        intake.intakeBackSpin();
                         intakeBackSpinTimer.reset();
                     }
-                    */
-                    intakeBackSpinTimer.reset();
-                    break;
                 case INTAKE_BACKSPIN:       //this also wait for claw close
                     if (intakeBackSpinTimer.milliseconds() > intake.backSpinTime) {
                         robotState = RobotState.INTAKE_STOP;
@@ -215,24 +225,31 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                     if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
                             (Math.abs(delivery.getMotor2Position()) - 250 < 0))
                     {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarParker);
-                        claw.setClawAnglePosition(claw.clawAngleIntake);
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideStart);
-                        //waitingTimer.reset();
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
                     if (((Math.abs(delivery.getSlideAnglePosition()) - 15) < 0) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 15) < 0) ||
+                            (((Math.abs(delivery.getMotor1Position()) - 5) < 0) ||
                             (Math.abs(delivery.getMotor2Position()) - 5 < 0))) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+                        robotState = RobotState.V4BAR_DOWN_MIDDLE;
+                        waitingTimer.reset();
+                    }
+                    break;
+                case V4BAR_DOWN_MIDDLE:
+                    if (waitingTimer.milliseconds() > 300) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+                        claw.setClawAnglePosition(claw.clawAngleIntake);
                         robotState = RobotState.DELIVERY_DONE;
                         waitingTimer.reset();
                     }
                     break;
                 case DELIVERY_DONE:
-                    if (waitingTimer.milliseconds() > 400) {
+                    if (waitingTimer.milliseconds() > 200) {
                         intake.setIntakePosition(intake.intakeCenterPosition);
                         robotState = RobotState.IDLE;
                         delivery.resetMotor();

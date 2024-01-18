@@ -35,9 +35,9 @@ public class Controllers_V1 {
     }
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
-            {375, 0.76, 0.53, 0},
-            {375, 0.73, 0.61, 160},
-            {510, 0.73, 0.63, 318},
+            {375, 0.76, 0.54, 0},
+            {375, 0.73, 0.64, 160},
+            {510, 0.73, 0.67, 318},
     };
 
     public char deliveryKey = '\0';

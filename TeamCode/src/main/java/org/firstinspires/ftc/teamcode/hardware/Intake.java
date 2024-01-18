@@ -2,21 +2,27 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit.AMPS;
 
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Intake {
 
     ServoImplEx intakeRotation;
-    private  DigitalChannel leftPixelSensor, rightPixelSensor;
+    private ColorRangeSensor leftPixelSensor, rightPixelSensor;
     PTO pto = new PTO();
     V4Bar v4Bar = new V4Bar();
     Claw claw = new Claw();
 
     double intakePower = 1.0;
+
+    public int pixelDetectDistance = 9;
 
     public double intakeInitPosition = 0.55;
     public double intakeCenterPosition = 0.5;
@@ -25,15 +31,15 @@ public class Intake {
     public double intakeStepDown= -0.01;
 
     public double intakeSafePosition = 0.4;
-    public double the5Pixel = 0.33;
-    public double theNextPixel = -0.02;
+    public double the5Pixel = 0.32;
+    public double theNextPixel = -0.015;
 
-    public int backSpinTime = 500;
+    public int backSpinTime = 800;
 
     public void init(HardwareMap hwmap) {
         intakeRotation = hwmap.get(ServoImplEx.class, "intakeRotation");
-        leftPixelSensor = hwmap.get(DigitalChannel.class, "leftPixelSensor");
-        rightPixelSensor = hwmap.get(DigitalChannel.class, "rightPixelSensor");
+        leftPixelSensor = hwmap.get(ColorRangeSensor.class, "leftPixelSensor");
+        rightPixelSensor = hwmap.get(ColorRangeSensor.class, "rightPixelSensor");
         pto.init(hwmap);
         v4Bar.init(hwmap);
         claw.init(hwmap);
@@ -84,7 +90,7 @@ public class Intake {
 
     public double getMotor2Current() { return pto.motor2.getCurrent(AMPS);}
 
-    public boolean getLeftPixelSensor() { return !leftPixelSensor.getState(); }
+    public double getLeftPixelSensor() { return leftPixelSensor.getDistance(DistanceUnit.MM); }
 
-    public boolean getRightPixelSensor() { return !rightPixelSensor.getState(); }
+    public double getRightPixelSensor() { return rightPixelSensor.getDistance(DistanceUnit.MM); }
 }

@@ -49,7 +49,7 @@ public abstract class Auto extends LinearOpMode {
     public static int SLIDE_POSITION_ONE = 200;
     public static int SLIDE_POSITION_TWO = 410;
     public static double V4BAR_DELIVERY = 0.82;
-    public static double CLAW_DELIVERY = 0.46;
+    public static double CLAW_DELIVERY = 0.41;
 
     /**ion of the prop after we start the game, to retrieve that value
      * when getting the robot's trajectory
