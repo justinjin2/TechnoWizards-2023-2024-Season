@@ -72,18 +72,16 @@ public class Controllers_V1 {
             teleOp.setRobotState(RobotState.INTAKE_BACKSPIN);
         }
 
-//        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
-//            intake.setIntakePosition(intake.intakeSafePosition);
-//            claw.setClawAnglePosition(claw.clawAngleIntake);
-//            claw.openBothClaw();
-//        }
-//
-//        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
-//            intake.setIntakePosition(intake.intakeSafePosition);
-//            claw.setClawAnglePosition(claw.clawAngleIntake);
-//            claw.openBothClaw();
-//            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-//        }
+        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
+            claw.openBothClaw();
+            intake.intakeStart();
+            intake.setIntakePosition(intake.the5Pixel);
+            teleOp.setRobotState(RobotState.INTAKE_START);
+        }
+
+        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
+            intake.setIntakePositionStep(intake.theNextPixel);
+        }
 
         if (currentGamepad2.back && !previousGamepad2.back) {
             intake.setIntakePositionStep(intake.intakeStepDown);

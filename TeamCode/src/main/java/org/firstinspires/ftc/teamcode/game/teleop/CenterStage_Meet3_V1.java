@@ -130,12 +130,12 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                         robotState = RobotState.CLAW_CLOSE;
                     }
                     clawCloseTimer.reset();
+                    intakeBackSpinTimer.reset();
                     break;
                 case CLAW_CLOSE:
                     if (clawCloseTimer.milliseconds() > claw.clawCloseTime) {
                         robotState = RobotState.INTAKE_BACKSPIN;
                         intake.intakeBackSpin();
-                        intakeBackSpinTimer.reset();
                     }
                 case INTAKE_BACKSPIN:       //this also wait for claw close
                     if (intakeBackSpinTimer.milliseconds() > intake.backSpinTime) {
