@@ -65,13 +65,13 @@ public class Controllers_Test {
         if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
             intake.intakeStart();
             claw.openBothClaw();
-            //intake.setIntakePosition(intake.intakeDownPosition);
+            intake.setIntakePosition(intake.the5Pixel);
         }
 
         if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper) {
             intake.intakeStop();
-            //intake.setIntakePosition(intake.intakeCenterPosition);
-            //claw.closeBothClaw();
+            intake.setIntakePosition(intake.intakeCenterPosition);
+            claw.closeBothClaw();
             delivery.resetMotor();
         }
 

@@ -112,7 +112,7 @@ public class AutoRedRight_Meet3 extends Auto {
                     }
                     break;
                 case V4BAR_DOWN_MIDDLE:
-                    if (generalTimer.milliseconds() > 300) {
+                    if (generalTimer.milliseconds() > 250) {
                         intake.setIntakePosition(intake.intakeInitPosition);
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                         claw.setClawAnglePosition(claw.clawAngleIntake);

@@ -227,21 +227,21 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                     {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
-                        delivery.slideAngleRunToPosition(delivery.slideStart);
+                        delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
-                    if (((Math.abs(delivery.getSlideAnglePosition()) - 15) < 0) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 5) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 5 < 0))) {
+                    if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
+                            (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
+                            (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         waitingTimer.reset();
                     }
                     break;
                 case V4BAR_DOWN_MIDDLE:
-                    if (waitingTimer.milliseconds() > 300) {
+                    if (waitingTimer.milliseconds() > 250) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                         claw.setClawAnglePosition(claw.clawAngleIntake);
                         robotState = RobotState.DELIVERY_DONE;
