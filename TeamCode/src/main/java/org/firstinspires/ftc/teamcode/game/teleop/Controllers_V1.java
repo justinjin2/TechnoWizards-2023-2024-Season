@@ -36,11 +36,12 @@ public class Controllers_V1 {
 
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
             {375, 0.76, 0.54, 0},
-            {375, 0.73, 0.64, 160},
-            {510, 0.73, 0.67, 318},
+            {375, 0.73, 0.64, 300},
+            {510, 0.73, 0.67, 600},
     };
 
     public char deliveryKey = '\0';
+    int clawOpenCount = 0;
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
         previousGamepad1.copy(currentGamepad1);
@@ -112,8 +113,9 @@ public class Controllers_V1 {
 //        }
 
 //-------------- Delivery Keys -----------------------------------------------------
-        if (currentGamepad1.left_trigger > 0) {
+        if ((currentGamepad1.left_trigger > 0) || (clawOpenCount == 2)) {
             claw.openBothClaw();
+            clawOpenCount = 0;
             teleOp.setRobotState(RobotState.CLAW_OPEN);
         }
 
@@ -140,12 +142,14 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad1.dpad_left && !previousGamepad1.dpad_left) {
-            claw.setClawRotationUp();
+            claw.openLeftClaw();
+            clawOpenCount++;
             deliveryKey = '\0';
         }
 
         if (currentGamepad1.dpad_right && !previousGamepad1.dpad_right) {
-            claw.setClawRotationDown();
+            claw.openRightClaw();
+            clawOpenCount++;
             deliveryKey = '\0';
         }
 

@@ -22,7 +22,8 @@ public class Intake {
 
     double intakePower = 1.0;
 
-    public int pixelDetectDistance = 9;
+    public int leftPixelDetectDistance = 8;
+    public int rightPixelDetectDistance = 12;
 
     public double intakeInitPosition = 0.55;
     public double intakeCenterPosition = 0.5;

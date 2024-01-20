@@ -13,8 +13,9 @@ public class V4Bar {
 
     public double v4BarIntake = 0.265;
     public double v4BarDownStage1 = 0.35;
-    public double v4BarDownStage2 = 0.30;
-    public double v4BarDeliveryStage1 = 0.30;
+    public double v4BarDownStage2 = 0.28;
+
+    public double v4BarDeliveryStage1 = 0.295;
     public double v4BarDeliveryStage2 = 0.84;
 
     public int v4BarUpStage1Time = 100;
