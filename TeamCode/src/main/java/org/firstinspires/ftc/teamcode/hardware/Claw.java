@@ -14,12 +14,12 @@ public class Claw {
     public ServoImplEx testServo;
 
     public double clawOpenTime = 350;
-    public double clawCloseTime = 150;
+    public double clawCloseTime = 200;
 
     public double leftClawOpenPosition = 1.0;
     public double rightClawOpenPosition = 1.0;
-    public double leftClawClosePosition = 0.32;
-    public double rightClawClosePosition = 0.34;
+    public double leftClawClosePosition = 0.31;
+    public double rightClawClosePosition = 0.335;
     public double clawAngleCenter = 0.5;
 
     public double clawAngleIntake = 0.20;

@@ -128,6 +128,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                     if ((intake.getLeftPixelSensor() < intake.leftPixelDetectDistance) &&
                             (intake.getRightPixelSensor() < intake.rightPixelDetectDistance)) {
                         robotState = RobotState.CLAW_CLOSE;
+                        claw.closeBothClaw();
                     }
                     clawCloseTimer.reset();
                     intakeBackSpinTimer.reset();
