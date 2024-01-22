@@ -43,6 +43,9 @@ public class Controllers_V1 {
     public char deliveryKey = '\0';
     int clawOpenCount = 0;
 
+    boolean droneLaunched = false;
+    boolean hanging = false;
+
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
         previousGamepad1.copy(currentGamepad1);
         previousGamepad2.copy(currentGamepad2);
@@ -53,7 +56,7 @@ public class Controllers_V1 {
     public void readInputs(Gamepad gamepad1, Gamepad gamepad2) {
 
         if (gamepad1.right_trigger > 0) {
-            teleOp.setDriveSpeedRatio(0.35);
+            teleOp.setDriveSpeedRatio(0.5);
         } else {
             teleOp.setDriveSpeedRatio(1.0);
         }
@@ -85,11 +88,13 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad2.back && !previousGamepad2.back) {
-            intake.setIntakePositionStep(intake.intakeStepDown);
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+            hanging = true;
         }
 
         if (currentGamepad2.start && !previousGamepad2.start) {
             delivery.droneLaunch();
+            droneLaunched = true;
         }
 
         if (currentGamepad2.b && !previousGamepad2.b) {
@@ -132,13 +137,14 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad1.back && !previousGamepad1.back) {
-            v4Bar.setV4BarStepDown();
-            deliveryKey = '\0';
+            v4Bar.setV4BarPosition(v4Bar.getV4BarHangerPosition);
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+            hanging = true;
         }
 
         if (currentGamepad1.start && !previousGamepad1.start) {
-            v4Bar.setV4BarStepUp();
-            deliveryKey = '\0';
+            delivery.droneLaunch();
+            droneLaunched = true;
         }
 
         if (currentGamepad1.dpad_left && !previousGamepad1.dpad_left) {
@@ -156,9 +162,8 @@ public class Controllers_V1 {
         if (currentGamepad1.b && !previousGamepad1.b) {
             intake.setIntakePosition(intake.intakeSafePosition);
             delivery.slideAngleRunToPosition((delivery.slideAngleMaxDown));
-            delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideReturnVelocity);
-            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-            claw.setClawAnglePosition(claw.clawAngleIntake);
+            delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
+            teleOp.setRobotState(RobotState.SLIDE_DOWN);
             deliveryKey = '\0';
         }
 
@@ -181,7 +186,9 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
-            delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
+            droneLaunched = false;
+            intake.setIntakePosition(intake.intakeSafePosition);
+            teleOp.setRobotState(RobotState.DRONE_HANGER_START);
             deliveryKey = '\0';
         }
         if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down) {

@@ -28,6 +28,7 @@ public class Intake {
     public double intakeInitPosition = 0.55;
     public double intakeCenterPosition = 0.5;
     public double intakeDownPosition = 0.27;
+    public double intakeHangerPosition = 0.29;
     public double intakeStepUp = 0.01;
     public double intakeStepDown= -0.01;
 
@@ -35,7 +36,7 @@ public class Intake {
     public double the5Pixel = 0.32;
     public double theNextPixel = -0.015;
 
-    public int backSpinTime = 1800;
+    public int backSpinTime = 1000;
 
     public void init(HardwareMap hwmap) {
         intakeRotation = hwmap.get(ServoImplEx.class, "intakeRotation");

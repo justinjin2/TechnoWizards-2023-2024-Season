@@ -32,6 +32,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
     ElapsedTime clawAngleTimer;
     ElapsedTime clawOpenTimer;
     ElapsedTime clawCloseTimer;
+    ElapsedTime droneLaunchTimer;
 
     private double driveSpeedRatio = 1.0;
     private RobotState robotState = RobotState.IDLE;
@@ -79,6 +80,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
         clawAngleTimer = new ElapsedTime();
         clawOpenTimer = new ElapsedTime();
         clawCloseTimer = new ElapsedTime();
+        droneLaunchTimer = new ElapsedTime();
 
         telemetry.update();
 
@@ -255,6 +257,66 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                         robotState = RobotState.IDLE;
                         delivery.resetMotor();
                         controllers.deliveryKey = '\0';
+                    }
+                    break;
+            }
+
+            // ----------------------------------------- //
+            // ---------- DRONE HANGER FSM START ----------- //
+            // ----------------------------------------- //
+
+            switch (robotState) {
+
+                case DRONE_HANGER_START:
+                    robotState = RobotState.DH_V4BAR_UP_STAGE1;
+                    waitingTimer.reset(); //waiting intake bar go to safe position
+                    break;
+                case DH_V4BAR_UP_STAGE1:
+                    if (waitingTimer.milliseconds() > 200) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
+                        robotState = RobotState.DH_CLAW_ANGLE_STAGE1;
+                        clawAngleTimer.reset();
+                    }
+                    break;
+                case DH_CLAW_ANGLE_STAGE1:
+                    if (clawAngleTimer.milliseconds() > claw.clawAngleStage1Time) {
+                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
+                        robotState = RobotState.DH_V4BAR_UP_STAGE2;
+                        waitingTimer.reset();
+                    }
+                    break;
+                case DH_V4BAR_UP_STAGE2:
+                    if (waitingTimer.milliseconds() > 200) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
+                        robotState = RobotState.DH_CLAW_ANGLE_STAGE2;
+                        v4BarUpTimer.reset();
+                    }
+                    break;
+                case DH_CLAW_ANGLE_STAGE2:
+                    if (waitingTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
+                        delivery.slideRunToPosition_Encoder(delivery.slideMaxExtend, delivery.slideRunHighVelocity);
+                        delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
+                        robotState = RobotState.DH_SLIDE_UP;
+                    }
+                    break;
+                case DH_SLIDE_UP:
+                    if (controllers.droneLaunched) {
+                        droneLaunchTimer.reset();
+                        robotState = RobotState.HANGING_START;
+                    }
+                    break;
+                case HANGING_START:
+                    if (droneLaunchTimer.milliseconds() > 500) {
+                        intake.setIntakePosition(intake.intakeHangerPosition);
+                        delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
+                        delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
+                        v4Bar.setV4BarPosition(v4Bar.v4BarHangerReadyPosition);
+                        robotState = RobotState.HANGING_READY;
+                    }
+                    break;
+                case HANGING_READY:
+                    if (controllers.hanging) {
+                        robotState = RobotState.IDLE;
                     }
                     break;
             }
