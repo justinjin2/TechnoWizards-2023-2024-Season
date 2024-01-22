@@ -71,16 +71,16 @@ public class AutoRedRight_Meet3 extends Auto {
 
             switch (robotState) {
                 case DELIVERY_START:
-                    if (((Math.abs(delivery.getMotor1Position()) + 5) > Auto.SLIDE_POSITION_ONE) ||
-                            (Math.abs(delivery.getMotor2Position()) + 5 > Auto.SLIDE_POSITION_ONE)) {
+                    if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto.SLIDE_POSITION_ONE) ||
+                            (Math.abs(delivery.getMotor2Position()) + 15 > Auto.SLIDE_POSITION_ONE)) {
                         delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                         generalTimer.reset();
                         robotState = RobotState.CLAW_OPEN;
                     }
                     break;
                 case CLAW_OPEN:
-                    if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto.SLIDE_POSITION_TWO) ||
-                            (Math.abs(delivery.getMotor2Position()) + 15 > Auto.SLIDE_POSITION_TWO) ||
+                    if (((Math.abs(delivery.getMotor1Position()) + 5) > Auto.SLIDE_POSITION_TWO) ||
+                            (Math.abs(delivery.getMotor2Position()) + 5 > Auto.SLIDE_POSITION_TWO) ||
                             (generalTimer.milliseconds() > 1000)) {
                         claw.openBothClaw();
                         robotState = RobotState.SLIDE_DOWN;

@@ -46,7 +46,7 @@ public class Trajectories {
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
                     .lineTo(new Vector2d(12, 41))
-                    .lineToLinearHeading(new Pose2d(38, 35.7,Math.toRadians(190)))
+                    .lineToLinearHeading(new Pose2d(38, 35,Math.toRadians(180)))
                         .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
@@ -61,7 +61,7 @@ public class Trajectories {
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
-                    .lineToLinearHeading(new Pose2d(38, 44.7,Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
                     .build();
         }
         else {
@@ -78,7 +78,7 @@ public class Trajectories {
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
                     .lineTo(new Vector2d(12, 43))
-                    .lineToLinearHeading(new Pose2d(38, 31, Math.toRadians(190)))
+                    .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
                     .build();
         }
 
@@ -101,7 +101,7 @@ public class Trajectories {
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
                     .lineTo(new Vector2d(12, -41))
-                    .lineToLinearHeading(new Pose2d(38, -37.5,Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(38, -35,Math.toRadians(180)))
                     .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
@@ -116,7 +116,7 @@ public class Trajectories {
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
-                    .lineToLinearHeading(new Pose2d(38, -44.7,Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(38, -42,Math.toRadians(180)))
                     .build();
         }
         else {
@@ -133,7 +133,7 @@ public class Trajectories {
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
                     .lineTo(new Vector2d(12, -43))
-                    .lineToLinearHeading(new Pose2d(38, -31, Math.toRadians(170)))
+                    .lineToLinearHeading(new Pose2d(38, -28, Math.toRadians(180)))
                     .build();
         }
 

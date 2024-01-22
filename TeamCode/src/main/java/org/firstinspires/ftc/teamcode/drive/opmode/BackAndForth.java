@@ -29,10 +29,10 @@ import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
  */
 @Config
 @Autonomous(group = "drive")
-@Disabled
+//@Disabled
 public class BackAndForth extends LinearOpMode {
 
-    public static double DISTANCE = 50;
+    public static double DISTANCE = 72;
 
     @Override
     public void runOpMode() throws InterruptedException {
