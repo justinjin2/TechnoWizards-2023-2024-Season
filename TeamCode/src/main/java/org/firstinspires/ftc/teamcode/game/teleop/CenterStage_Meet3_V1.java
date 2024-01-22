@@ -121,14 +121,16 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
 
             switch (robotState) {
                 case INTAKE_START:
-                    if (intake.getLeftPixelSensor() < intake.leftPixelDetectDistance) claw.closeLeftClaw();
-                    if (intake.getRightPixelSensor() < intake.rightPixelDetectDistance) claw.closeRightClaw();
+                    double leftDistance = intake.getLeftPixelSensor();
+                    double rightDistance = intake.getRightPixelSensor();
+                    if (leftDistance < intake.leftPixelDetectDistance) claw.closeLeftClaw();
+                    if (rightDistance < intake.rightPixelDetectDistance) claw.closeRightClaw();
                     //if (claw.getLeftClawSensor() && claw.getRightClawSensor()) {
                     //    robotState = RobotState.CLAW_CLOSE;
                     //}
 
-                    if ((intake.getLeftPixelSensor() < intake.leftPixelDetectDistance) &&
-                            (intake.getRightPixelSensor() < intake.rightPixelDetectDistance)) {
+                    if ((leftDistance < intake.leftPixelDetectDistance) &&
+                            (rightDistance < intake.rightPixelDetectDistance)) {
                         robotState = RobotState.CLAW_CLOSE;
                         claw.closeBothClaw();
                     }
@@ -333,7 +335,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
     }
 
     public void displayTelemetry(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, Claw claw) {
-        telemetry.addData("motor1 position", delivery.getMotor1Position());
+/*        telemetry.addData("motor1 position", delivery.getMotor1Position());
         telemetry.addData("motor2 position", delivery.getMotor2Position());
         telemetry.addData("slide angle position", delivery.getSlideAnglePosition());
         telemetry.addData("v4Bar left position", v4Bar.getV4BarLeftPosition());
@@ -347,7 +349,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
         telemetry.addData("left claw on", claw.getLeftClawSensor());
         telemetry.addData("right claw on", claw.getRightClawSensor());
         telemetry.addData("slide angle motor current", delivery.getSlideAngleMotorCurrent());
-        telemetry.addData("Loop Timer", loopTimer.milliseconds());
+*/        telemetry.addData("Loop Timer", loopTimer.milliseconds());
         telemetry.update();
     }
 
