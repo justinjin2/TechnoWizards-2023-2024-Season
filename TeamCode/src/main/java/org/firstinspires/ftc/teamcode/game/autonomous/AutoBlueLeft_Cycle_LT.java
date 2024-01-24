@@ -66,7 +66,6 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
 
         robotState = RobotState.DELIVERY_START;
 
-
         while (!isStopRequested() && opModeIsActive()) {
             loopTimer.reset();
 
@@ -75,6 +74,12 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
             // once a loop
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
+            }
+
+            if (getSecondsLeft() < 2) { //time to park
+                claw.openBothClaw();
+                robotState = RobotState.SLIDE_DOWN;
+                clawOpenTimer.reset();
             }
 
             switch (robotState) {
@@ -130,9 +135,12 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
                     break;
                 case DELIVERY_DONE:
                     if ((generalTimer.milliseconds() > 100) && (cycleCounter == 0)) {
+                        leftPixelOn = false;
+                        rightPixelOn = false;
+                        secondPixelTimeOut = false;
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
-                    if (cycleCounter > 0) {
+                    if ((cycleCounter > 0) || (getSecondsLeft() < 2)){
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
                                 .lineToConstantHeading(new Vector2d(48, 12))
@@ -228,8 +236,8 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
 
             telemetry.addData("loop timer", loopTimer.milliseconds());
             telemetry.addData("time left", getSecondsLeft());
-            telemetry.addData("motor1 current", intake.getMotor1Current());
-            telemetry.addData("motor2 current", intake.getMotor2Current());
+            //telemetry.addData("motor1 current", intake.getMotor1Current());
+            //telemetry.addData("motor2 current", intake.getMotor2Current());
             telemetry.update();
         }
 
