@@ -33,7 +33,7 @@ public class Intake {
     public double intakeStepDown= -0.01;
 
     public double intakeSafePosition = 0.4;
-    public double the5Pixel = 0.32;
+    public double the5Pixel = 0.315;
     public double theNextPixel = -0.015;
 
     public int backSpinTime = 1000;
@@ -50,7 +50,6 @@ public class Intake {
     public void setIntakeCenter() { intakeRotation.setPosition(intakeCenterPosition);}
 
     public void intakeStart() {
-
         resetMotor(); //clear encoder
         pto.motor1.setPower(intakePower);
         pto.motor2.setPower(-intakePower);

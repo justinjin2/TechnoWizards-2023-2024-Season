@@ -35,4 +35,6 @@ public enum RobotState {
     DH_SLIDE_UP,
     HANGING_READY,
     HANGING_START,
+    AUTO_CYCLE_START,
+    BACK_TO_DELIVERY,
 }
