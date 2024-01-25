@@ -58,8 +58,12 @@ public class Controllers_Test {
             intake.setIntakePosition(intake.the5Pixel);
         }
 
+        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
+            intake.setIntakePositionStep(intake.intakeStepUp);
+        }
+
         if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
-            intake.setIntakePositionStep(intake.theNextPixel);
+            intake.setIntakePositionStep(intake.intakeStepDown);
         }
 
         if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
@@ -73,10 +77,6 @@ public class Controllers_Test {
             intake.setIntakePosition(intake.intakeCenterPosition);
             claw.closeBothClaw();
             delivery.resetMotor();
-        }
-
-        if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
-            v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
         }
 
         if (currentGamepad2.x && !previousGamepad2.x) {

@@ -109,12 +109,14 @@ public class AutoBlueLeft_Meet3 extends Auto {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideStart);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
+                        v4BarDownTimer.reset();
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
-                    if (((Math.abs(delivery.getSlideAnglePosition()) - 15) < 0) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 5) < 0) ||
-                                    (Math.abs(delivery.getMotor2Position()) - 5 < 0))) {
+                    if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
+                            (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
+                            (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
+                                    (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         generalTimer.reset();

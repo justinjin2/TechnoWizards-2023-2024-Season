@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.vision.PropColor;
 import java.util.List;
 
 @Autonomous(group = "League Tournament")
-public class AutoBlueLeft_Cycle_LT extends Auto {
+public class AutoBlueLeft_Cycle22_LT extends Auto {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -113,12 +113,14 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideStart);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
+                        v4BarDownTimer.reset();
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
-                    if (((Math.abs(delivery.getSlideAnglePosition()) - 15) < 0) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 5) < 0) ||
-                                    (Math.abs(delivery.getMotor2Position()) - 5 < 0))) {
+                    if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
+                            (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
+                            (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
+                                    (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         generalTimer.reset();
@@ -155,7 +157,7 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineTo(new Vector2d(34, 15), Math.toRadians(180))
+                            .lineToLinearHeading(new Pose2d(36, 15, Math.toRadians(180)))
                             .splineTo(new Vector2d(-46, 15), Math.toRadians(180))
                             .addTemporalMarker(2.5, ()->{
                                 claw.openBothClaw();
@@ -225,7 +227,7 @@ public class AutoBlueLeft_Cycle_LT extends Auto {
                     if (!drive.isBusy()) {
                         Pose2d deliveryPose = drive.getPoseEstimate();
                         TrajectorySequence deliveryStart = drive.trajectorySequenceBuilder(deliveryPose)
-                                .lineToLinearHeading(new Pose2d(39, 30, Math.toRadians(180)))
+                                .lineToLinearHeading(new Pose2d(39, 32, Math.toRadians(180)))
                                 .build();
                         drive.followTrajectorySequence(deliveryStart);
                         cycleCounter++;

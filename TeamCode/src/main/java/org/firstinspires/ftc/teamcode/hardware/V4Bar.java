@@ -17,12 +17,12 @@ public class V4Bar {
     public double v4BarHangerReadyPosition = 0.40;
     public double getV4BarHangerPosition = 0.35;
 
-    public double v4BarDeliveryStage1 = 0.285;
+    public double v4BarDeliveryStage1 = 0.29;
     public double v4BarDeliveryStage2 = 0.84;
 
     public int v4BarUpStage1Time = 100;
     public int v4BarUpStage2Time = 300;
-    public int v4BarDownTime = 300;
+    public int v4BarDownTime = 400;
 
     public void init(HardwareMap hwmap) {
         v4BLeft = hwmap.get(ServoImplEx.class, "v4BLeft");

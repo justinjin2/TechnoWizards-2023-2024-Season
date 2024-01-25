@@ -29,6 +29,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
     ElapsedTime waitingTimer;
     ElapsedTime intakeBackSpinTimer;
     ElapsedTime v4BarUpTimer;
+    ElapsedTime v4BarDownTimer;
     ElapsedTime clawAngleTimer;
     ElapsedTime clawOpenTimer;
     ElapsedTime clawCloseTimer;
@@ -77,6 +78,7 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
         waitingTimer = new ElapsedTime();
         intakeBackSpinTimer = new ElapsedTime();
         v4BarUpTimer = new ElapsedTime();
+        v4BarDownTimer = new ElapsedTime();
         clawAngleTimer = new ElapsedTime();
         clawOpenTimer = new ElapsedTime();
         clawCloseTimer = new ElapsedTime();
@@ -234,10 +236,12 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
+                        v4BarDownTimer.reset();
                     }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
                     if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
+                            (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
                             (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
                             (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);

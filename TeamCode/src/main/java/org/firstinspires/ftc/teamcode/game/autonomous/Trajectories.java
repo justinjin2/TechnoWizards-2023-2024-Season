@@ -55,7 +55,7 @@ public class Trajectories {
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
-                    .lineTo(new Vector2d(24, 52))
+                    .lineTo(new Vector2d(26, 58))
                     .addTemporalMarker(2, ()->{
                         delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
@@ -110,7 +110,7 @@ public class Trajectories {
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
-                    .lineTo(new Vector2d(24, -52))
+                    .lineTo(new Vector2d(26, -58))
                     .addTemporalMarker(2, ()->{
                         delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
