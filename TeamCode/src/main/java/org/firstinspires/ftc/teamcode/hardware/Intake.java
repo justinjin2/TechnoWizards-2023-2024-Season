@@ -27,7 +27,7 @@ public class Intake {
 
     public double intakeInitPosition = 0.55;
     public double intakeCenterPosition = 0.5;
-    public double intakeDownPosition = 0.27;
+    public double intakeDownPosition = 0.26;
     public double intakeHangerPosition = 0.29;
     public double intakeStepUp = 0.01;
     public double intakeStepDown= -0.01;
