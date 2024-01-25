@@ -195,6 +195,7 @@ public class AutoBlueLeft_Cycle24_LT extends Auto {
 
                     if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) && (!secondPixelTimeOut)){
                         if (pixelCount == 0) intake.setIntakePositionStep(intake.theNextPixel);
+                        pixelCount = pixelCount + 1;
                         secondPixelTimeOut = true;
                     }
 

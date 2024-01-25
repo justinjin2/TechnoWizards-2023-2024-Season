@@ -43,6 +43,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
         boolean rightPixelOn = false;
         boolean secondPixelTimeOut = false;
         int cycleCounter = 0;
+        int pixelCount = 0;
 
         Pose2d startPose = new Pose2d(12, 64, Math.toRadians(90));
         drive.setPoseEstimate(startPose);
@@ -140,6 +141,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                         leftPixelOn = false;
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
+                        pixelCount = 0;
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
                     if ((cycleCounter > 0) || (getSecondsLeft() < 2)){
@@ -177,17 +179,20 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                     double rightDistance = intake.getRightPixelSensor();
                     if ((leftDistance < intake.leftPixelDetectDistance) && (!leftPixelOn)) {
                         claw.closeLeftClaw();
-                        intake.setIntakePositionStep(intake.theNextPixel);
+                        pixelCount = pixelCount + 1;
+                        if (pixelCount < 2) intake.setIntakePositionStep(intake.theNextPixel);
                         leftPixelOn = true;
                     }
                     if ((rightDistance < intake.rightPixelDetectDistance) && (!rightPixelOn)) {
                         claw.closeRightClaw();
-                        intake.setIntakePositionStep(intake.theNextPixel);
+                        pixelCount = pixelCount + 1;
+                        if (pixelCount < 2) intake.setIntakePositionStep(intake.theNextPixel);
                         rightPixelOn = true;
                     }
 
                     if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) && (!secondPixelTimeOut)){
-                        intake.setIntakePositionStep(intake.theNextPixel);
+                        if (pixelCount == 0) intake.setIntakePositionStep(intake.theNextPixel);
+                        pixelCount = pixelCount + 1;
                         secondPixelTimeOut = true;
                     }
 
