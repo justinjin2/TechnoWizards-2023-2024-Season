@@ -144,7 +144,7 @@ public class AutoBlueLeft_Cycle24_LT extends Auto {
                         pixelCount = 0;
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
-                    if ((cycleCounter > 1) || (getSecondsLeft() < 2)) {
+                    if ((cycleCounter > 1) || (getSecondsLeft() < 6)) {
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
                                 .lineToConstantHeading(new Vector2d(48, 12))
