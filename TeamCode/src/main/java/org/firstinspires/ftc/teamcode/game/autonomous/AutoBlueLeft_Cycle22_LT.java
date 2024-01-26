@@ -34,7 +34,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
         intake.resetMotor();
 
         intake.setIntakePosition(intake.intakeInitPosition);
-        claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
+        claw.setClawAnglePosition(claw.clawAngleInit);
         v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
         claw.closeBothClaw();
 
