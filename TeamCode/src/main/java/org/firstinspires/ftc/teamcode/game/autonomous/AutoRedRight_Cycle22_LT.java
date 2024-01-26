@@ -15,12 +15,12 @@ import org.firstinspires.ftc.teamcode.vision.PropColor;
 import java.util.List;
 
 @Autonomous(group = "League Tournament")
-public class AutoBlueLeft_Cycle22_LT extends Auto {
+public class AutoRedRight_Cycle22_LT extends Auto {
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initPropDetector(PropColor.BLUE);
+        initPropDetector(PropColor.RED);
         initDrive();
 
         intake.init(hardwareMap);
@@ -45,7 +45,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
         int cycleCounter = 0;
         int pixelCount = 0;
 
-        Pose2d startPose = new Pose2d(12, 64, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(12, -64, Math.toRadians(270));
         drive.setPoseEstimate(startPose);
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -63,7 +63,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
 
         startTimer();
 
-        drive.followTrajectorySequence(getTrajectories().getBlueLeft(getPosition(), startPose));
+        drive.followTrajectorySequence(getTrajectories().getRedRight(getPosition(), startPose));
 
         robotState = RobotState.DELIVERY_START;
 
@@ -151,7 +151,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                     if ((cycleCounter > 0) || (getSecondsLeft() < 6)){
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
-                                .lineToConstantHeading(new Vector2d(48, 12))
+                                .lineToConstantHeading(new Vector2d(48, -12))
                                 .build();
                         drive.followTrajectorySequence(parking);
                         robotState = RobotState.IDLE;
@@ -163,15 +163,15 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .lineToLinearHeading(new Pose2d(36, 15, Math.toRadians(180)))
-                            .splineTo(new Vector2d(-46, 15), Math.toRadians(180))
+                            .lineToLinearHeading(new Pose2d(36, -15, Math.toRadians(180)))
+                            .splineTo(new Vector2d(-46, -15), Math.toRadians(180))
                             .addTemporalMarker(2.5, ()->{
                                 claw.openBothClaw();
                                 intake.intakeStart();
                                 intake.setIntakePosition(intake.the5Pixel);
                             })
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .lineTo(new Vector2d(-55, 15))
+                            .lineTo(new Vector2d(-55, -15))
                             .build();
                     drive.followTrajectorySequence(intakeStart);
                     robotState = RobotState.INTAKE_START;
@@ -206,7 +206,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                         robotState = RobotState.BACK_TO_DELIVERY;
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
-                                .lineToConstantHeading(new Vector2d(34, 15))
+                                .lineToConstantHeading(new Vector2d(34, -15))
                                 .addTemporalMarker(0.5, ()->{
                                     intake.intakeBackSpin();
                                 })
@@ -238,7 +238,7 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
                     if (!drive.isBusy()) {
                         Pose2d deliveryPose = drive.getPoseEstimate();
                         TrajectorySequence deliveryStart = drive.trajectorySequenceBuilder(deliveryPose)
-                                .lineToLinearHeading(new Pose2d(39, 32, Math.toRadians(180)))
+                                .lineToLinearHeading(new Pose2d(39, -32, Math.toRadians(180)))
                                 .build();
                         drive.followTrajectorySequence(deliveryStart);
                         cycleCounter = cycleCounter + 1;

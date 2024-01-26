@@ -37,7 +37,7 @@ public abstract class Auto extends LinearOpMode {
 
     public static double CLAW_OPEN_TIME = 350;
     public static double SECOND_PIXEL_TIME = 1000;
-    public static double INTAKE_TIME_OUT = 3500;
+    public static double INTAKE_TIME_OUT = 4000;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
@@ -55,6 +55,7 @@ public abstract class Auto extends LinearOpMode {
     public static int DELIVER_POSITION = 200;
     public static int SLIDE_POSITION_ONE = 200;
     public static int SLIDE_POSITION_TWO = 410;
+    public static int SLIDE_POSITION_CYCLE_TWO = 455;
     public static int SLIDE_ANGLE_POSITION = 300;
     public static double V4BAR_DELIVERY = 0.82;
     public static double CLAW_DELIVERY = 0.49;

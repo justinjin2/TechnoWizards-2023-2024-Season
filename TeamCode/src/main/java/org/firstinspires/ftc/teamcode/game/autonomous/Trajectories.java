@@ -36,7 +36,7 @@ public class Trajectories {
 
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(12, 38))
+                    .lineToLinearHeading(new Pose2d(12, 38, Math.toRadians(105)))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -45,7 +45,7 @@ public class Trajectories {
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
-                    .lineTo(new Vector2d(12, 41))
+                    .lineTo(new Vector2d(12, 43))
                     .lineToLinearHeading(new Pose2d(38, 35,Math.toRadians(180)))
                         .build();
         }
@@ -91,7 +91,7 @@ public class Trajectories {
 
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(12, -38))
+                    .lineToLinearHeading(new Pose2d(12, -38, Math.toRadians(285)))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -100,7 +100,7 @@ public class Trajectories {
                         v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                     })
-                    .lineTo(new Vector2d(12, -41))
+                    .lineTo(new Vector2d(12, -43))
                     .lineToLinearHeading(new Pose2d(38, -35,Math.toRadians(180)))
                     .build();
         }

@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
 import java.util.List;
-
+@Disabled
 @Autonomous(group = "League Tournament")
 public class AutoBlueLeft_Cycle24_LT extends Auto {
 
@@ -77,7 +78,7 @@ public class AutoBlueLeft_Cycle24_LT extends Auto {
                 hub.clearBulkCache();
             }
 
-            if (getSecondsLeft() < 2) { //time to park
+            if (getSecondsLeft() < 5) { //time to park
                 claw.openBothClaw();
                 robotState = RobotState.SLIDE_DOWN;
                 clawOpenTimer.reset();
@@ -144,7 +145,7 @@ public class AutoBlueLeft_Cycle24_LT extends Auto {
                         pixelCount = 0;
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
-                    if ((cycleCounter > 1) || (getSecondsLeft() < 6)) {
+                    if ((cycleCounter > 1) || (getSecondsLeft() < 4)) {
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
                                 .lineToConstantHeading(new Vector2d(48, 12))
@@ -163,14 +164,14 @@ public class AutoBlueLeft_Cycle24_LT extends Auto {
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
                             .lineToLinearHeading(new Pose2d(36, 15, Math.toRadians(180)))
-                            .splineTo(new Vector2d(-46, 15), Math.toRadians(180))
+                            .splineTo(new Vector2d(-46, 15), Math.toRadians(170))
                             .addTemporalMarker(2.5, ()->{
                                 claw.openBothClaw();
                                 intake.intakeStart();
                                 intake.setIntakePosition(intake.the5Pixel);
                             })
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(8.5)
+                            .forward(9.5)
                             .build();
                     drive.followTrajectorySequence(intakeStart);
                     robotState = RobotState.INTAKE_START;
