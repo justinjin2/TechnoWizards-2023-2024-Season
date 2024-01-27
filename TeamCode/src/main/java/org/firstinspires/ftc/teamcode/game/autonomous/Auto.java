@@ -28,9 +28,16 @@ public abstract class Auto extends LinearOpMode {
     public final ElapsedTime loopTimer = new ElapsedTime();
     public final ElapsedTime generalTimer = new ElapsedTime();
     public final ElapsedTime clawOpenTimer = new ElapsedTime();
+    public final ElapsedTime clawCloseTimer = new ElapsedTime();
+    public final ElapsedTime intakeBackSpinTimer = new ElapsedTime();
+    public final ElapsedTime v4BarUpTimer = new ElapsedTime();
+    public final ElapsedTime v4BarDownTimer = new ElapsedTime();
+    public final ElapsedTime clawAngleTimer = new ElapsedTime();
+    public final ElapsedTime secondPixelTimer = new ElapsedTime();
 
     public static double CLAW_OPEN_TIME = 350;
-
+    public static double SECOND_PIXEL_TIME = 1000;
+    public static double INTAKE_TIME_OUT = 4000;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
@@ -48,8 +55,10 @@ public abstract class Auto extends LinearOpMode {
     public static int DELIVER_POSITION = 200;
     public static int SLIDE_POSITION_ONE = 200;
     public static int SLIDE_POSITION_TWO = 410;
+    public static int SLIDE_POSITION_CYCLE_TWO = 470;
+    public static int SLIDE_ANGLE_POSITION = 300;
     public static double V4BAR_DELIVERY = 0.82;
-    public static double CLAW_DELIVERY = 0.46;
+    public static double CLAW_DELIVERY = 0.49;
 
     /**ion of the prop after we start the game, to retrieve that value
      * when getting the robot's trajectory

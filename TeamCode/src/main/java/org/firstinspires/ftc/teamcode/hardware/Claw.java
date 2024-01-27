@@ -14,17 +14,19 @@ public class Claw {
     public ServoImplEx testServo;
 
     public double clawOpenTime = 350;
+    public double clawCloseTime = 200;
 
     public double leftClawOpenPosition = 1.0;
     public double rightClawOpenPosition = 1.0;
-    public double leftClawClosePosition = 0.38;
-    public double rightClawClosePosition = 0.43;
+    public double leftClawClosePosition = 0.31;
+    public double rightClawClosePosition = 0.335;
     public double clawAngleCenter = 0.5;
 
-    public double clawAngleIntake = 0.15;
-    public double clawAngleDeliveryStage1 = 0.10;
-    public double clawAngleDeliveryStage2 = 0.08;
+    public double clawAngleIntake = 0.20;
+    public double clawAngleDeliveryStage1 = 0.15;
+    public double clawAngleDeliveryStage2 = 0.15; //used by 4bar return to intake
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
+    public double clawAngleInit = 0.11;
 
     public int clawAngleStage1Time = 200;
     public int clawAngleStage2Time = 200;
@@ -93,7 +95,7 @@ public class Claw {
 
     public double getClawAngle() { return clawRotation.getPosition();}
 
-    public boolean getLeftClawSensor() { return leftClawSensor.getState(); }
+    public boolean getLeftClawSensor() { return !leftClawSensor.getState(); }
 
-    public boolean getRightClawSensor() { return rightClawSensor.getState(); }
+    public boolean getRightClawSensor() { return !rightClawSensor.getState(); }
 }

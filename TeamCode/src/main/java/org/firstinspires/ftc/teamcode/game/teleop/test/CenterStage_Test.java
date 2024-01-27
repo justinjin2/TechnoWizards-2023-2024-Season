@@ -58,11 +58,10 @@ public class CenterStage_Test extends LinearOpMode {
         delivery.resetMotor(); //reset all motors encoder
         //intake.setIntakePosition(intake.intakeCenterPosition);
         //sleep(400);
-        claw.setClawAnglePosition(claw.clawAngleCenter);
-        v4Bar.setV4BarPosition(v4Bar.v4BarCenterPosition);
-        intake.setIntakePosition(intake.intakeSafePosition);
-        claw.closeBothClaw();
-
+        //claw.setClawAnglePosition(claw.clawAngleIntake);
+        //v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+        //intake.setIntakePosition(intake.intakeSafePosition);
+        claw.openBothClaw();
 
         displayPoseTelemetry();
 

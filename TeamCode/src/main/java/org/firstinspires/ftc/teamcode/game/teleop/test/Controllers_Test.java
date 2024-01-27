@@ -54,35 +54,45 @@ public class Controllers_Test {
         }
 
 //--------------  Intake Keys ------------------------------------------------------
-        if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper) {
-            intake.intakeStart();
-            //intake.setIntakePosition(intake.intakeDownPosition);
-        }
-
-        if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
-            intake.intakeStop();
-            //intake.setIntakePosition(intake.intakeCenterPosition);
-            delivery.resetMotor();
+        if (gamepad2.left_trigger > 0) {
+            intake.setIntakePosition(intake.the5Pixel);
         }
 
         if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up) {
-            v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
+            intake.setIntakePositionStep(intake.intakeStepUp);
+        }
+
+        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
+            intake.setIntakePositionStep(intake.intakeStepDown);
+        }
+
+        if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
+            intake.intakeStart();
+            claw.openBothClaw();
+            intake.setIntakePosition(intake.the5Pixel);
+        }
+
+        if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper) {
+            intake.intakeStop();
+            intake.setIntakePosition(intake.intakeCenterPosition);
+            claw.closeBothClaw();
+            delivery.resetMotor();
         }
 
         if (currentGamepad2.x && !previousGamepad2.x) {
             v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
         }
 
-        if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
-            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-        }
+        //if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down) {
+        //    v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+        //}
 
         if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left) {
-            claw.setTestServoUP();
+            claw.closeLeftClaw();
         }
 
         if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right) {
-            claw.setTestServoDown();
+            claw.closeRightClaw();
         }
 
         if (currentGamepad2.start && !previousGamepad2.start) {
@@ -151,9 +161,17 @@ public class Controllers_Test {
             delivery.slideRunToPosition_Encoder((int) target[3][0], delivery.slideRunHighVelocity);
         }
 
-        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)
-            delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
-        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down)
-            delivery.slideRunToPositionManual_Encoder(-delivery.slideIncreaseManual);
+        //if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)
+        //    delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
+        //if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down)
+        //    delivery.slideRunToPositionManual_Encoder(-delivery.slideIncreaseManual);
+
+        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
+        }
+
+        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down) {
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+        }
     }
 }
