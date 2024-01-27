@@ -37,6 +37,7 @@ public class Controllers_V1 {
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
             {360, 0.76, 0.54, 0},
             {340, 0.73, 0.64, 300},
+            {510, 0.73, 0.67, 375   },
             {510, 0.73, 0.67, 600},
     };
 
@@ -87,6 +88,16 @@ public class Controllers_V1 {
             intake.setIntakePositionStep(intake.theNextPixel);
         }
 
+        if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left) {
+            v4Bar.setV4BarStepDown();
+            deliveryKey = '\0';
+        }
+
+        if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right) {
+            v4Bar.setV4BarStepUp();
+            deliveryKey = '\0';
+        }
+
         if (currentGamepad2.back && !previousGamepad2.back) {
             delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
             hanging = true;
@@ -125,15 +136,15 @@ public class Controllers_V1 {
         }
 
         if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {
-            delivery.setSlideAngleStep(delivery.slideAngleStep);
-            claw.setClawAngleToHeight(claw.clawAngleToHeight);
+            delivery.setSlideAngleStep(-delivery.slideAngleStep);
+            claw.setClawAngleToHeight(-claw.clawAngleToHeight);
             deliveryKey = '\0';
         }
 
         if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper) {
-            delivery.setSlideAngleStep(-delivery.slideAngleStep);
-            claw.setClawAngleToHeight(-claw.clawAngleToHeight);
-            deliveryKey = '\0';
+            intake.setIntakePosition(intake.intakeSafePosition);
+            teleOp.setRobotState(RobotState.DELIVERY_START);
+            deliveryKey = '1';
         }
 
         if (currentGamepad1.back && !previousGamepad1.back) {

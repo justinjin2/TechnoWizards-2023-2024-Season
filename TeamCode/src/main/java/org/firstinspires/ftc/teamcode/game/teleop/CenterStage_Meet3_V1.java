@@ -219,6 +219,12 @@ public class CenterStage_Meet3_V1 extends LinearOpMode {
                         claw.setClawAnglePosition(controllers.target[2][2]);
                         delivery.slideAngleRunToPosition((int)controllers.target[2][3]);
                     }
+                    if (controllers.deliveryKey == '1') {
+                        delivery.slideRunToPosition_Encoder((int) controllers.target[3][0], delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(controllers.target[3][1]);
+                        claw.setClawAnglePosition(controllers.target[3][2]);
+                        delivery.slideAngleRunToPosition((int)controllers.target[3][3]);
+                    }
 
                     clawOpenTimer.reset();
                     break;

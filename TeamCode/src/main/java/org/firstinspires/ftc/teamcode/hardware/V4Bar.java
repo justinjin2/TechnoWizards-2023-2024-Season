@@ -9,13 +9,13 @@ public class V4Bar {
 
     public double v4BarCenterPosition = 0.5;
     public double v4BarInit = 0.78;
-    public double v4BarStep = 0.01;
+    public double v4BarStep = 0.03;
 
     public double v4BarIntake = 0.265;
     public double v4BarDownStage1 = 0.35;
     public double v4BarDownStage2 = 0.285;
-    public double v4BarHangerReadyPosition = 0.40;
-    public double getV4BarHangerPosition = 0.35;
+    public double v4BarHangerReadyPosition = 0.48;
+    public double getV4BarHangerPosition = 0.48;
 
     public double v4BarDeliveryStage1 = 0.295;
     public double v4BarDeliveryStage2 = 0.84;
