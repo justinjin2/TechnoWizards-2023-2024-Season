@@ -65,7 +65,7 @@ public class Controllers_V1 {
         if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper) {
             claw.openBothClaw();
             intake.intakeStart();
-            intake.setIntakePosition(intake.intakeDownPosition);
+            intake.setIntakePosition(intake.intakeCenterPosition);
             teleOp.setRobotState(RobotState.INTAKE_START);
         }
 

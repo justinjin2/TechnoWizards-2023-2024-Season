@@ -207,26 +207,26 @@ public class AutoRedRight_Cycle22_LT extends Auto {
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
                                 .lineToConstantHeading(new Vector2d(34, -15))
+                                .addTemporalMarker(0.1, ()->{
+                                    claw.closeBothClaw();
+                                })
                                 .addTemporalMarker(0.5, ()->{
                                     intake.intakeBackSpin();
                                 })
                                 .addTemporalMarker(1.2, ()->{
-                                    claw.closeBothClaw();
-                                })
-                                .addTemporalMarker(1.5, ()->{
                                     intake.intakeStop();
                                 })
-                                .addTemporalMarker(1.6, ()->{
+                                .addTemporalMarker(1.3, ()->{
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.8, ()->{
+                                .addTemporalMarker(1.5, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
-                                .addTemporalMarker(2, ()->{
+                                .addTemporalMarker(1.7, ()->{
                                     v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
                                     claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
                                 })
-                                .addTemporalMarker(2.4, ()->{
+                                .addTemporalMarker(2.2, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })
