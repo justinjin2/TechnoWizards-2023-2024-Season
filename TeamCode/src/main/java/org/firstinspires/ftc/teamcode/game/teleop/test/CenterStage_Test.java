@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.V4Bar;
+import org.firstinspires.ftc.teamcode.vision.AprilTagDetector;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class CenterStage_Test extends LinearOpMode {
 
     private double driveSpeedRatio = 1.0;
     private RobotState robotState = RobotState.IDLE;
+    private AprilTagDetector aprilTagDetector;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,6 +41,9 @@ public class CenterStage_Test extends LinearOpMode {
         Delivery delivery = new Delivery();
         V4Bar v4Bar = new V4Bar();
         Claw claw = new Claw();
+
+        aprilTagDetector = new AprilTagDetector(hardwareMap);
+        aprilTagDetector.init();
 
         // Retrieve our pose from the PoseStorage.currentPose static field
         // See AutoTransferPose.java for further details
@@ -174,6 +179,7 @@ public class CenterStage_Test extends LinearOpMode {
         telemetry.addData("red LED state", delivery.redLED.getState());
         telemetry.addData("green LED state", delivery.greenLED.getState());
         telemetry.addData("Loop Timer", loopTimer.milliseconds());
+        telemetry.addData("Raw Bearings: ", aprilTagDetector.getRawBearings());
         telemetry.update();
     }
 
