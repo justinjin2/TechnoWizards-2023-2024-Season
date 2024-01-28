@@ -28,8 +28,6 @@ public class AutoBlueLeft_Cycle22_LT extends Auto {
         v4Bar.init(hardwareMap);
         claw.init(hardwareMap);
         pto.init(hardwareMap);
-
-
         delivery.resetMotor();
         intake.resetMotor();
 

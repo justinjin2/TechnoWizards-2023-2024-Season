@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.game.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
 import org.firstinspires.ftc.teamcode.hardware.PTO;
 import org.firstinspires.ftc.teamcode.hardware.V4Bar;
+import org.firstinspires.ftc.teamcode.vision.AprilTagDetector;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
@@ -52,13 +54,16 @@ public abstract class Auto extends LinearOpMode {
     public Claw claw;
 
     // ------- Constants ------- //
-    public static int DELIVER_POSITION = 200;
-    public static int SLIDE_POSITION_ONE = 200;
-    public static int SLIDE_POSITION_TWO = 410;
+    public static int DELIVER_POSITION         = 200;
+    public static int SLIDE_POSITION_ONE       = 200;
+    public static int SLIDE_POSITION_TWO       = 410;
     public static int SLIDE_POSITION_CYCLE_TWO = 470;
-    public static int SLIDE_ANGLE_POSITION = 300;
-    public static double V4BAR_DELIVERY = 0.82;
-    public static double CLAW_DELIVERY = 0.49;
+    public static int SLIDE_ANGLE_POSITION     = 300;
+    public static double V4BAR_DELIVERY        = 0.82;
+    public static double CLAW_DELIVERY         = 0.49;
+
+    // ------- AprilTag ------- //
+    private AprilTagDetector aprilTagDetector;
 
     /**ion of the prop after we start the game, to retrieve that value
      * when getting the robot's trajectory
@@ -107,6 +112,15 @@ public abstract class Auto extends LinearOpMode {
         this.propDetector = new TeamPropDetector(color, hardwareMap);
     }
 
+
+    /**
+     * Starts the april tag detector
+     */
+    public void initAprilTagDetector() {
+        this.aprilTagDetector = new AprilTagDetector(hardwareMap);
+    }
+
+
     /**
      * Initializes all important hardware an drive
      * This includes SampleMecanumDrive
@@ -146,6 +160,13 @@ public abstract class Auto extends LinearOpMode {
 
     public FtcDashboard getDashboard() {
         return dashboard;
+    }
+
+    /**
+     * @return the AprilTag detector, used to localize the robot
+     */
+    public AprilTagDetector getAprilTagDetector() {
+        return aprilTagDetector;
     }
 
     /**
