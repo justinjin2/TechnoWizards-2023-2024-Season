@@ -56,7 +56,7 @@ public class AprilTagDetector {
                 continue;
             }
 
-            finalBearings.put(detection.id, detection.ftcPose.bearing);
+            finalBearings.put(detection.id, (double) Math.round(detection.ftcPose.bearing));
         }
 
 
