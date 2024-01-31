@@ -149,8 +149,9 @@ public class Blue_Left_Wall2x4_Simulation extends Auto_Region {
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                                 .splineTo(new Vector2d(-34, 58), Math.toRadians(13))
                                 .resetVelConstraint()
-                                .splineToSplineHeading(new Pose2d(24, 58, Math.toRadians(180)), Math.toRadians(180))
-                                .lineToSplineHeading(new Pose2d(42, 46, Math.toRadians(160)))
+                                .splineTo(new Vector2d(24, 58), Math.toRadians(0))
+                                .splineTo(new Vector2d(42,48), Math.toRadians(-25))
+                                .setReversed(false)
                                 .build();
                         drive.followTrajectorySequence(backoff);
                     }
