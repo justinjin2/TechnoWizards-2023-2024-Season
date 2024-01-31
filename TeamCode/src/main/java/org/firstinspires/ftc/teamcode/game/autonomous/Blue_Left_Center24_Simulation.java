@@ -111,8 +111,8 @@ public class Blue_Left_Center24_Simulation extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineTo(new Vector2d(25, 14), Math.toRadians(180))
-                            .splineTo(new Vector2d(-52, 14), Math.toRadians(180))
+                            .lineToLinearHeading(new Pose2d(36, 14, Math.toRadians(180)))
+                            .splineTo(new Vector2d(-50, 14), Math.toRadians(180))
                             .build();
                     drive.followTrajectorySequence(intakeStart);
                     robotState = RobotState.INTAKE_START;
@@ -140,7 +140,7 @@ public class Blue_Left_Center24_Simulation extends Auto_Region {
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(40,22), Math.toRadians(27))
+                                .splineTo(new Vector2d(41,22), Math.toRadians(25))
                                 .build();
                         drive.followTrajectorySequence(backoff);
                     }

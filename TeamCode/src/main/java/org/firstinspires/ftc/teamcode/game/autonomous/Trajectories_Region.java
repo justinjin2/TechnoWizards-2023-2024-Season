@@ -37,7 +37,7 @@ public class Trajectories_Region {
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(19,42, Math.toRadians(75)), Math.toRadians(75))
+                    .splineToLinearHeading(new Pose2d(19,41, Math.toRadians(75)), Math.toRadians(75))
                     .setReversed(false)
                     .splineToLinearHeading(new Pose2d(38, 35, Math.toRadians(180)), Math.toRadians(-18))
                     .build();
@@ -46,7 +46,7 @@ public class Trajectories_Region {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .lineTo(new Vector2d(24, 44))
                     .lineTo(new Vector2d(26, 58))
-                    .lineToLinearHeading(new Pose2d(44, 30,Math.toRadians(200)))
+                    .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
                     .build();
         }
         else {
