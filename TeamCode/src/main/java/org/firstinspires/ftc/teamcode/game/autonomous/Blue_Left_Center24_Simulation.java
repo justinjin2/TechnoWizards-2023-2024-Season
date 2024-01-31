@@ -2,47 +2,25 @@ package org.firstinspires.ftc.teamcode.game.autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.game.RobotState;
-import org.firstinspires.ftc.teamcode.hardware.Claw;
-import org.firstinspires.ftc.teamcode.hardware.Delivery;
-import org.firstinspires.ftc.teamcode.hardware.Intake;
-import org.firstinspires.ftc.teamcode.hardware.PTO;
-import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
 import java.util.List;
-@Disabled
-@Autonomous(group = "Meet Three")
-public class AutoBlueLeft_Meet3 extends Auto {
+
+//@Disabled
+@Autonomous(group = "Area Championship Tournament")
+public class Blue_Left_Center24_Simulation extends Auto_Region {
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         initPropDetector(PropColor.BLUE);
         initDrive();
-
-        intake.init(hardwareMap);
-        delivery.init(hardwareMap);
-        v4Bar.init(hardwareMap);
-        claw.init(hardwareMap);
-        pto.init(hardwareMap);
-
-
-        delivery.resetMotor();
-        intake.resetMotor();
-
-        intake.setIntakePosition(intake.intakeInitPosition);
-        claw.setClawAnglePosition(claw.clawAngleInit);
-        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
-        claw.closeBothClaw();
 
         robotState = RobotState.IDLE;
 
@@ -68,7 +46,6 @@ public class AutoBlueLeft_Meet3 extends Auto {
 
         robotState = RobotState.DELIVERY_START;
 
-
         while (!isStopRequested() && opModeIsActive()) {
             loopTimer.reset();
 
@@ -79,71 +56,103 @@ public class AutoBlueLeft_Meet3 extends Auto {
                 hub.clearBulkCache();
             }
 
+            if (getSecondsLeft() < 5) { //time to park
+                robotState = RobotState.SLIDE_DOWN;
+                clawOpenTimer.reset();
+            }
+
             switch (robotState) {
                 case DELIVERY_START:
-                    if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto.SLIDE_POSITION_ONE) ||
-                            (Math.abs(delivery.getMotor2Position()) + 15 > Auto.SLIDE_POSITION_ONE)) {
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
-                        generalTimer.reset();
                         robotState = RobotState.CLAW_OPEN;
-                    }
                     break;
                 case CLAW_OPEN:
-                    if (((Math.abs(delivery.getMotor1Position()) + 5) > Auto.SLIDE_POSITION_TWO) ||
-                            (Math.abs(delivery.getMotor2Position()) + 5 > Auto.SLIDE_POSITION_TWO) ||
-                            (generalTimer.milliseconds() > 1000)) {
-                        claw.openBothClaw();
                         robotState = RobotState.SLIDE_DOWN;
                         clawOpenTimer.reset();
-                    }
                     break;
                 case SLIDE_DOWN:
                     if (clawOpenTimer.milliseconds() > Auto.CLAW_OPEN_TIME) {
-                        delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
-                        robotState = RobotState.SLIDE_DOWN_HALF;
+                       robotState = RobotState.SLIDE_DOWN_HALF;
                     }
                     break;
                 case SLIDE_DOWN_HALF:
-                    if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 250 < 0)) {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
-                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
-                        delivery.slideAngleRunToPosition(delivery.slideStart);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                         v4BarDownTimer.reset();
-                    }
                     break;
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
-                    if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
-                            (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
-                                    (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         generalTimer.reset();
-                    }
                     break;
                 case V4BAR_DOWN_MIDDLE:
-                    if (generalTimer.milliseconds() > 250) {
-                        intake.setIntakePosition(intake.intakeInitPosition);
-                        v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-                        claw.setClawAnglePosition(claw.clawAngleIntake);
                         robotState = RobotState.DELIVERY_DONE;
                         generalTimer.reset();
-                    }
                     break;
                 case DELIVERY_DONE:
-                    if (generalTimer.milliseconds() > 100) {
-                        Pose2d currentPose = drive.getPoseEstimate();
-                        TrajectorySequence parking = drive.trajectorySequenceBuilder(currentPose)
-                                .lineToConstantHeading(new Vector2d(48, 12))
+                    if ((generalTimer.milliseconds() > 100) && (cycleCounter == 0)) {
+                        leftPixelOn = false;
+                        rightPixelOn = false;
+                        secondPixelTimeOut = false;
+                        pixelCount = 0;
+                        robotState = RobotState.AUTO_CYCLE_START;
+                    }
+                    if ((cycleCounter == 0) || (getSecondsLeft() < 4)) {
+                        Pose2d parkingPose = drive.getPoseEstimate();
+                        TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
+                                .lineToConstantHeading(new Vector2d(48, 16))
                                 .build();
                         drive.followTrajectorySequence(parking);
                         robotState = RobotState.IDLE;
+                    } else {
+                        robotState = RobotState.AUTO_CYCLE_START;
                     }
                     break;
-
             }
+
+            switch (robotState) {
+                case AUTO_CYCLE_START:
+                    Pose2d intakePose = drive.getPoseEstimate();
+                    TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
+                            .splineTo(new Vector2d(25, 14), Math.toRadians(180))
+                            .splineTo(new Vector2d(-52, 14), Math.toRadians(180))
+                            .build();
+                    drive.followTrajectorySequence(intakeStart);
+                    robotState = RobotState.INTAKE_START;
+                    generalTimer.reset();
+                    secondPixelTimer.reset();
+                    break;
+                case INTAKE_START:
+                    double leftDistance = 0;
+                    double rightDistance = 0;
+
+                        leftPixelOn = true;
+
+                        rightPixelOn = true;
+
+                    if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) && (!secondPixelTimeOut)){
+                        pixelCount = pixelCount + 1;
+                        secondPixelTimeOut = true;
+                    }
+
+                    if (((leftPixelOn) && (rightPixelOn)) ||
+                            (generalTimer.milliseconds() > Auto.INTAKE_TIME_OUT)) {
+
+                        robotState = RobotState.BACK_TO_DELIVERY;
+
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(40,22), Math.toRadians(27))
+                                .build();
+                        drive.followTrajectorySequence(backoff);
+                    }
+                    break;
+                case BACK_TO_DELIVERY:
+                    if (!drive.isBusy()) {
+                        cycleCounter--;
+                        robotState = RobotState.DELIVERY_START;
+                    }
+                    break;
+            }
+
             telemetry.addData("loop timer", loopTimer.milliseconds());
             telemetry.addData("time left", getSecondsLeft());
             telemetry.update();

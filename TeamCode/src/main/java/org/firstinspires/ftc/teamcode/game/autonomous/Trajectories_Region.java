@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public class Trajectories {
+public class Trajectories_Region {
 
     private final SampleMecanumDrive drive;
     private final Intake intake;
@@ -21,7 +21,7 @@ public class Trajectories {
     private final PTO pto;
     private final Claw claw;
 
-    public Trajectories(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, PTO pto, Claw claw) {
+    public Trajectories_Region(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, PTO pto, Claw claw) {
         this.drive = drive;
         this.intake = intake;
         this.delivery = delivery;
@@ -36,47 +36,24 @@ public class Trajectories {
 
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineToLinearHeading(new Pose2d(12, 38, Math.toRadians(105)))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
-                    .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
-                    .lineTo(new Vector2d(12, 43))
-                    .lineToLinearHeading(new Pose2d(38, 35,Math.toRadians(180)))
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(19,42, Math.toRadians(75)), Math.toRadians(75))
+                    .setReversed(false)
+                    .splineToLinearHeading(new Pose2d(38, 35, Math.toRadians(180)), Math.toRadians(-18))
                     .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .lineTo(new Vector2d(24, 44))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
                     .lineTo(new Vector2d(26, 58))
-                    .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
-                    .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(44, 30,Math.toRadians(200)))
                     .build();
         }
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(9, 40, Math.toRadians(35)), Math.toRadians(190))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
                     .setReversed(false)
-                    .addTemporalMarker(2.5, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
                     .lineTo(new Vector2d(12, 43))
                     .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
                     .build();
@@ -92,14 +69,6 @@ public class Trajectories {
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .lineToLinearHeading(new Pose2d(12, -38, Math.toRadians(285)))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
-                    .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
                     .lineTo(new Vector2d(12, -43))
                     .lineToLinearHeading(new Pose2d(38, -35,Math.toRadians(180)))
                     .build();
@@ -107,15 +76,7 @@ public class Trajectories {
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .lineTo(new Vector2d(24, -44))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
                     .lineTo(new Vector2d(26, -58))
-                    .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
                     .lineToLinearHeading(new Pose2d(38, -42,Math.toRadians(180)))
                     .build();
         }
@@ -123,15 +84,7 @@ public class Trajectories {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(9, -40, Math.toRadians(325)), Math.toRadians(190))
-                    .addTemporalMarker(1, ()->{
-                        intake.setIntakePosition(intake.intakeSafePosition);
-                    })
                     .setReversed(false)
-                    .addTemporalMarker(2.5, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
-                    })
                     .lineTo(new Vector2d(12, -43))
                     .lineToLinearHeading(new Pose2d(38, -28, Math.toRadians(180)))
                     .build();
