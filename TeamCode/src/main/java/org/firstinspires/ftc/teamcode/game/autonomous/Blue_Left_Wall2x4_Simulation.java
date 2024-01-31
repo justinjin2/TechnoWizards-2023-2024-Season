@@ -16,7 +16,7 @@ import java.util.List;
 
 //@Disabled
 @Autonomous(group = "Area Championship Tournament")
-public class AutoBlueLeft_Wall24_Simulation extends Auto_Region {
+public class Blue_Left_Wall2x4_Simulation extends Auto_Region {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -118,7 +118,7 @@ public class AutoBlueLeft_Wall24_Simulation extends Auto_Region {
                             .splineToSplineHeading(new Pose2d(10, 60, Math.toRadians(180)), Math.toRadians(180))
                             .resetVelConstraint()
                             .splineToSplineHeading(new Pose2d(-34, 60, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-52, 48), Math.toRadians(215))
+                            .splineTo(new Vector2d(-52, 48), Math.toRadians(210))
                             .build();
                     drive.followTrajectorySequence(intakeStart);
                     robotState = RobotState.INTAKE_START;
@@ -150,9 +150,8 @@ public class AutoBlueLeft_Wall24_Simulation extends Auto_Region {
                                 .splineTo(new Vector2d(-34, 58), Math.toRadians(13))
                                 .resetVelConstraint()
                                 .splineToSplineHeading(new Pose2d(24, 58, Math.toRadians(180)), Math.toRadians(180))
-                                .splineToConstantHeading(new Vector2d(42, 46), Math.toRadians(180))
+                                .lineToSplineHeading(new Pose2d(42, 46, Math.toRadians(160)))
                                 .build();
-
                         drive.followTrajectorySequence(backoff);
                     }
                     break;

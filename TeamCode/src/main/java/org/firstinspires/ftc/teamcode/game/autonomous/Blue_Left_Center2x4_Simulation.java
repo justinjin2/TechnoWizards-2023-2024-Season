@@ -14,7 +14,7 @@ import java.util.List;
 
 //@Disabled
 @Autonomous(group = "Area Championship Tournament")
-public class Blue_Left_Center24_Simulation extends Auto_Region {
+public class Blue_Left_Center2x4_Simulation extends Auto_Region {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -140,7 +140,7 @@ public class Blue_Left_Center24_Simulation extends Auto_Region {
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(41,22), Math.toRadians(25))
+                                .splineTo(new Vector2d(41,22), Math.toRadians(24))
                                 .build();
                         drive.followTrajectorySequence(backoff);
                     }
