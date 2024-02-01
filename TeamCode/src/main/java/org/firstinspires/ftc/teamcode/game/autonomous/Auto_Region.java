@@ -38,7 +38,7 @@ public abstract class Auto_Region extends LinearOpMode {
 
     public static double CLAW_OPEN_TIME = 350;
     public static double SECOND_PIXEL_TIME = 1000;
-    public static double INTAKE_TIME_OUT = 4000;
+    public static double INTAKE_TIME_OUT = 3000;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;

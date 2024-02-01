@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -105,7 +107,7 @@ public class Blue_Right_Wall2x4_Simulation extends Auto_Region {
                     if ((cycleCounter == 0) || (getSecondsLeft() < 4)) {
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
-                                .lineToConstantHeading(new Vector2d(48, 16))
+                                .splineToLinearHeading(new Pose2d(50, 60, Math.toRadians(180)), Math.toRadians(70))
                                 .build();
                         drive.followTrajectorySequence(parking);
                         robotState = RobotState.IDLE;
@@ -119,8 +121,12 @@ public class Blue_Right_Wall2x4_Simulation extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .lineToLinearHeading(new Pose2d(36, 14, Math.toRadians(180)))
-                            .splineTo(new Vector2d(-50, 14), Math.toRadians(180))
+                            .splineTo(new Vector2d(34, 47), Math.toRadians(120))
+                            .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                            .splineToSplineHeading(new Pose2d(10, 60, Math.toRadians(180)), Math.toRadians(180))
+                            .resetVelConstraint()
+                            .splineToSplineHeading(new Pose2d(-34, 60, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-52, 48), Math.toRadians(210))
                             .build();
                     drive.followTrajectorySequence(intakeStart);
                     robotState = RobotState.INTAKE_START;
@@ -144,7 +150,12 @@ public class Blue_Right_Wall2x4_Simulation extends Auto_Region {
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(41,22), Math.toRadians(24))
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .splineTo(new Vector2d(-34, 58), Math.toRadians(13))
+                                .resetVelConstraint()
+                                .splineTo(new Vector2d(24, 58), Math.toRadians(5))
+                                .splineTo(new Vector2d(42,48), Math.toRadians(-25))
+                                .setReversed(false)
                                 .build();
                         drive.followTrajectorySequence(backoff);
                     }
