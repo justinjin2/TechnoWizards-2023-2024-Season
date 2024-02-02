@@ -87,7 +87,7 @@ public class Blue_Left_Center2x4_Simulation extends Auto_Simulation {
                         generalTimer.reset();
                     break;
                 case DELIVERY_DONE:
-                    if ((generalTimer.milliseconds() > 100) && (cycleCounter == 0)) {
+                    if ((generalTimer.milliseconds() > 100) && (cycleCounter != 0)) {
                         leftPixelOn = false;
                         rightPixelOn = false;
                         secondPixelTimeOut = false;

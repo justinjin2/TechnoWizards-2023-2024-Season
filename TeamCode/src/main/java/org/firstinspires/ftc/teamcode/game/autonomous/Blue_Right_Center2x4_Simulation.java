@@ -105,7 +105,7 @@ public class Blue_Right_Center2x4_Simulation extends Auto_Simulation {
                         generalTimer.reset();
                     break;
                 case DELIVERY_DONE:
-                    if ((generalTimer.milliseconds() > 100) && (cycleCounter == 0)) {
+                    if ((generalTimer.milliseconds() > 100) && (cycleCounter != 0)) {
                         leftPixelOn = false;
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
@@ -147,7 +147,7 @@ public class Blue_Right_Center2x4_Simulation extends Auto_Simulation {
                     }
 
                     if (((leftPixelOn) && (rightPixelOn)) ||
-                            (generalTimer.milliseconds() > Auto.INTAKE_TIME_OUT)) {
+                            (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT)) {
 
                         robotState = RobotState.BACK_TO_DELIVERY;
 

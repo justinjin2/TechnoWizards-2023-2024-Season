@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.vision.AprilTagDetector;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public abstract class Auto_Simulation extends LinearOpMode {
+public abstract class Auto_Region extends LinearOpMode {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -38,11 +38,11 @@ public abstract class Auto_Simulation extends LinearOpMode {
 
     public static double CLAW_OPEN_TIME = 350;
     public static double SECOND_PIXEL_TIME = 1000;
-    public static double INTAKE_TIME_OUT = 3000;
+    public static double INTAKE_TIME_OUT = 2000;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
-    private Trajectories_Simulation trajectories;
+    private Trajectories_Region trajectories;
     public RobotState robotState;
 
     // ------- Hardware ------- //
@@ -56,7 +56,6 @@ public abstract class Auto_Simulation extends LinearOpMode {
     public static int DELIVER_POSITION         = 200;
     public static int SLIDE_POSITION_ONE       = 200;
     public static int SLIDE_POSITION_TWO       = 410;
-    public static int SLIDE_POSITION_CYCLE_TWO = 470;
     public static int SLIDE_ANGLE_POSITION     = 300;
     public static double V4BAR_DELIVERY        = 0.82;
     public static double CLAW_DELIVERY         = 0.49;
@@ -65,6 +64,7 @@ public abstract class Auto_Simulation extends LinearOpMode {
     public boolean leftPixelOn = false;
     public boolean rightPixelOn = false;
     public boolean secondPixelTimeOut = false;
+    public boolean cycleTimeOut = false;
     public int pixelCount = 0;
 
     // ------- AprilTag ------- //
@@ -88,7 +88,7 @@ public abstract class Auto_Simulation extends LinearOpMode {
         return this.position;
     }
 
-    public Trajectories_Simulation getTrajectories() {
+    public Trajectories_Region getTrajectories() {
         return trajectories;
     }
 
@@ -133,7 +133,13 @@ public abstract class Auto_Simulation extends LinearOpMode {
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
 
-        this.trajectories = new Trajectories_Simulation(drive, intake, delivery, v4Bar, pto, claw);
+        this.intake = new Intake();
+        this.delivery = new Delivery();
+        this.v4Bar = new V4Bar();
+        this.pto = new PTO();
+        this.claw = new Claw();
+
+        this.trajectories = new Trajectories_Region(drive, intake, delivery, v4Bar, pto, claw);
 
     }
 
