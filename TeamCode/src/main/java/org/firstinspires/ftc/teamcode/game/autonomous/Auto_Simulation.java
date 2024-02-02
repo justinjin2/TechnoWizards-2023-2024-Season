@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.vision.AprilTagDetector;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public abstract class Auto_Region extends LinearOpMode {
+public abstract class Auto_Simulation extends LinearOpMode {
 
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -42,7 +42,7 @@ public abstract class Auto_Region extends LinearOpMode {
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
-    private Trajectories_Region trajectories;
+    private Trajectories_Simulation trajectories;
     public RobotState robotState;
 
     // ------- Hardware ------- //
@@ -61,7 +61,7 @@ public abstract class Auto_Region extends LinearOpMode {
     public static double V4BAR_DELIVERY        = 0.82;
     public static double CLAW_DELIVERY         = 0.49;
 
-    public int cycleCounter = 2;
+    public int cycleCounter = 0;
     public boolean leftPixelOn = false;
     public boolean rightPixelOn = false;
     public boolean secondPixelTimeOut = false;
@@ -88,7 +88,7 @@ public abstract class Auto_Region extends LinearOpMode {
         return this.position;
     }
 
-    public Trajectories_Region getTrajectories() {
+    public Trajectories_Simulation getTrajectories() {
         return trajectories;
     }
 
@@ -133,7 +133,7 @@ public abstract class Auto_Region extends LinearOpMode {
     public  void initDrive() {
         this.drive = new SampleMecanumDrive(hardwareMap);
 
-        this.trajectories = new Trajectories_Region(drive, intake, delivery, v4Bar, pto, claw);
+        this.trajectories = new Trajectories_Simulation(drive, intake, delivery, v4Bar, pto, claw);
 
     }
 

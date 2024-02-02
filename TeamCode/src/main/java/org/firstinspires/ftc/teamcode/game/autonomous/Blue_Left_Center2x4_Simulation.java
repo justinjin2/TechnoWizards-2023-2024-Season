@@ -14,7 +14,7 @@ import java.util.List;
 
 //@Disabled
 @Autonomous(group = "Area Championship Tournament")
-public class Blue_Left_Center2x4_Simulation extends Auto_Region {
+public class Blue_Left_Center2x4_Simulation extends Auto_Simulation {
 
     @Override
     public void runOpMode() throws InterruptedException {

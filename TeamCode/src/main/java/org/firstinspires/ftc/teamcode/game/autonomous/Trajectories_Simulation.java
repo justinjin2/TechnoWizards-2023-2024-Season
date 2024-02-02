@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.hardware.V4Bar;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.TeamPropDetector;
 
-public class Trajectories_Region {
+public class Trajectories_Simulation {
 
     private final SampleMecanumDrive drive;
     private final Intake intake;
@@ -21,7 +21,7 @@ public class Trajectories_Region {
     private final PTO pto;
     private final Claw claw;
 
-    public Trajectories_Region(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, PTO pto, Claw claw) {
+    public Trajectories_Simulation(SampleMecanumDrive drive, Intake intake, Delivery delivery, V4Bar v4Bar, PTO pto, Claw claw) {
         this.drive = drive;
         this.intake = intake;
         this.delivery = delivery;
