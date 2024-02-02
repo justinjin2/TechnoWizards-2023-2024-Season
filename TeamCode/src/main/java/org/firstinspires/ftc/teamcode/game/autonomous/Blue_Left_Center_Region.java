@@ -202,6 +202,7 @@ public class Blue_Left_Center_Region extends Auto_Region {
 
                         robotState = RobotState.BACK_TO_DELIVERY;
                         claw.closeBothClaw();
+                        intake.setIntakePosition(intake.intakeSafePosition);
 
                         Pose2d deliveryPose= drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)

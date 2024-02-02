@@ -203,8 +203,8 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                             (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT)) {
 
                         robotState = RobotState.BACK_TO_DELIVERY;
-
                         claw.closeBothClaw();
+                        intake.setIntakePosition(intake.intakeSafePosition);
 
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(intakePose1)
