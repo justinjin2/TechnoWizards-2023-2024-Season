@@ -161,17 +161,17 @@ public class Controllers_Test {
             delivery.slideRunToPosition_Encoder((int) target[3][0], delivery.slideRunHighVelocity);
         }
 
-        //if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)
-        //    delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
-        //if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down)
-        //    delivery.slideRunToPositionManual_Encoder(-delivery.slideIncreaseManual);
+        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up)
+            delivery.slideRunToPositionManual_Encoder(delivery.slideIncreaseManual);
+        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down)
+            delivery.slideRunToPositionManual_Encoder(-delivery.slideIncreaseManual);
 
-        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
-            delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
-        }
+        //if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
+        //    delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
+        //}
 
-        if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down) {
-            delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
-        }
+        //if (currentGamepad1.dpad_down && !previousGamepad1.dpad_down) {
+         //   delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+        //}
     }
 }

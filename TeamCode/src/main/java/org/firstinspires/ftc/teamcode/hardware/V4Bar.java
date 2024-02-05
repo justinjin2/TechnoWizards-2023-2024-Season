@@ -8,14 +8,15 @@ public class V4Bar {
     public ServoImplEx v4BRight;
 
     public double v4BarCenterPosition = 0.5;
-    public double v4BarInit = 0.78;
-    public double v4BarStep = 0.03;
+    public double v4BarStep = 0.01;
 
     public double v4BarIntake = 0.265;
     public double v4BarDownStage1 = 0.35;
     public double v4BarDownStage2 = 0.285;
-    public double v4BarHangerReadyPosition = 0.48;
-    public double getV4BarHangerPosition = 0.48;
+    public double v4BarHangerReadyPosition = 0.38;
+    public double getV4BarHangerPosition = 0.38;
+
+    public double v4BarUpPosition = 0.55;
 
     public double v4BarDeliveryStage1 = 0.295;
     public double v4BarDeliveryStage2 = 0.84;
@@ -32,11 +33,6 @@ public class V4Bar {
     public void setV4BarCenterPosition() {
         v4BLeft.setPosition(v4BarCenterPosition);
         v4BRight.setPosition(v4BarCenterPosition);
-    }
-
-    public void setV4BarInit() {
-        v4BLeft.setPosition(v4BarInit);
-        v4BRight.setPosition(v4BarInit);
     }
 
     public void setV4BarPosition(double position) {

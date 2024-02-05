@@ -14,6 +14,7 @@ public enum RobotState {
     CLAW_ANGLE_STAGE1,
     CLAW_ANGLE_STAGE2,
     V4BAR_DOWN_MIDDLE,
+    V4BAR_UP,
     V4BAR_DOWN,
     ROBOT_FORWARD,
     CLAW_OPEN,

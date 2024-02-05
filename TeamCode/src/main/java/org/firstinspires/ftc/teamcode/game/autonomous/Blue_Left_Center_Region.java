@@ -158,13 +158,13 @@ public class Blue_Left_Center_Region extends Auto_Region {
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
                             .lineToLinearHeading(new Pose2d(36, 14, Math.toRadians(180)))
-                            .lineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(180)))
+                            .splineToLinearHeading(new Pose2d(-45, 15, Math.toRadians(180)), Math.toRadians(180))
                             .addTemporalMarker(2, ()->{
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
                             })
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(8)
+                            .forward(7)
                             .addTemporalMarker(2.5, ()->{
                                 intake.intakeStart();
                             })
