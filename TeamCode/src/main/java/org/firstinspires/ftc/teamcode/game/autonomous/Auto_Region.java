@@ -37,8 +37,8 @@ public abstract class Auto_Region extends LinearOpMode {
     public final ElapsedTime secondPixelTimer = new ElapsedTime();
 
     public static double CLAW_OPEN_TIME = 350;
-    public static double SECOND_PIXEL_TIME = 1000;
-    public static double INTAKE_TIME_OUT = 2000;
+    public static double SECOND_PIXEL_TIME = 800;
+    public static double INTAKE_TIME_OUT = 1800;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
@@ -53,18 +53,20 @@ public abstract class Auto_Region extends LinearOpMode {
     public Claw claw;
 
     // ------- Constants ------- //
-    public static int DELIVER_POSITION         = 200;
     public static int SLIDE_POSITION_ONE       = 200;
     public static int SLIDE_POSITION_TWO       = 410;
+    public static int SLIDE_SECOND_ROUND       = 450;
     public static int SLIDE_ANGLE_POSITION     = 300;
     public static double V4BAR_DELIVERY        = 0.82;
-    public static double CLAW_DELIVERY         = 0.49;
+    public static double CLAW_DELIVERY         = 0.50;
+    public static double CLAW_SECOND_ROUND     = 0.48;
 
     public int cycleCounter = 2;
     public boolean leftPixelOn = false;
     public boolean rightPixelOn = false;
     public boolean secondPixelTimeOut = false;
     public boolean cycleTimeOut = false;
+    public boolean parked = false;
     public int pixelCount = 0;
 
     // ------- AprilTag ------- //

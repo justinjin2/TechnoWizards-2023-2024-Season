@@ -42,9 +42,9 @@ public class Trajectories_Region {
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
                     .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
                     .setReversed(false)
                     .splineToLinearHeading(new Pose2d(38, 34, Math.toRadians(180)), Math.toRadians(-18))
@@ -58,9 +58,9 @@ public class Trajectories_Region {
                     })
                     .lineTo(new Vector2d(26, 58))
                     .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
                     .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
                     .build();
@@ -75,9 +75,9 @@ public class Trajectories_Region {
                     .setReversed(false)
                     .lineTo(new Vector2d(12, 43))
                     .addTemporalMarker(2.5, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                        v4Bar.setV4BarPosition(Auto.V4BAR_DELIVERY);
-                        claw.setClawAnglePosition(Auto.CLAW_DELIVERY);
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
                     .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
                     .build();

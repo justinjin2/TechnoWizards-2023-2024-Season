@@ -37,7 +37,7 @@ public class Controllers_Region {
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
             {360, 0.76, 0.54, 0},
             {340, 0.73, 0.64, 300},
-            {510, 0.73, 0.67, 375   },
+            {510, 0.73, 0.67, 375},
             {510, 0.73, 0.67, 600},
     };
 

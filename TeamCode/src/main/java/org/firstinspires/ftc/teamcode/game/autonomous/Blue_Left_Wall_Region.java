@@ -86,30 +86,37 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto_Region.SLIDE_POSITION_ONE)) {
                         delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                         generalTimer.reset();
-                        robotState = RobotState.CLAW_OPEN;
+                        robotState = RobotState.DELIVERY_READY;
                     }
                     break;
-                case CLAW_OPEN:
+                case DELIVERY_READY:
                     if (((Math.abs(delivery.getMotor1Position()) + 10) > Auto_Region.SLIDE_POSITION_TWO) ||
                             (Math.abs(delivery.getMotor2Position()) + 10 > Auto_Region.SLIDE_POSITION_TWO) ||
                             (generalTimer.milliseconds() > 800)) {
                         claw.openBothClaw();
-                        robotState = RobotState.SLIDE_DOWN;
+                        robotState = RobotState.CLAW_OPEN;
                         clawOpenTimer.reset();
                     }
                     break;
-                case SLIDE_DOWN:
-                    if (clawOpenTimer.milliseconds() > Auto_Region.CLAW_OPEN_TIME) {
-                        delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
-                        robotState = RobotState.SLIDE_DOWN_HALF;
+                case CLAW_OPEN:
+                    if (clawOpenTimer.milliseconds() > claw.clawOpenTime) {
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+                        robotState=RobotState.V4BAR_UP;
+                        generalTimer.reset();
                     }
                     break;
-                case SLIDE_DOWN_HALF:
+                case V4BAR_UP:
+                    if (generalTimer.milliseconds() > 150) {
+                        delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
+                        robotState = RobotState.SLIDE_DOWN;
+                    }
+                    break;
+                case SLIDE_DOWN:
                     if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 250 < 0)) {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+                            (Math.abs(delivery.getMotor2Position()) - 250 < 0))
+                    {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
-                        delivery.slideAngleRunToPosition(delivery.slideStart);
+                        delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                         v4BarDownTimer.reset();
                     }
