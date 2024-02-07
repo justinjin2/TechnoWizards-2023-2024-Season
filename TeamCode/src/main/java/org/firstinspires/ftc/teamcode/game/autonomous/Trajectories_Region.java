@@ -37,7 +37,7 @@ public class Trajectories_Region {
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(20,41, Math.toRadians(75)), Math.toRadians(75))
+                    .splineToLinearHeading(new Pose2d(20,42, Math.toRadians(75)), Math.toRadians(75))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })

@@ -33,7 +33,7 @@ public class Intake {
     public double intakeStepDown= -0.01;
 
     public double intakeSafePosition = 0.4;
-    public double the5Pixel = 0.29;
+    public double the5Pixel = 0.28;
     public double theNextPixel = -0.015;
 
     public int backSpinTime = 1000;

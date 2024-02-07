@@ -72,7 +72,7 @@ public class Blue_Left_Center_Region extends Auto_Region {
                 hub.clearBulkCache();
             }
 
-            if ((getSecondsLeft() < 4) && (!cycleTimeOut)) { //time to park
+            if ((getSecondsLeft() < 3) && (!cycleTimeOut)) { //time to park
                 robotState = RobotState.CLAW_OPEN;
                 cycleCounter = 0;
                 claw.openBothClaw();
@@ -88,16 +88,18 @@ public class Blue_Left_Center_Region extends Auto_Region {
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto_Region.SLIDE_POSITION_ONE)) {
                         if (cycleCounter == 2) {
                             delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
+                            slidePosition = Auto_Region.SLIDE_POSITION_TWO;
                         } else {
                             delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND, delivery.slideRunHighVelocity);
+                            slidePosition = Auto_Region.SLIDE_SECOND_ROUND;
                         }
                         generalTimer.reset();
                         robotState = RobotState.DELIVERY_READY;
                     }
                     break;
                 case DELIVERY_READY:
-                    if (((Math.abs(delivery.getMotor1Position()) + 10) > Auto_Region.SLIDE_POSITION_TWO) ||
-                            (Math.abs(delivery.getMotor2Position()) + 10 > Auto_Region.SLIDE_POSITION_TWO) ||
+                    if (((Math.abs(delivery.getMotor1Position()) + 10) > slidePosition) ||
+                            (Math.abs(delivery.getMotor2Position()) + 10 > slidePosition) ||
                             (generalTimer.milliseconds() > 800)) {
                         claw.openBothClaw();
                         robotState = RobotState.CLAW_OPEN;
@@ -152,7 +154,7 @@ public class Blue_Left_Center_Region extends Auto_Region {
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
                         pixelCount = 0;
-                        intake.the5Pixel -= 0.03;
+                        if (cycleCounter < 2) intake.the5Pixel -= 0.03; //not the first time
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
                     if (cycleCounter == 0) {
@@ -174,18 +176,22 @@ public class Blue_Left_Center_Region extends Auto_Region {
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
                             .lineToLinearHeading(new Pose2d(36, 15, Math.toRadians(180)))
                             //.splineToLinearHeading(new Pose2d(38, 14, Math.toRadians(180)), Math.toRadians(180))
-                            .splineToLinearHeading(new Pose2d(-45, 15, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(180))
                             .addTemporalMarker(2, ()->{
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
                             })
-                            .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(8)
                             .addTemporalMarker(2.5, ()->{
                                 intake.intakeStart();
                             })
                             .build();
                     drive.followTrajectorySequence(intakeStart);
+                    Pose2d intakePose1 = drive.getPoseEstimate();
+                    TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                        .forward(7)
+                        .build();
+                    drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();
@@ -207,15 +213,16 @@ public class Blue_Left_Center_Region extends Auto_Region {
                         rightPixelOn = true;
                     }
 
-                    if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) && (!secondPixelTimeOut)){
-                        if (pixelCount == 0) intake.setIntakePositionStep(intake.theNextPixel);
+                    if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) &&
+                            (pixelCount < 2)) {
+                        intake.setIntakePositionStep(intake.theNextPixel);
                         pixelCount = pixelCount + 1;
-                        secondPixelTimeOut = true;
+                        secondPixelTimer.reset();
                     }
 
                     if (((leftPixelOn) && (rightPixelOn)) ||
-                            (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT)) {
-
+                            (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT) ||
+                            (pixelCount >= 2)) {
                         robotState = RobotState.BACK_TO_DELIVERY;
                         intake.setIntakePosition(intake.intakeSafePosition);
 
@@ -223,24 +230,24 @@ public class Blue_Left_Center_Region extends Auto_Region {
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(41,22), Math.toRadians(24))
-                                .addTemporalMarker(0.6, ()->{
+                                .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })
-                                .addTemporalMarker(0.8, ()->{
+                                .addTemporalMarker(1.0, ()->{
                                     intake.intakeBackSpin();
                                 })
-                                .addTemporalMarker(1.3, ()->{
+                                .addTemporalMarker(1.7, ()->{
                                     intake.intakeStop();
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.5, ()->{
+                                .addTemporalMarker(1.9, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.8, ()->{
+                                .addTemporalMarker(2.1, ()->{
                                     v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
-                                .addTemporalMarker(2, ()->{
+                                .addTemporalMarker(2.3, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })
