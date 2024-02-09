@@ -38,4 +38,5 @@ public enum RobotState {
     HANGING_START,
     AUTO_CYCLE_START,
     BACK_TO_DELIVERY,
+    YELLOW_PIXEL_DELIVERY,
 }
