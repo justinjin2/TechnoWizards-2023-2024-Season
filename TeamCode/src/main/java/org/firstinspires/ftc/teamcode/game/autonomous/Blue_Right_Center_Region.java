@@ -69,24 +69,24 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
-                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(175)), Math.toRadians(180))
+                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(180))
                     .addTemporalMarker(1.2, ()->{
                         intake.intakeStart();
                     })
-                    .forward(7)
+                    .forward(8)
                     .build();
             drive.followTrajectorySequence(toIntakePosition);
         } else {
             Pose2d currentPose2 = drive.getPoseEstimate();
             TrajectorySequence toIntakePosition = drive.trajectorySequenceBuilder(currentPose2)
-                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(175)), Math.toRadians(30))
+                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(30))
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
                     .addTemporalMarker(1.2, ()->{
                         intake.intakeStart();
                     })
-                    .forward(7)
+                    .forward(8)
                     .build();
             drive.followTrajectorySequence(toIntakePosition);
         }
@@ -105,14 +105,13 @@ public class Blue_Right_Center_Region extends Auto_Region {
                 hub.clearBulkCache();
             }
 
-/*            if ((getSecondsLeft() < 2) && (!cycleTimeOut)) { //time to park
+            if ((getSecondsLeft() < 3) && (!cycleTimeOut)) { //time to park
                 robotState = RobotState.DELIVERY_DONE;
                 cycleCounterCenter = 0;
                 cycleTimeOut = true;
             }
 
             if (parked) robotState = RobotState.IDLE;
-*/
 
             switch (robotState) {
                 case DELIVERY_START:
@@ -203,7 +202,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineToLinearHeading(new Pose2d(-47, 15, Math.toRadians(175)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-47, 14, Math.toRadians(175)), Math.toRadians(180))
                             .addTemporalMarker(2, () -> {
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
@@ -216,7 +215,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     Pose2d intakePose1 = drive.getPoseEstimate();
                     TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(7)
+                            .forward(8)
                             .build();
                     drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;
@@ -253,7 +252,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                         Pose2d deliveryPose= drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(41,22), Math.toRadians(22))
+                                .splineTo(new Vector2d(41,22), Math.toRadians(23))
                                 .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })

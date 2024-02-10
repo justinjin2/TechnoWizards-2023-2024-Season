@@ -93,7 +93,7 @@ public class Trajectories_Region {
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(-41,41, Math.toRadians(120)), Math.toRadians(120))
+                    .splineToLinearHeading(new Pose2d(-41,40, Math.toRadians(120)), Math.toRadians(120))
                     .setReversed(false)
                     .build();
         }
