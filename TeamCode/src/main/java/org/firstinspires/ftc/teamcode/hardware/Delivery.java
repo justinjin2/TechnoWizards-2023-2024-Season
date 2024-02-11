@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Delivery {
     ElapsedTime deliveryTimeout;
+    ElapsedTime slideReturnTimeOut;
 
     DcMotorEx slideRotation;
     public ServoImplEx droneLauncher;
@@ -81,6 +82,8 @@ public class Delivery {
         claw.init(hwmap);
 
         droneLauncher.setPosition(droneInit);
+
+        slideReturnTimeOut = new ElapsedTime();
     }
 
     public void slideRunToTarget_PID(double position) {
@@ -190,12 +193,16 @@ public class Delivery {
     }
 
     public void resetSlide() {
-        while ((leftSlideSensor.getState()) && (rightSlideSensor.getState())) {
+        slideReturnTimeOut.reset();
+
+        while (((leftSlideSensor.getState()) && (rightSlideSensor.getState())) &&
+                (slideReturnTimeOut.milliseconds() < 2000)) {
             pto.motor1.setPower(-0.5);
             pto.motor2.setPower(-0.5);
         }
 
-        while (slideAngleSensor.getState()) {
+        slideReturnTimeOut.reset();
+        while ((slideAngleSensor.getState()) && (slideReturnTimeOut.milliseconds() < 1000)) {
             slideRotation.setPower(-0.5);
         }
     }
