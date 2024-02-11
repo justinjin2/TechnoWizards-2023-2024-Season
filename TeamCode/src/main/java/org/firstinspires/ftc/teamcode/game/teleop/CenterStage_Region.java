@@ -63,14 +63,28 @@ public class CenterStage_Region extends LinearOpMode {
         claw.init(hardwareMap);
         pto.init(hardwareMap);
 
+        if ((delivery.getSlideAngleSensor()) &&
+                (delivery.getLeftSlideSensor() || delivery.getRightSlideSensor())) {
+            intake.setIntakePosition(intake.intakeInitPosition);
+            sleep(400);
+            claw.setClawAnglePosition(claw.clawAngleIntake);
+            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+            claw.openBothClaw();
+        } else {
+            intake.setIntakePosition(intake.intakeSafePosition);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+            v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+            claw.openBothClaw();
+            sleep(200);
+            delivery.resetSlide();
+            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleIntake);
+        }
+
         intake.resetMotor();
         delivery.resetMotor();
-
-        intake.setIntakePosition(intake.intakeInitPosition);
-        sleep(400);
-        claw.setClawAnglePosition(claw.clawAngleIntake);
-        v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
-        claw.openBothClaw();
 
         displayPoseTelemetry();
 

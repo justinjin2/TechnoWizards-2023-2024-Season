@@ -59,11 +59,13 @@ public class CenterStage_Test extends LinearOpMode {
         v4Bar.init(hardwareMap);
         claw.init(hardwareMap);
 
+        delivery.resetSlide();
+
         intake.resetMotor();
         delivery.resetMotor(); //reset all motors encoder
         //intake.setIntakePosition(intake.intakeCenterPosition);
         //sleep(400);
-        claw.setClawAnglePosition(claw.clawAngleIntake);
+        //claw.setClawAnglePosition(claw.clawAngleIntake);
         //v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
         //intake.setIntakePosition(intake.intakeSafePosition);
         //claw.openBothClaw();
@@ -162,6 +164,9 @@ public class CenterStage_Test extends LinearOpMode {
         //telemetry.addData("x", poseEstimate.getX());
         //telemetry.addData("y", poseEstimate.getY());
         //telemetry.addData("heading", poseEstimate.getHeading());
+        telemetry.addData("left slide sensor", delivery.getLeftSlideSensor());
+        telemetry.addData("right slide sensor", delivery.getRightSlideSensor());
+        telemetry.addData("slide angle sensor", delivery.getSlideAngleSensor());
         telemetry.addData("motor1 position", delivery.getMotor1Position());
         telemetry.addData("motor2 position", delivery.getMotor2Position());
         telemetry.addData("slide angle position", delivery.getSlideAnglePosition());

@@ -20,6 +20,9 @@ public class Delivery {
     public ServoImplEx droneLauncher;
     public DigitalChannel redLED;
     public DigitalChannel greenLED;
+    private DigitalChannel leftSlideSensor, rightSlideSensor;
+    private DigitalChannel slideAngleSensor;
+
     PTO pto = new PTO();
     V4Bar v4Bar = new V4Bar();
     Claw claw = new Claw();
@@ -65,6 +68,10 @@ public class Delivery {
         slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         droneLauncher = hwmap.get(ServoImplEx.class, "droneLauncher");
+
+        leftSlideSensor = hwmap.get(DigitalChannel.class, "leftSlideSensor");
+        rightSlideSensor = hwmap.get(DigitalChannel.class, "rightSlideSensor");
+        slideAngleSensor = hwmap.get(DigitalChannel.class, "slideAngleSensor");
 
         redLED = hwmap.get(DigitalChannel.class, "redLED");
         greenLED = hwmap.get(DigitalChannel.class, "greenLED");
@@ -182,6 +189,16 @@ public class Delivery {
         pto.motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void resetSlide() {
+        while ((leftSlideSensor.getState()) && (rightSlideSensor.getState())) {
+            pto.motor1.setPower(-0.5);
+            pto.motor2.setPower(-0.5);
+        }
+
+        while (slideAngleSensor.getState()) {
+            slideRotation.setPower(-0.5);
+        }
+    }
     public void droneInit() { droneLauncher.setPosition(droneInit); }
 
     public void droneLaunch() {droneLauncher.setPosition(droneLaunch);}
@@ -199,5 +216,11 @@ public class Delivery {
     }
 
     public double getSlideAngleMotorCurrent() { return slideRotation.getCurrent(AMPS);}
+
+    public boolean getLeftSlideSensor() { return !leftSlideSensor.getState(); }
+
+    public boolean getRightSlideSensor() { return !rightSlideSensor.getState(); }
+
+    public boolean getSlideAngleSensor() { return !slideAngleSensor.getState(); }
 
 }
