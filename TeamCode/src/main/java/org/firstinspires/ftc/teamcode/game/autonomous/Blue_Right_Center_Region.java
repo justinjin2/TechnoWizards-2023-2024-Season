@@ -105,7 +105,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                 hub.clearBulkCache();
             }
 
-            if ((getSecondsLeft() < 3) && (!cycleTimeOut)) { //time to park
+            if ((getSecondsLeft() < 2) && (!cycleTimeOut)) { //time to park
                 robotState = RobotState.DELIVERY_DONE;
                 cycleCounterCenter = 0;
                 cycleTimeOut = true;

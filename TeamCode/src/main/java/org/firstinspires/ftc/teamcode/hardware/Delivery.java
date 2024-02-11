@@ -196,7 +196,7 @@ public class Delivery {
         slideReturnTimeOut.reset();
 
         while (((leftSlideSensor.getState()) && (rightSlideSensor.getState())) &&
-                (slideReturnTimeOut.milliseconds() < 2000)) {
+                (slideReturnTimeOut.milliseconds() < 1500)) {
             pto.motor1.setPower(-0.5);
             pto.motor2.setPower(-0.5);
         }
@@ -206,6 +206,7 @@ public class Delivery {
             slideRotation.setPower(-0.5);
         }
     }
+
     public void droneInit() { droneLauncher.setPosition(droneInit); }
 
     public void droneLaunch() {droneLauncher.setPosition(droneLaunch);}

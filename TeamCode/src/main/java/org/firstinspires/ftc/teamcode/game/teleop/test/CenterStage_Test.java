@@ -59,7 +59,7 @@ public class CenterStage_Test extends LinearOpMode {
         v4Bar.init(hardwareMap);
         claw.init(hardwareMap);
 
-        delivery.resetSlide();
+        //delivery.resetSlide();
 
         intake.resetMotor();
         delivery.resetMotor(); //reset all motors encoder
