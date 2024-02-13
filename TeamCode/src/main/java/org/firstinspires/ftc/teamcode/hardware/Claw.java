@@ -22,9 +22,9 @@ public class Claw {
     public double rightClawClosePosition = 0.335;
     public double clawAngleCenter = 0.5;
 
-    public double clawAngleIntake = 0.20;
-    public double clawAngleDeliveryStage1 = 0.15;
-    public double clawAngleDeliveryStage2 = 0.15; //used by 4bar return to intake
+    public double clawAngleIntake = 0.21;
+    public double clawAngleDeliveryStage1 = 0.14;
+    public double clawAngleDeliveryStage2 = 0.14; //used by 4bar return to intake
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
     public double clawAngleInit = 0.07;
 

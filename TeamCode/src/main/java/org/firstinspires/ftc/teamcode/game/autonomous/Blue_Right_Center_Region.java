@@ -34,7 +34,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
         intake.resetMotor();
 
         intake.setIntakePosition(intake.intakeInitPosition);
-        claw.setClawAnglePosition(claw.clawAngleInit);
+        claw.setClawAnglePosition(claw.clawAngleIntake);
         v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
         claw.closeLeftClaw();
         claw.openRightClaw();
@@ -93,7 +93,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
 
         robotState = RobotState.INTAKE_START;
         generalTimer.reset();
-        pixelCount++; //pre-load yellow pixel
+        secondPixelTimer.reset();
 
         while (!isStopRequested() && opModeIsActive()) {
             loopTimer.reset();
@@ -133,7 +133,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                             (Math.abs(delivery.getMotor2Position()) + 10 > slidePosition) ||
                             (generalTimer.milliseconds() > 800)) {
                         claw.openBothClaw();
-                        cycleCounterCenter--;  //cycle counter reduce
+                        cycleCounterCenter -=1;  //cycle counter reduce
                         robotState = RobotState.CLAW_OPEN;
                         clawOpenTimer.reset();
                     }
@@ -182,18 +182,17 @@ public class Blue_Right_Center_Region extends Auto_Region {
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
                         pixelCount = 0;
-                        if (cycleCounterCenter < scheduledCycleCenter) intake.the5Pixel -= 0.15; //not the first time
+                        if (cycleCounterCenter < scheduledCycleCenter) intake.the5Pixel -= 0.015; //not the first time
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
                     if (cycleCounterCenter == 0) {
+                        intake.setIntakePosition(intake.intakeInitPosition);
                         Pose2d parkingPose = drive.getPoseEstimate();
                         TrajectorySequence parking = drive.trajectorySequenceBuilder(parkingPose)
                                 .lineToConstantHeading(new Vector2d(48, 16))
                                 .build();
                         drive.followTrajectorySequence(parking);
                         robotState = RobotState.IDLE;
-                    } else {
-                        robotState = RobotState.AUTO_CYCLE_START;
                     }
                     break;
             }
@@ -202,7 +201,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineToLinearHeading(new Pose2d(-47, 14, Math.toRadians(175)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-47, 15, Math.toRadians(175)), Math.toRadians(180))
                             .addTemporalMarker(2, () -> {
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
@@ -226,8 +225,17 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     double leftDistance = intake.getLeftPixelSensor();
                     double rightDistance = intake.getRightPixelSensor();
 
-                    leftPixelOn = true; //pre-load pixel on left claw
+                    if (cycleCounterCenter == scheduledCycleCenter) {
+                        leftPixelOn = true;
+                        pixelCount +=1;   //pre-load yellow pixel
+                    }
 
+                    if ((leftDistance < intake.leftPixelDetectDistance) && (!leftPixelOn)) {
+                        claw.closeLeftClaw();
+                        pixelCount = pixelCount + 1;
+                        if (pixelCount < 2) intake.setIntakePositionStep(intake.theNextPixel);
+                        leftPixelOn = true;
+                    }
                     if ((rightDistance < intake.rightPixelDetectDistance) && (!rightPixelOn)) {
                         claw.closeRightClaw();
                         pixelCount = pixelCount + 1;
@@ -242,6 +250,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     }
                     if (((leftPixelOn) && (rightPixelOn)) ||
                             (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT)) {
+
                         if (cycleCounterCenter == scheduledCycleCenter) {
                             robotState = RobotState.YELLOW_PIXEL_DELIVERY;
                         } else {

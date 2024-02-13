@@ -37,7 +37,7 @@ public abstract class Auto_Region extends LinearOpMode {
     public final ElapsedTime secondPixelTimer = new ElapsedTime();
 
     public static double CLAW_OPEN_TIME = 350;
-    public static double SECOND_PIXEL_TIME = 900;
+    public static double SECOND_PIXEL_TIME = 850;
     public static double INTAKE_TIME_OUT = 1800;
 
     // ------- Drive ------- //
@@ -55,7 +55,7 @@ public abstract class Auto_Region extends LinearOpMode {
     // ------- Constants ------- //
     public static int SLIDE_POSITION_ONE       = 200;
     public static int SLIDE_POSITION_TWO       = 410;
-    public static int SLIDE_SECOND_ROUND       = 540;
+    public static int SLIDE_SECOND_ROUND       = 535;
     public static int SLIDE_ANGLE_ROUND_ONE     = 0;
     public static int SLIDE_ANGLE_POSITION     = 350;
     public static double V4BAR_DELIVERY        = 0.82;

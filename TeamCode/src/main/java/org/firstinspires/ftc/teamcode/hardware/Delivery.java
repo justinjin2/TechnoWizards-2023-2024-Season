@@ -192,6 +192,11 @@ public class Delivery {
         pto.motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void resetSlideAngle() {
+        slideRotation.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideRotation.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
     public void resetSlide() {
         slideReturnTimeOut.reset();
 
@@ -205,6 +210,7 @@ public class Delivery {
         while ((slideAngleSensor.getState()) && (slideReturnTimeOut.milliseconds() < 1000)) {
             slideRotation.setPower(-0.5);
         }
+        resetMotor();
     }
 
     public void droneInit() { droneLauncher.setPosition(droneInit); }

@@ -106,7 +106,7 @@ public class Trajectories_Region {
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineTo(new Vector2d(-43, 46), Math.toRadians(245))
+                    .splineTo(new Vector2d(-43, 45), Math.toRadians(245))
                     .setReversed(false)
                     .splineToLinearHeading(new Pose2d(-36, 51, Math.toRadians(90)), Math.toRadians(90))
                     .build();

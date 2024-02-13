@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.game.teleop;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
@@ -54,7 +57,7 @@ public class Controllers_Region {
         currentGamepad2.copy(gamepad2);
     }
 
-    public void readInputs(Gamepad gamepad1, Gamepad gamepad2) {
+    public void readInputs(Gamepad gamepad1, Gamepad gamepad2) throws InterruptedException {
 
         if (gamepad1.right_trigger > 0) {
             teleOp.setDriveSpeedRatio(0.5);
@@ -111,9 +114,28 @@ public class Controllers_Region {
         if (currentGamepad2.b && !previousGamepad2.b) {
             intake.intakeBackSpin();
         }
+
         if (currentGamepad2.x && !previousGamepad2.x) {
-            intake.intakeStop();
-            delivery.resetMotor();
+            delivery.resetSlideAngle();
+            intake.resetMotor();
+
+            intake.setIntakePosition(intake.intakeSafePosition);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+            v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+            claw.openBothClaw();
+            sleep(400);
+            delivery.resetSlide();
+            v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleIntake);
+            sleep(200);
+            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+
+            intake.resetMotor();
+            delivery.resetSlideAngle();
+
+            deliveryKey = '\0';
         }
 
         if (currentGamepad2.y && !previousGamepad2.y) {
