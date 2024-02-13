@@ -108,7 +108,7 @@ public class Trajectories_Region {
                     .setReversed(true)
                     .splineTo(new Vector2d(-43, 45), Math.toRadians(245))
                     .setReversed(false)
-                    .splineToLinearHeading(new Pose2d(-36, 51, Math.toRadians(90)), Math.toRadians(90))
+                    .splineToLinearHeading(new Pose2d(-37, 51, Math.toRadians(90)), Math.toRadians(90))
                     .build();
         }
 

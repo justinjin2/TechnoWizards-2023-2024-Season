@@ -94,10 +94,10 @@ public class CenterStage_Region extends LinearOpMode {
             claw.openBothClaw();
         } else {
             intake.setIntakePosition(intake.intakeSafePosition);
-            sleep(200);
+            claw.openBothClaw();
+            sleep(300);
             claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
             v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
-            claw.openBothClaw();
             sleep(400);
             delivery.resetSlide();
             v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);

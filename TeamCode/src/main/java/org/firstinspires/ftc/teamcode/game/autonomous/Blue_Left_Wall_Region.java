@@ -181,9 +181,9 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence backOffPose = drive.trajectorySequenceBuilder(intakePose)
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .splineToSplineHeading(new Pose2d(10, 60, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(10, 62, Math.toRadians(180)), Math.toRadians(180))
                             .resetVelConstraint()
-                            .splineToSplineHeading(new Pose2d(-34, 60, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(-34, 62, Math.toRadians(180)), Math.toRadians(180))
                             .addTemporalMarker(2.0, ()->{
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
@@ -197,7 +197,7 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                     Pose2d intakePose1 = drive.getPoseEstimate();
                     TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(5)
+                            .forward(5.5)
                             .build();
                     drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;
@@ -234,10 +234,9 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                         Pose2d backoffPose1 = drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(backoffPose1)
                                 .setReversed(true)
-                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                                 .splineTo(new Vector2d(-34, 58), Math.toRadians(13))
-                                .resetVelConstraint()
-                                .splineTo(new Vector2d(24, 57.5), Math.toRadians(5))
+                                .splineTo(new Vector2d(24, 57), Math.toRadians(6))
                                 .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })
@@ -255,7 +254,8 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                                     v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
-                                .splineTo(new Vector2d(42,54), Math.toRadians(-25))
+                                .resetVelConstraint()
+                                .splineTo(new Vector2d(41,51), Math.toRadians(-25))
                                 .addTemporalMarker(2.3, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
