@@ -170,11 +170,33 @@ public class Trajectories_Region {
 
         return sequence;
     }
-    
 
+    public TrajectorySequence getRedLeft(TeamPropDetector.TSEDetectorPipeline.TSEPosition position, Pose2d startPose) {
 
+        TrajectorySequence sequence;
 
+        if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(-41,-40, Math.toRadians(-120)), Math.toRadians(-120))
+                    .setReversed(false)
+                    .build();
+        }
+        else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineTo(new Vector2d(-32,-40), Math.toRadians(50))
+                    .build();
+        }
+        else {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineTo(new Vector2d(-43, -46), Math.toRadians(-245))
+                    .setReversed(false)
+                    .splineToLinearHeading(new Pose2d(-36, -53, Math.toRadians(-90)), Math.toRadians(-90))
+                    .build();
+        }
 
-
-
+        return sequence;
+    }
 }
