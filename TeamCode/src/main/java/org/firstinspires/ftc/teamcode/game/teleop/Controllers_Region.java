@@ -193,10 +193,25 @@ public class Controllers_Region {
         }
 
         if (currentGamepad1.b && !previousGamepad1.b) {
+            delivery.resetSlideAngle();
+            intake.resetMotor();
+
             intake.setIntakePosition(intake.intakeSafePosition);
-            delivery.slideAngleRunToPosition((delivery.slideAngleMaxDown));
-            delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
-            teleOp.setRobotState(RobotState.SLIDE_DOWN);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+            v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
+            claw.openBothClaw();
+            sleep(400);
+            delivery.resetSlide();
+            v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+            sleep(200);
+            claw.setClawAnglePosition(claw.clawAngleIntake);
+            sleep(200);
+            v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
+
+            intake.resetMotor();
+            delivery.resetSlideAngle();
+
             deliveryKey = '\0';
         }
 

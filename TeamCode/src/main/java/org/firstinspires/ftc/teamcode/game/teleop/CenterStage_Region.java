@@ -328,7 +328,7 @@ public class CenterStage_Region extends LinearOpMode {
                     break;
                 case DH_CLAW_ANGLE_STAGE2:
                     if (waitingTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
-                        delivery.slideRunToPosition_Encoder(delivery.slideMaxExtend, delivery.slideRunHighVelocity);
+                        delivery.slideRunToPosition_Encoder(delivery.slideExtendDrone, delivery.slideRunHighVelocity);
                         delivery.slideAngleRunToPosition(delivery.slideAngleDrone);
                         robotState = RobotState.DH_SLIDE_UP;
                     }

@@ -40,6 +40,8 @@ public class Delivery {
     public int slideAngleMaxUp = 900;
     public int slideAngleMaxDown = 0;
     public int slideAngleStep = 100;
+
+    public int slideExtendDrone = 480;
     public int slideAngleDrone = 700;
 
     public double droneInit = 0.5;
