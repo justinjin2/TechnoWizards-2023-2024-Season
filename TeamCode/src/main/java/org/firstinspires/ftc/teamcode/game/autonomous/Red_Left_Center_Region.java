@@ -295,11 +295,11 @@ public class Red_Left_Center_Region extends Auto_Region {
                     }
 
                     if (getPosition().name().equals("RIGHT")) {
-                        Pose2d leftPosition = drive.getPoseEstimate();
-                        TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
+                        Pose2d rightPosition = drive.getPoseEstimate();
+                        TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
                                 .lineToLinearHeading(new Pose2d(38, -45,Math.toRadians(175)))
                                 .build();
-                        drive.followTrajectorySequence(toLeftPosition);
+                        drive.followTrajectorySequence(toRightPosition);
                     } else if (getPosition().name().equals("CENTER")) {
                         Pose2d centerPosition = drive.getPoseEstimate();
                         TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
@@ -307,11 +307,11 @@ public class Red_Left_Center_Region extends Auto_Region {
                                 .build();
                         drive.followTrajectorySequence(toCenterPosition);
                     } else {
-                        Pose2d rightPosition = drive.getPoseEstimate();
-                        TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
+                        Pose2d leftPosition = drive.getPoseEstimate();
+                        TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
                                 .lineToLinearHeading(new Pose2d(38, -31, Math.toRadians(175)))
                                 .build();
-                        drive.followTrajectorySequence(toRightPosition);
+                        drive.followTrajectorySequence(toLeftPosition);
 
                     }
                     robotState = RobotState.BACK_TO_DELIVERY;
