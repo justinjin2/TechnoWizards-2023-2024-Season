@@ -49,6 +49,7 @@ public class Controllers_Region {
 
     boolean droneLaunched = false;
     boolean hanging = false;
+    boolean hangingToggle = false;
 
     public void updateCopies(Gamepad gamepad1, Gamepad gamepad2) {
         previousGamepad1.copy(currentGamepad1);
@@ -170,9 +171,15 @@ public class Controllers_Region {
         }
 
         if (currentGamepad1.back && !previousGamepad1.back) {
-            v4Bar.setV4BarPosition(v4Bar.getV4BarHangerPosition);
-            delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
             hanging = true;
+            hangingToggle = !hangingToggle;
+        }
+
+        if (hangingToggle) {
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxUp);
+        } else if (hanging) {
+            delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+            hanging = false;
         }
 
         if (currentGamepad1.start && !previousGamepad1.start) {
