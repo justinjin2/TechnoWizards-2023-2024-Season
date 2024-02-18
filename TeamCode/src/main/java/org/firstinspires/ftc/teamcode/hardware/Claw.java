@@ -28,6 +28,8 @@ public class Claw {
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
     public double clawAngleInit = 0.07;
 
+    public double clawAngleHanger = 0.42;
+
     public int clawAngleStage1Time = 200;
     public int clawAngleStage2Time = 200;
 

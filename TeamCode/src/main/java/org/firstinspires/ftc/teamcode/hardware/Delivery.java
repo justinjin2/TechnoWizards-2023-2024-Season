@@ -19,6 +19,7 @@ public class Delivery {
 
     DcMotorEx slideRotation;
     public ServoImplEx droneLauncher;
+    public ServoImplEx hanger;
     public DigitalChannel redLED;
     public DigitalChannel greenLED;
     private DigitalChannel leftSlideSensor, rightSlideSensor;
@@ -47,6 +48,9 @@ public class Delivery {
     public double droneInit = 0.5;
     public double droneLaunch = 1.0;
 
+    public double hangerInit = 1;
+    public double hangerDeploy = 0.6;
+
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;
 
@@ -71,6 +75,7 @@ public class Delivery {
         slideRotation.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         droneLauncher = hwmap.get(ServoImplEx.class, "droneLauncher");
+        hanger = hwmap.get(ServoImplEx.class, "hanger");
 
         leftSlideSensor = hwmap.get(DigitalChannel.class, "leftSlideSensor");
         rightSlideSensor = hwmap.get(DigitalChannel.class, "rightSlideSensor");
@@ -84,6 +89,7 @@ public class Delivery {
         claw.init(hwmap);
 
         droneLauncher.setPosition(droneInit);
+        hanger.setPosition(hangerInit);
 
         slideReturnTimeOut = new ElapsedTime();
     }
@@ -218,6 +224,8 @@ public class Delivery {
     public void droneInit() { droneLauncher.setPosition(droneInit); }
 
     public void droneLaunch() {droneLauncher.setPosition(droneLaunch);}
+
+    public void setHangerDeploy() {hanger.setPosition(hangerDeploy);}
 
     public int getMotor1Position() {
         return pto.motor1.getCurrentPosition();

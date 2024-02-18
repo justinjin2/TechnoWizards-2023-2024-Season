@@ -176,8 +176,7 @@ public class Controllers_Region {
         }
 
         if (currentGamepad1.start && !previousGamepad1.start) {
-            delivery.droneLaunch();
-            droneLaunched = true;
+            delivery.setHangerDeploy();
         }
 
         if (currentGamepad1.dpad_left && !previousGamepad1.dpad_left) {

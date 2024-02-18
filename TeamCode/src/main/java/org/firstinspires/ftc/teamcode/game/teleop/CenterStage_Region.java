@@ -345,6 +345,7 @@ public class CenterStage_Region extends LinearOpMode {
                         v4Bar.setV4BarPosition(v4Bar.v4BarHangerReadyPosition);
                         delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
                         delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+                        claw.setClawAnglePosition(claw.clawAngleHanger);
                         robotState = RobotState.HANGING_READY;
                     }
                     break;
