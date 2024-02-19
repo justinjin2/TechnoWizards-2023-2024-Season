@@ -34,7 +34,7 @@ public class Delivery {
     public int slideRunLowVelocity = 1000;
     public int slideAngleVelocity = 2800;
 
-    public int slideMaxExtend = 600;
+    public int slideMaxExtend = 650;
     public int slideStart = 0;
     public int slideIncreaseManual = 50;
 
@@ -43,7 +43,7 @@ public class Delivery {
     public int slideAngleStep = 100;
 
     public int slideExtendDrone = 480;
-    public int slideAngleDrone = 700;
+    public int slideAngleDrone = 750;
 
     public double droneInit = 0.5;
     public double droneLaunch = 1.0;

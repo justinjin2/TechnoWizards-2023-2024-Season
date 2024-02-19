@@ -260,7 +260,6 @@ public class CenterStage_Region extends LinearOpMode {
                     if (((Math.abs(delivery.getMotor1Position()) - 250) < 0) ||
                             (Math.abs(delivery.getMotor2Position()) - 250 < 0))
                     {
-                        //v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
