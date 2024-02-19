@@ -241,7 +241,7 @@ public class Controllers_Region {
 
         if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up) {
             droneLaunched = false;
-            intake.setIntakePosition(intake.intakeSafePosition);
+            intake.setIntakePosition(intake.intakeHangerPosition);
             teleOp.setRobotState(RobotState.DRONE_HANGER_START);
             deliveryKey = '\0';
         }

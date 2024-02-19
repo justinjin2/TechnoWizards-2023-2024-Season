@@ -123,6 +123,7 @@ public class Red_Right_Wall_Region extends Auto_Region {
                     {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                         v4BarDownTimer.reset();
                     }

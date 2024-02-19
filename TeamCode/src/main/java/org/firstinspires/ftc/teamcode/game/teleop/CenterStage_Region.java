@@ -262,6 +262,7 @@ public class CenterStage_Region extends LinearOpMode {
                     {
                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                         delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
+                        v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
                         robotState = RobotState.SLIDE_ANGLE_DOWN;
                         v4BarDownTimer.reset();
                     }
@@ -270,7 +271,8 @@ public class CenterStage_Region extends LinearOpMode {
                     if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
                             (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
                             (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 10 < 0))) {
+                            (Math.abs(delivery.getMotor2Position()) - 10 < 0)))
+                    {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         waitingTimer.reset();

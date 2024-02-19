@@ -23,7 +23,7 @@ public class V4Bar {
 
     public int v4BarUpStage1Time = 100;
     public int v4BarUpStage2Time = 280;
-    public int v4BarDownTime = 280;
+    public int v4BarDownTime = 200;
 
     public void init(HardwareMap hwmap) {
         v4BLeft = hwmap.get(ServoImplEx.class, "v4BLeft");
