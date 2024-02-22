@@ -40,7 +40,7 @@ public class Controllers_Region {
     public double[][] target = {        //2d array: slideLength, 4BarPosition, clawAngle, slideAngle
             {360, 0.76, 0.54, 0},
             {340, 0.73, 0.64, 300},
-            {510, 0.73, 0.67, 375},
+            {460, 0.73, 0.67, 375},
             {510, 0.73, 0.67, 600},
     };
 
@@ -112,11 +112,11 @@ public class Controllers_Region {
             droneLaunched = true;
         }
 
-        if (currentGamepad2.b && !previousGamepad2.b) {
+        if (currentGamepad2.x && !previousGamepad2.x) {
             intake.intakeBackSpin();
         }
 
-        if (currentGamepad2.x && !previousGamepad2.x) {
+        if (currentGamepad2.b && !previousGamepad2.b) {
             delivery.resetSlideAngle();
             intake.resetMotor();
 

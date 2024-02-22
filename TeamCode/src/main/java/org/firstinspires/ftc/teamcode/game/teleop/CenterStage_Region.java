@@ -204,16 +204,30 @@ public class CenterStage_Region extends LinearOpMode {
                     break;
                 case V4BAR_UP_STAGE2:
                     if (waitingTimer.milliseconds() > 200) {
-                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage2);
+                        if (controllers.deliveryKey == 'a') {
+                            v4Bar.setV4BarPosition(controllers.target[0][1]);
+                        }
+
+                        if (controllers.deliveryKey == 'x') {
+                           v4Bar.setV4BarPosition(controllers.target[1][1]);
+                        }
+
+                        if (controllers.deliveryKey == 'y') {
+                           v4Bar.setV4BarPosition(controllers.target[2][1]);
+                        }
+
+                        if (controllers.deliveryKey == '1') {
+                            v4Bar.setV4BarPosition(controllers.target[3][1]);
+                        }
                         robotState = RobotState.CLAW_ANGLE_STAGE2;
                         v4BarUpTimer.reset();
                     }
                     break;
                 case CLAW_ANGLE_STAGE2:
-                    if (waitingTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
-                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
+                    if (v4BarUpTimer.milliseconds() > v4Bar.v4BarUpStage2Time) {
                         robotState = RobotState.DELIVERY_READY;
                     }
+                    break;
                 case DELIVERY_READY:
                     if (controllers.deliveryKey == 'a') {
                         delivery.slideRunToPosition_Encoder((int) controllers.target[0][0], delivery.slideRunHighVelocity);
