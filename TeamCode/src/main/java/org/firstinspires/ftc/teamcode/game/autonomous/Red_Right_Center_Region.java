@@ -218,7 +218,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                         Pose2d deliveryPose= drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(42,-22), Math.toRadians(-22))
+                                .splineTo(new Vector2d(41.5,-22), Math.toRadians(-22))
                                 .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })

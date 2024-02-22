@@ -335,6 +335,7 @@ public class Blue_Right_Wall_Region extends Auto_Region {
 
                     }
                     robotState = RobotState.BACK_TO_DELIVERY;
+                    break;
                 case BACK_TO_DELIVERY:
                     if (!drive.isBusy()) {
                         robotState = RobotState.DELIVERY_START;

@@ -24,7 +24,7 @@ public class Claw {
 
     public double clawAngleIntake = 0.215;
     public double clawAngleDeliveryStage1 = 0.15;
-    public double clawAngleDeliveryStage2 = 0.16; //used by 4bar return to intake
+    public double clawAngleDeliveryStage2 = 0.15; //used by 4bar return to intake
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
     public double clawAngleInit = 0.07;
 
