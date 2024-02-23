@@ -203,10 +203,10 @@ public class Controllers_Region {
             intake.resetMotor();
 
             intake.setIntakePosition(intake.intakeSafePosition);
+            claw.openBothClaw();
             sleep(200);
             claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
             v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
-            claw.openBothClaw();
             sleep(400);
             delivery.resetSlide();
             v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
