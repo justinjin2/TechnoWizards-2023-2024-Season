@@ -395,8 +395,8 @@ public class CenterStage_Region extends LinearOpMode {
 //        telemetry.addData("intake position", intake.getIntakeDownPosition());
 //        telemetry.addData("motor1 current", intake.getMotor1Current());
 //        telemetry.addData("motor2 current", intake.getMotor2Current());
-        telemetry.addData("left pixel on", intake.getLeftPixelSensor());
-        telemetry.addData("right pixel on", intake.getRightPixelSensor());
+//        telemetry.addData("left pixel on", intake.getLeftPixelSensor());
+//        telemetry.addData("right pixel on", intake.getRightPixelSensor());
 //        telemetry.addData("left claw on", claw.getLeftClawSensor());
 //        telemetry.addData("right claw on", claw.getRightClawSensor());
 //        telemetry.addData("slide angle motor current", delivery.getSlideAngleMotorCurrent());
