@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.game.teleop.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -33,6 +34,8 @@ public class CenterStage_Test extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         StandardTrackingWheelLocalizer myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
@@ -61,11 +64,11 @@ public class CenterStage_Test extends LinearOpMode {
 
         //delivery.resetSlide();
 
-        intake.resetMotor();
-        delivery.resetMotor(); //reset all motors encoder
+        //intake.resetMotor();
+        //delivery.resetMotor(); //reset all motors encoder
         //intake.setIntakePosition(intake.intakeCenterPosition);
         //sleep(400);
-        claw.setClawAnglePosition(claw.clawAngleIntake);
+        //claw.setClawAnglePosition(claw.clawAngleIntake);
         //v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
         //intake.setIntakePosition(intake.intakeSafePosition);
         //claw.openBothClaw();

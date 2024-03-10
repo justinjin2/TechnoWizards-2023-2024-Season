@@ -313,19 +313,19 @@ public class Red_Left_Wall_Region extends Auto_Region {
                     if (getPosition().name().equals("RIGHT")) {
                         Pose2d rightPosition = drive.getPoseEstimate();
                         TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
-                                .lineToLinearHeading(new Pose2d(38, -41,Math.toRadians(175)))
+                                .lineToLinearHeading(new Pose2d(38, -39.5,Math.toRadians(175)))
                                 .build();
                         drive.followTrajectorySequence(toRightPosition);
                     } else if (getPosition().name().equals("CENTER")) {
                         Pose2d centerPosition = drive.getPoseEstimate();
                         TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
-                                .splineToLinearHeading(new Pose2d(38, -35, Math.toRadians(175)), Math.toRadians(18))
+                                .splineToLinearHeading(new Pose2d(38, -33.5, Math.toRadians(175)), Math.toRadians(18))
                                 .build();
                         drive.followTrajectorySequence(toCenterPosition);
                     } else {
                         Pose2d leftPosition = drive.getPoseEstimate();
                         TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
-                                .lineToLinearHeading(new Pose2d(38, -27, Math.toRadians(175)))
+                                .lineToLinearHeading(new Pose2d(38, -25.5, Math.toRadians(175)))
                                 .build();
                         drive.followTrajectorySequence(toLeftPosition);
 

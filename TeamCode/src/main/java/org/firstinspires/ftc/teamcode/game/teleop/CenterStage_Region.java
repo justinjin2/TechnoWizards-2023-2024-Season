@@ -284,9 +284,12 @@ public class CenterStage_Region extends LinearOpMode {
                 case SLIDE_ANGLE_DOWN: //slide angle has to be down first
                     if (((Math.abs(delivery.getSlideAnglePosition()) - 10) < 0) &&
                             (v4BarDownTimer.milliseconds() > v4Bar.v4BarDownTime) &&
-                            (((Math.abs(delivery.getMotor1Position()) - 10) < 0) ||
-                            (Math.abs(delivery.getMotor2Position()) - 10 < 0)))
+                            ((((Math.abs(delivery.getMotor1Position()) - 0) < 0) ||
+                            (Math.abs(delivery.getMotor2Position()) - 0 < 0)) ||
+                            (delivery.getLeftSlideSensor()) ||
+                            (delivery.getRightSlideSensor())))
                     {
+                        delivery.resetMotor();
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                         robotState = RobotState.V4BAR_DOWN_MIDDLE;
                         waitingTimer.reset();
@@ -304,7 +307,7 @@ public class CenterStage_Region extends LinearOpMode {
                     if (waitingTimer.milliseconds() > 200) {
                         intake.setIntakePosition(intake.intakeCenterPosition);
                         robotState = RobotState.IDLE;
-                        delivery.resetMotor();
+                        //delivery.resetMotor();
                         controllers.deliveryKey = '\0';
                     }
                     break;
@@ -392,8 +395,8 @@ public class CenterStage_Region extends LinearOpMode {
 //        telemetry.addData("intake position", intake.getIntakeDownPosition());
 //        telemetry.addData("motor1 current", intake.getMotor1Current());
 //        telemetry.addData("motor2 current", intake.getMotor2Current());
-//        telemetry.addData("left pixel on", intake.getLeftPixelSensor());
-//        telemetry.addData("right pixel on", intake.getRightPixelSensor());
+        telemetry.addData("left pixel on", intake.getLeftPixelSensor());
+        telemetry.addData("right pixel on", intake.getRightPixelSensor());
 //        telemetry.addData("left claw on", claw.getLeftClawSensor());
 //        telemetry.addData("right claw on", claw.getRightClawSensor());
 //        telemetry.addData("slide angle motor current", delivery.getSlideAngleMotorCurrent());

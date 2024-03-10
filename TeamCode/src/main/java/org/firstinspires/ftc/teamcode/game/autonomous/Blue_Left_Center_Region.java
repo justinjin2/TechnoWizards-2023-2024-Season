@@ -181,7 +181,7 @@ public class Blue_Left_Center_Region extends Auto_Region {
                     Pose2d intakePose1 = drive.getPoseEstimate();
                     TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .forward(7)
+                        .forward(8)
                         .build();
                     drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;

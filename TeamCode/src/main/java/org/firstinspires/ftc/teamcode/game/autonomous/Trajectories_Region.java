@@ -132,7 +132,7 @@ public class Trajectories_Region {
                         claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
                     .setReversed(false)
-                    .splineToLinearHeading(new Pose2d(38, -35, Math.toRadians(180)), Math.toRadians(18))
+                    .splineToLinearHeading(new Pose2d(38, -36, Math.toRadians(180)), Math.toRadians(18))
                     .build();
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
