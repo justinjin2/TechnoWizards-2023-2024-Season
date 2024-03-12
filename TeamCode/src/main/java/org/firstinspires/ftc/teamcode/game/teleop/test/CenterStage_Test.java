@@ -184,8 +184,6 @@ public class CenterStage_Test extends LinearOpMode {
         telemetry.addData("right pixel on", intake.getRightPixelSensor());
         telemetry.addData("left claw on", claw.getLeftClawSensor());
         telemetry.addData("right claw on", claw.getRightClawSensor());
-        telemetry.addData("red LED state", delivery.redLED.getState());
-        telemetry.addData("green LED state", delivery.greenLED.getState());
         telemetry.addData("Loop Timer", loopTimer.milliseconds());
         telemetry.addData("Tag Bearings: ", aprilTagDetector.getRawBearings());
         telemetry.addData("Odometry Heading", Math.round(drive.getPoseEstimate().getHeading()));

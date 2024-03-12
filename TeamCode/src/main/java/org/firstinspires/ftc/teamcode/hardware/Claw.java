@@ -97,7 +97,7 @@ public class Claw {
 
     public double getClawAngle() { return clawRotation.getPosition();}
 
-    public boolean getLeftClawSensor() { return !leftClawSensor.getState(); }
+    public boolean getLeftClawSensor() { return !cbleftClawSensor.getState(); }
 
     public boolean getRightClawSensor() { return !rightClawSensor.getState(); }
 }

@@ -49,10 +49,10 @@ public class UltrasonicMulti extends LinearOpMode {
             double distanceBackRight = voltageToInches(voltageBackRight);
 
             // Display the converted distances
-            telemetry.addData("Distance Left (inches)", distanceLeft);
-            telemetry.addData("Distance Right (inches)", distanceRight);
-            telemetry.addData("Distance Back Left (inches)", distanceBackLeft);
-            telemetry.addData("Distance Back Right (inches)", distanceBackRight);
+            telemetry.addData("Distance Left (inches)", "%.2f", distanceLeft);
+            telemetry.addData("Distance Right (inches)", "%.2f", distanceRight);
+            telemetry.addData("Distance Back Left (inches)", "%.2f", distanceBackLeft);
+            telemetry.addData("Distance Back Right (inches)", "%.2f", distanceBackRight);
             telemetry.update();
         }
     }
