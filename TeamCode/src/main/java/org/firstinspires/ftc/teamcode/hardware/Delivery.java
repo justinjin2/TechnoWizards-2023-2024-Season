@@ -49,7 +49,7 @@ public class Delivery {
     public double droneLaunch = 1.0;
 
     public double hangerInit = 1;
-    public double hangerDeploy = 0.6;
+    public double hangerDeploy = 0.5;
 
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;

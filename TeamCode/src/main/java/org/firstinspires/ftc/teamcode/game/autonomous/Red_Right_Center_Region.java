@@ -168,7 +168,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineToLinearHeading(new Pose2d(-47, -12, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-47, -13, Math.toRadians(180)), Math.toRadians(180))
                             .addTemporalMarker(2, ()->{
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);

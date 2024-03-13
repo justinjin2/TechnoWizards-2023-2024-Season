@@ -121,6 +121,35 @@ public class Trajectories_Simulation {
 
         return sequence;
     }
+    public TrajectorySequence getRedRight2_6(TeamPropDetector.TSEDetectorPipeline.TSEPosition position, Pose2d startPose) {
+
+        TrajectorySequence sequence;
+
+        if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(20,-41, Math.toRadians(285)), Math.toRadians(285))
+                    .build();
+        }
+        else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(24, 44))
+                    .lineTo(new Vector2d(26, 58))
+                    .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
+                    .build();
+        }
+        else {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(9, 40, Math.toRadians(35)), Math.toRadians(190))
+                    .setReversed(false)
+                    .lineTo(new Vector2d(12, 43))
+                    .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
+                    .build();
+        }
+
+        return sequence;
+    }
     
 
 

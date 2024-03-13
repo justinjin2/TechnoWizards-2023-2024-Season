@@ -24,7 +24,7 @@ public class Claw {
 
     public double clawAngleIntake = 0.22;
     public double clawAngleDeliveryStage1 = 0.15;
-    public double clawAngleDeliveryStage2 = 0.15; //used by 4bar return to intake
+    public double clawAngleDeliveryStage2 = 0.157; //used by 4bar return to intake
     public double clawAngleToHeight = 0.02; //steps when alide angle goes up
     public double clawAngleInit = 0.07;
 
@@ -97,7 +97,7 @@ public class Claw {
 
     public double getClawAngle() { return clawRotation.getPosition();}
 
-    public boolean getLeftClawSensor() { return !cbleftClawSensor.getState(); }
+    public boolean getLeftClawSensor() { return leftClawSensor.getState(); }
 
-    public boolean getRightClawSensor() { return !rightClawSensor.getState(); }
+    public boolean getRightClawSensor() { return rightClawSensor.getState(); }
 }
