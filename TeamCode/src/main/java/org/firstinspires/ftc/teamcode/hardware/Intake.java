@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit.AMPS;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -11,11 +12,17 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.util.VoltageToInches;
 
 public class Intake {
 
     ServoImplEx intakeRotation;
     private ColorRangeSensor leftPixelSensor, rightPixelSensor;
+    private AnalogInput ultrasonicBackLeft;
+    private AnalogInput ultrasonicBackRight;
+
+    VoltageToInches voltageToInches = new VoltageToInches();
+
     PTO pto = new PTO();
     V4Bar v4Bar = new V4Bar();
     Claw claw = new Claw();
@@ -42,6 +49,10 @@ public class Intake {
         intakeRotation = hwmap.get(ServoImplEx.class, "intakeRotation");
         leftPixelSensor = hwmap.get(ColorRangeSensor.class, "leftPixelSensor");
         rightPixelSensor = hwmap.get(ColorRangeSensor.class, "rightPixelSensor");
+
+        ultrasonicBackLeft = hwmap.get(AnalogInput.class, "ultrasonic_back_left"); // Corrected initialization
+        ultrasonicBackRight = hwmap.get(AnalogInput.class, "ultrasonic_back_right"); // Initialized the new sensor
+
         pto.init(hwmap);
         v4Bar.init(hwmap);
         claw.init(hwmap);
@@ -94,4 +105,8 @@ public class Intake {
     public double getLeftPixelSensor() { return leftPixelSensor.getDistance(DistanceUnit.MM); }
 
     public double getRightPixelSensor() { return rightPixelSensor.getDistance(DistanceUnit.MM); }
+
+    public double getUltrasonicBackLeft() { return voltageToInches.calculateInches(ultrasonicBackLeft.getVoltage()); }
+
+    public double getUltrasonicBackRight() { return voltageToInches.calculateInches(ultrasonicBackRight.getVoltage()); }
 }

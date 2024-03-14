@@ -35,10 +35,11 @@ public abstract class Auto_Region extends LinearOpMode {
     public final ElapsedTime v4BarDownTimer = new ElapsedTime();
     public final ElapsedTime clawAngleTimer = new ElapsedTime();
     public final ElapsedTime secondPixelTimer = new ElapsedTime();
+    public final ElapsedTime avoidCollisionTimer = new ElapsedTime();
 
     public static double CLAW_OPEN_TIME = 350;
-    public static double SECOND_PIXEL_TIME = 850;
-    public static double INTAKE_TIME_OUT = 1800;
+    public static double SECOND_PIXEL_TIME = 500;
+    public static double INTAKE_TIME_OUT = 1500;
 
     // ------- Drive ------- //
     public SampleMecanumDrive drive;
@@ -58,7 +59,7 @@ public abstract class Auto_Region extends LinearOpMode {
     public static int SLIDE_SECOND_ROUND       = 535;
     public static int SLIDE_ANGLE_ROUND_ONE     = 0;
     public static int SLIDE_ANGLE_POSITION     = 350;
-    public static double V4BAR_DELIVERY        = 0.82;
+    public static double V4BAR_DELIVERY        = 0.84;
     public static double CLAW_DELIVERY         = 0.50;
     public static double CLAW_SECOND_ROUND     = 0.48;
 

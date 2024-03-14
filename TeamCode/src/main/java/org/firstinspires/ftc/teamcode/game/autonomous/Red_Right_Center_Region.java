@@ -178,12 +178,28 @@ public class Red_Right_Center_Region extends Auto_Region {
                             })
                             .build();
                     drive.followTrajectorySequence(intakeStart);
-                    Pose2d intakePose1 = drive.getPoseEstimate();
-                    TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .forward(8)
-                        .build();
-                    drive.followTrajectorySequence(forward);
+
+                    //using ultrasound sensor to calculate distance to wall
+                    double leftSideDistance = intake.getUltrasonicBackLeft();
+                    double rightSideDistance = intake.getUltrasonicBackRight();
+                    double diff = leftSideDistance - rightSideDistance;
+                    if (Math.abs(diff) < 1.5) {
+                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - 8;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(forwardDistance))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    } else {
+                        double min = Math.min(leftSideDistance, rightSideDistance) - 8;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(min))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    }
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();
@@ -204,7 +220,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                         if (pixelCount < 2) intake.setIntakePositionStep(intake.theNextPixel);
                         rightPixelOn = true;
                         }
-                    if ((secondPixelTimer.milliseconds() > SECOND_PIXEL_TIME) &&
+                    if ((secondPixelTimer.milliseconds() > Auto_Region.SECOND_PIXEL_TIME) &&
                             (pixelCount < 2)) {
                         intake.setIntakePositionStep(intake.theNextPixel);
                         pixelCount = pixelCount + 1;

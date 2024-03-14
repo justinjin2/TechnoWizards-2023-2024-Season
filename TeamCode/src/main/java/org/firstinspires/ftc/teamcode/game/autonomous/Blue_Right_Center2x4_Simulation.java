@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.game.RobotState;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.util.VoltageToInches;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
 
 import java.util.List;

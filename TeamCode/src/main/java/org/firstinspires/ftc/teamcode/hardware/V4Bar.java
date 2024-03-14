@@ -20,6 +20,7 @@ public class V4Bar {
 
     public double v4BarDeliveryStage1 = 0.295;
     public double v4BarDeliveryStage2 = 0.84;
+    public double v4BarYellowDump = 0.80;
 
     public int v4BarUpStage1Time = 100;
     public int v4BarUpStage2Time = 280;

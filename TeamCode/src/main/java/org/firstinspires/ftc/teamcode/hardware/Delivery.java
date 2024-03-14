@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit.AM
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.util.VoltageToInches;
 
 public class Delivery {
     ElapsedTime deliveryTimeout;
@@ -24,10 +27,14 @@ public class Delivery {
     public DigitalChannel greenLED;
     private DigitalChannel leftSlideSensor, rightSlideSensor;
     private DigitalChannel slideAngleSensor;
+    private AnalogInput ultrasonicLeft;
+    private AnalogInput ultrasonicRight;
 
     PTO pto = new PTO();
     V4Bar v4Bar = new V4Bar();
     Claw claw = new Claw();
+
+    VoltageToInches voltageToInches = new VoltageToInches();
 
     public int slideRunHighVelocity = 2800;
     public int slideReturnVelocity = 1400;
@@ -50,6 +57,10 @@ public class Delivery {
 
     public double hangerInit = 1;
     public double hangerDeploy = 0.6;
+
+    public double avoidAllianceDistance = 30;
+    public int avoidCollisionTime = 3500;
+    public boolean dumpYellow = false;
 
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;
@@ -80,6 +91,9 @@ public class Delivery {
         leftSlideSensor = hwmap.get(DigitalChannel.class, "leftSlideSensor");
         rightSlideSensor = hwmap.get(DigitalChannel.class, "rightSlideSensor");
         slideAngleSensor = hwmap.get(DigitalChannel.class, "slideAngleSensor");
+
+        ultrasonicLeft = hwmap.get(AnalogInput.class, "ultrasonic_left");
+        ultrasonicRight = hwmap.get(AnalogInput.class, "ultrasonic_right");
 
         redLED = hwmap.get(DigitalChannel.class, "redLED");
         greenLED = hwmap.get(DigitalChannel.class, "greenLED");
@@ -246,5 +260,10 @@ public class Delivery {
     public boolean getRightSlideSensor() { return !rightSlideSensor.getState(); }
 
     public boolean getSlideAngleSensor() { return !slideAngleSensor.getState(); }
+
+    public double getUltrasonicLeft() { return voltageToInches.calculateInches(ultrasonicLeft.getVoltage()); }
+
+    public double getUltrasonicRight() { return voltageToInches.calculateInches(ultrasonicRight.getVoltage()); }
+
 
 }
