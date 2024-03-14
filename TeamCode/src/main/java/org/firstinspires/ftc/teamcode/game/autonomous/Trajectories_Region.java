@@ -153,7 +153,7 @@ public class Trajectories_Region {
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(10, -41, Math.toRadians(325)), Math.toRadians(190))
+                    .splineToLinearHeading(new Pose2d(9, -41, Math.toRadians(325)), Math.toRadians(190))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -185,7 +185,7 @@ public class Trajectories_Region {
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineTo(new Vector2d(-32,-40), Math.toRadians(50))
+                    .splineTo(new Vector2d(-31,-40), Math.toRadians(50))
                     .build();
         }
         else {

@@ -183,7 +183,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                     double leftSideDistance = intake.getUltrasonicBackLeft();
                     double rightSideDistance = intake.getUltrasonicBackRight();
                     double diff = leftSideDistance - rightSideDistance;
-                    if (Math.abs(diff) < 1.5) {
+                    if (Math.abs(diff) < 1.0) {
                         double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - 8;
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)

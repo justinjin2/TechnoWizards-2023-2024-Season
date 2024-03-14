@@ -216,7 +216,7 @@ public class Red_Left_Center_Region extends Auto_Region {
                     double leftSideDistance = intake.getUltrasonicBackLeft();
                     double rightSideDistance = intake.getUltrasonicBackRight();
                     double diff = leftSideDistance - rightSideDistance;
-                    if (Math.abs(diff) < 1.5) {
+                    if (Math.abs(diff) < 1.0) {
                         double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - 8;
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
@@ -352,19 +352,19 @@ public class Red_Left_Center_Region extends Auto_Region {
                         if (getPosition().name().equals("RIGHT")) {
                             Pose2d rightPosition = drive.getPoseEstimate();
                             TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
-                                    .lineToLinearHeading(new Pose2d(38, -45, Math.toRadians(175)))
+                                    .lineToLinearHeading(new Pose2d(39, -45, Math.toRadians(175)))
                                     .build();
                             drive.followTrajectorySequence(toRightPosition);
                         } else if (getPosition().name().equals("CENTER")) {
                             Pose2d centerPosition = drive.getPoseEstimate();
                             TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
-                                    .splineToLinearHeading(new Pose2d(38, -39, Math.toRadians(175)), Math.toRadians(18))
+                                    .splineToLinearHeading(new Pose2d(39, -39, Math.toRadians(175)), Math.toRadians(18))
                                     .build();
                             drive.followTrajectorySequence(toCenterPosition);
                         } else {
                             Pose2d leftPosition = drive.getPoseEstimate();
                             TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
-                                    .lineToLinearHeading(new Pose2d(38, -31, Math.toRadians(175)))
+                                    .lineToLinearHeading(new Pose2d(39, -31, Math.toRadians(175)))
                                     .build();
                             drive.followTrajectorySequence(toLeftPosition);
 
