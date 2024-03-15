@@ -93,6 +93,15 @@ public class Red_Left_Center_Region extends Auto_Region {
             //using ultrasound sensor to calculate distance to wall
             double leftSideDistance1 = intake.getUltrasonicBackLeft();
             double rightSideDistance1 = intake.getUltrasonicBackRight();
+
+            //if sensor is broken
+            if ((leftSideDistance1 < 0) && (rightSideDistance1 > 0)) leftSideDistance1 = rightSideDistance1;
+            if ((leftSideDistance1 > 0) && (rightSideDistance1 < 0)) rightSideDistance1 = leftSideDistance1;
+            if ((leftSideDistance1 < 0) && (rightSideDistance1 < 0)) {
+                leftSideDistance1 = 15;
+                rightSideDistance1 = 15;
+            }
+
             double diff1 = leftSideDistance1 - rightSideDistance1;
             if (Math.abs(diff1) < 1.0) {
                 double forwardDistance = ((leftSideDistance1 + rightSideDistance1) / 2) - delivery.intakeExtendLength1;
@@ -238,6 +247,13 @@ public class Red_Left_Center_Region extends Auto_Region {
                     if (!drive.isBusy()) {
                         double leftSideDistance = intake.getUltrasonicBackLeft();
                         double rightSideDistance = intake.getUltrasonicBackRight();
+                        //if sensor is broken
+                        if ((leftSideDistance < 0) && (rightSideDistance > 0)) leftSideDistance = rightSideDistance;
+                        if ((leftSideDistance > 0) && (rightSideDistance < 0)) rightSideDistance = leftSideDistance;
+                        if ((leftSideDistance < 0) && (rightSideDistance < 0)) {
+                            leftSideDistance = 15;
+                            rightSideDistance = 15;
+                        }
                         double diff = leftSideDistance - rightSideDistance;
                         if (Math.abs(diff) < 1.0) {
                             double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
