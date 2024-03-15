@@ -180,27 +180,28 @@ public class Red_Right_Center_Region extends Auto_Region {
                     drive.followTrajectorySequence(intakeStart);
 
                     //using ultrasound sensor to calculate distance to wall
-                    double leftSideDistance = intake.getUltrasonicBackLeft();
-                    double rightSideDistance = intake.getUltrasonicBackRight();
-                    double diff = leftSideDistance - rightSideDistance;
-                    if (Math.abs(diff) < 1.0) {
-                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
-                        Pose2d intakePose1 = drive.getPoseEstimate();
-                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                .forward((int)Math.round(forwardDistance))
-                                .build();
-                        drive.followTrajectorySequence(forward);
-                    } else {
-                        double min = Math.min(leftSideDistance, rightSideDistance) - delivery.intakeExtendLength;
-                        Pose2d intakePose1 = drive.getPoseEstimate();
-                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                .forward((int)Math.round(min))
-                                .build();
-                        drive.followTrajectorySequence(forward);
+                    if (!drive.isBusy()) {
+                        double leftSideDistance = intake.getUltrasonicBackLeft();
+                        double rightSideDistance = intake.getUltrasonicBackRight();
+                        double diff = leftSideDistance - rightSideDistance;
+                        if (Math.abs(diff) < 1.0) {
+                            double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
+                            Pose2d intakePose1 = drive.getPoseEstimate();
+                            TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                    .forward((int) Math.round(forwardDistance))
+                                    .build();
+                            drive.followTrajectorySequence(forward);
+                        } else {
+                            double min = Math.min(leftSideDistance, rightSideDistance) - delivery.intakeExtendLength;
+                            Pose2d intakePose1 = drive.getPoseEstimate();
+                            TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                    .forward((int) Math.round(min))
+                                    .build();
+                            drive.followTrajectorySequence(forward);
+                        }
                     }
-
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();

@@ -58,9 +58,10 @@ public class Delivery {
     public double hangerInit = 1;
     public double hangerDeploy = 0.6;
 
-    public double avoidAllianceDistance = 30;
+    public double avoidAllianceDistance = 25;
     public int avoidCollisionTime = 3500;
-    public double intakeExtendLength = 7.5;
+    public double intakeExtendLength = 7.2;
+    public double intakeExtendLength1 = 6.2;
     public boolean dumpYellow = false;
 
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
