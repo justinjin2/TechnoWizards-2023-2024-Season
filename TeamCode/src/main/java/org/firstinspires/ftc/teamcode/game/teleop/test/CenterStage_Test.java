@@ -167,6 +167,10 @@ public class CenterStage_Test extends LinearOpMode {
         //telemetry.addData("x", poseEstimate.getX());
         //telemetry.addData("y", poseEstimate.getY());
         //telemetry.addData("heading", poseEstimate.getHeading());
+        telemetry.addData("back left ultrasound", intake.getUltrasonicBackLeft());
+        telemetry.addData("back right ultrasound", intake.getUltrasonicBackRight());
+        telemetry.addData("side left ultrasound", delivery.getUltrasonicLeft());
+        telemetry.addData("side right ultrasound", delivery.getUltrasonicRight());
         telemetry.addData("left slide sensor", delivery.getLeftSlideSensor());
         telemetry.addData("right slide sensor", delivery.getRightSlideSensor());
         telemetry.addData("slide angle sensor", delivery.getSlideAngleSensor());
