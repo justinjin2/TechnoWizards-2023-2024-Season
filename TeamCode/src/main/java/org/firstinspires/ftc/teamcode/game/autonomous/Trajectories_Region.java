@@ -37,7 +37,7 @@ public class Trajectories_Region {
         if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(20,42, Math.toRadians(75)), Math.toRadians(75))
+                    .splineToLinearHeading(new Pose2d(20,41, Math.toRadians(75)), Math.toRadians(75))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -52,7 +52,7 @@ public class Trajectories_Region {
         }
         else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(24, 44))
+                    .lineTo(new Vector2d(23, 44))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
@@ -68,7 +68,7 @@ public class Trajectories_Region {
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
-                    .splineToLinearHeading(new Pose2d(10, 41, Math.toRadians(35)), Math.toRadians(190))
+                    .splineToLinearHeading(new Pose2d(9, 41, Math.toRadians(35)), Math.toRadians(190))
                     .addTemporalMarker(1, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })

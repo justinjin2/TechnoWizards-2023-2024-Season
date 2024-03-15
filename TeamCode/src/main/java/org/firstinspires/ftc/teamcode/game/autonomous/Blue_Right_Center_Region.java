@@ -69,7 +69,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
-                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(180))
+                    .splineToSplineHeading(new Pose2d(-47, 14, Math.toRadians(180)), Math.toRadians(30))
                     .addTemporalMarker(1.2, ()->{
                         intake.intakeStart();
                     })
@@ -79,7 +79,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
         } else {
             Pose2d currentPose2 = drive.getPoseEstimate();
             TrajectorySequence toIntakePosition = drive.trajectorySequenceBuilder(currentPose2)
-                    .splineToSplineHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(30))
+                    .splineToSplineHeading(new Pose2d(-47, 14, Math.toRadians(180)), Math.toRadians(30))
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
@@ -201,7 +201,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                 case AUTO_CYCLE_START:
                     Pose2d intakePose = drive.getPoseEstimate();
                     TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-                            .splineToLinearHeading(new Pose2d(-47, 15, Math.toRadians(175)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-47, 15, Math.toRadians(180)), Math.toRadians(180))
                             .addTemporalMarker(2, () -> {
                                 claw.openBothClaw();
                                 intake.setIntakePosition(intake.the5Pixel);
@@ -211,12 +211,29 @@ public class Blue_Right_Center_Region extends Auto_Region {
                             })
                             .build();
                     drive.followTrajectorySequence(intakeStart);
-                    Pose2d intakePose1 = drive.getPoseEstimate();
-                    TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-                            .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                            .forward(8)
-                            .build();
-                    drive.followTrajectorySequence(forward);
+
+                    //using ultrasound sensor to calculate distance to wall
+                    double leftSideDistance = intake.getUltrasonicBackLeft();
+                    double rightSideDistance = intake.getUltrasonicBackRight();
+                    double diff = leftSideDistance - rightSideDistance;
+                    if (Math.abs(diff) < 1.0) {
+                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(forwardDistance))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    } else {
+                        double min = Math.min(leftSideDistance, rightSideDistance) - delivery.intakeExtendLength;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(min))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    }
+
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();
@@ -251,40 +268,69 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     if (((leftPixelOn) && (rightPixelOn)) ||
                             (generalTimer.milliseconds() > Auto_Region.INTAKE_TIME_OUT)) {
 
-                        if (cycleCounterCenter == scheduledCycleCenter) {
-                            robotState = RobotState.YELLOW_PIXEL_DELIVERY;
-                        } else {
-                            robotState = RobotState.BACK_TO_DELIVERY;
-                        }
                         intake.setIntakePosition(intake.intakeSafePosition);
 
-                        Pose2d deliveryPose= drive.getPoseEstimate();
-                        TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(42,22), Math.toRadians(22))
-                                .addTemporalMarker(0.8, ()->{
-                                    claw.closeBothClaw();
-                                })
-                                .addTemporalMarker(1.0, ()->{
-                                    intake.intakeBackSpin();
-                                })
-                                .addTemporalMarker(1.7, ()->{
-                                    intake.intakeStop();
-                                    v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
-                                })
-                                .addTemporalMarker(1.9, ()->{
-                                    claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
-                                })
-                                .addTemporalMarker(2.1, ()->{
-                                    v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
-                                    claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
-                                })
-                                .addTemporalMarker(2.3, ()->{
-                                    delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
-                                    delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
-                                })
-                                .build();
-                        drive.followTrajectorySequence(backoff);
+                        if (cycleCounterCenter == scheduledCycleCenter) {
+
+                            robotState = RobotState.YELLOW_PIXEL_DELIVERY;
+                            Pose2d deliveryPose = drive.getPoseEstimate();
+                            TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
+                                    .setReversed(true)
+                                    .splineTo(new Vector2d(41, 20), Math.toRadians(0))
+                                    .addTemporalMarker(0.8, () -> {
+                                        claw.closeBothClaw();
+                                    })
+                                    .addTemporalMarker(1.0, () -> {
+                                        intake.intakeBackSpin();
+                                    })
+                                    .addTemporalMarker(1.7, () -> {
+                                        intake.intakeStop();
+                                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
+                                    })
+                                    .addTemporalMarker(1.9, () -> {
+                                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
+                                    })
+                                    .addTemporalMarker(2.1, () -> {
+                                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                                    })
+                                    .addTemporalMarker(2.3, () -> {
+                                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                                        delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
+                                    })
+                                    .build();
+                            drive.followTrajectorySequence(backoff);
+                            avoidCollisionTimer.reset();
+                        } else {
+                            robotState = RobotState.BACK_TO_DELIVERY;
+                            Pose2d deliveryPose = drive.getPoseEstimate();
+                            TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
+                                    .setReversed(true)
+                                    .splineTo(new Vector2d(41, 20), Math.toRadians(22))
+                                    .addTemporalMarker(0.8, () -> {
+                                        claw.closeBothClaw();
+                                    })
+                                    .addTemporalMarker(1.0, () -> {
+                                        intake.intakeBackSpin();
+                                    })
+                                    .addTemporalMarker(1.7, () -> {
+                                        intake.intakeStop();
+                                        v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
+                                    })
+                                    .addTemporalMarker(1.9, () -> {
+                                        claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
+                                    })
+                                    .addTemporalMarker(2.1, () -> {
+                                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                                    })
+                                    .addTemporalMarker(2.3, () -> {
+                                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                                        delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
+                                    })
+                                    .build();
+                            drive.followTrajectorySequence(backoff);
+                        }
                     }
                     break;
                 case YELLOW_PIXEL_DELIVERY:
@@ -294,25 +340,49 @@ public class Blue_Right_Center_Region extends Auto_Region {
                         delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                     }
 
-                    if (getPosition().name().equals("LEFT")) {
-                        Pose2d leftPosition = drive.getPoseEstimate();
-                        TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
-                                .lineToLinearHeading(new Pose2d(38, 42,Math.toRadians(180)))
-                                .build();
-                        drive.followTrajectorySequence(toLeftPosition);
-                    } else if (getPosition().name().equals("CENTER")) {
-                        Pose2d centerPosition = drive.getPoseEstimate();
-                        TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
-                                .splineToLinearHeading(new Pose2d(38, 34, Math.toRadians(180)), Math.toRadians(-18))
-                                .build();
-                        drive.followTrajectorySequence(toCenterPosition);
-                    } else {
-                        Pose2d rightPosition = drive.getPoseEstimate();
-                        TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
-                                .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
-                                .build();
-                        drive.followTrajectorySequence(toRightPosition);
+                    if ((delivery.getUltrasonicLeft() < delivery.avoidAllianceDistance) &&
+                            (avoidCollisionTimer.milliseconds() < delivery.avoidCollisionTime)) {
+                        robotState = RobotState.YELLOW_PIXEL_DELIVERY;
+                        break;
+                    } //wait for alliance move away
 
+                    if ((delivery.getUltrasonicLeft() > delivery.avoidAllianceDistance) &&
+                            (avoidCollisionTimer.milliseconds() < delivery.avoidCollisionTime)) {
+                        if (getPosition().name().equals("LEFT")) {
+                            Pose2d leftPosition = drive.getPoseEstimate();
+                            TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
+                                    .lineToLinearHeading(new Pose2d(38, 42, Math.toRadians(180)))
+                                    .build();
+                            drive.followTrajectorySequence(toLeftPosition);
+                        } else if (getPosition().name().equals("CENTER")) {
+                            Pose2d centerPosition = drive.getPoseEstimate();
+                            TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
+                                    .splineToLinearHeading(new Pose2d(38, 34, Math.toRadians(180)), Math.toRadians(-18))
+                                    .build();
+                            drive.followTrajectorySequence(toCenterPosition);
+                        } else {
+                            Pose2d rightPosition = drive.getPoseEstimate();
+                            TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
+                                    .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
+                                    .build();
+                            drive.followTrajectorySequence(toRightPosition);
+
+                        }
+                        robotState = RobotState.BACK_TO_DELIVERY;
+                        break;
+                    }
+
+                    if ((delivery.getUltrasonicLeft() < delivery.avoidAllianceDistance) &&
+                            (avoidCollisionTimer.milliseconds() > delivery.avoidCollisionTime)) {
+                        Pose2d dumpYellow = drive.getPoseEstimate();
+                        TrajectorySequence dumpYellowPosition = drive.trajectorySequenceBuilder(dumpYellow)
+                                .turn(Math.toRadians(25))
+                                .build();
+                        drive.followTrajectorySequence(dumpYellowPosition);
+
+                        v4Bar.setV4BarPosition(v4Bar.v4BarYellowDump);
+                        delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
+                        delivery.dumpYellow = true;
                     }
                     robotState = RobotState.BACK_TO_DELIVERY;
                     break;

@@ -184,7 +184,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                     double rightSideDistance = intake.getUltrasonicBackRight();
                     double diff = leftSideDistance - rightSideDistance;
                     if (Math.abs(diff) < 1.0) {
-                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - 8;
+                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -192,7 +192,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                                 .build();
                         drive.followTrajectorySequence(forward);
                     } else {
-                        double min = Math.min(leftSideDistance, rightSideDistance) - 8;
+                        double min = Math.min(leftSideDistance, rightSideDistance) - delivery.intakeExtendLength;
                         Pose2d intakePose1 = drive.getPoseEstimate();
                         TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
@@ -200,6 +200,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                                 .build();
                         drive.followTrajectorySequence(forward);
                     }
+
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();

@@ -178,12 +178,29 @@ public class Blue_Left_Center_Region extends Auto_Region {
                             })
                             .build();
                     drive.followTrajectorySequence(intakeStart);
-                    Pose2d intakePose1 = drive.getPoseEstimate();
-                    TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                        .forward(8)
-                        .build();
-                    drive.followTrajectorySequence(forward);
+
+                    //using ultrasound sensor to calculate distance to wall
+                    double leftSideDistance = intake.getUltrasonicBackLeft();
+                    double rightSideDistance = intake.getUltrasonicBackRight();
+                    double diff = leftSideDistance - rightSideDistance;
+                    if (Math.abs(diff) < 1.0) {
+                        double forwardDistance = ((leftSideDistance + rightSideDistance) / 2) - delivery.intakeExtendLength;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(forwardDistance))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    } else {
+                        double min = Math.min(leftSideDistance, rightSideDistance) - delivery.intakeExtendLength;
+                        Pose2d intakePose1 = drive.getPoseEstimate();
+                        TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .forward((int)Math.round(min))
+                                .build();
+                        drive.followTrajectorySequence(forward);
+                    }
+
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();
