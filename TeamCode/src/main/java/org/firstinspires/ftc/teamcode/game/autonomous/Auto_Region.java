@@ -56,12 +56,12 @@ public abstract class Auto_Region extends LinearOpMode {
     // ------- Constants ------- //
     public static int SLIDE_POSITION_ONE       = 200;
     public static int SLIDE_POSITION_TWO       = 410;
-    public static int SLIDE_SECOND_ROUND       = 535;
+    public static int SLIDE_SECOND_ROUND       = 405;
     public static int SLIDE_ANGLE_ROUND_ONE     = 0;
-    public static int SLIDE_ANGLE_POSITION     = 350;
-    public static double V4BAR_DELIVERY        = 0.84;
+    public static int SLIDE_ANGLE_POSITION     = 0;
+    public static double V4BAR_DELIVERY        = 0.79;
     public static double CLAW_DELIVERY         = 0.50;
-    public static double CLAW_SECOND_ROUND     = 0.48;
+    public static double CLAW_SECOND_ROUND     = 0.51;
 
     public static int scheduledCycleCenter = 2;
     public int cycleCounterCenter = 2;

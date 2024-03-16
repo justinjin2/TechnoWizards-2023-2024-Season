@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.game.RobotState;
+import org.firstinspires.ftc.teamcode.game.autonomous.Auto_Region;
 import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Delivery;
 import org.firstinspires.ftc.teamcode.hardware.Intake;
@@ -63,7 +64,8 @@ public class CenterStage_Test extends LinearOpMode {
         claw.init(hardwareMap);
 
         //delivery.resetSlide();
-
+        claw.setClawAnglePosition(0.48);
+        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
         //intake.resetMotor();
         //delivery.resetMotor(); //reset all motors encoder
         //intake.setIntakePosition(intake.intakeCenterPosition);
