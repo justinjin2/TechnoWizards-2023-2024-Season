@@ -252,7 +252,7 @@ public class Blue_Left_Wall_Region extends Auto_Region {
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
                                 .addTemporalMarker(2.1, ()->{
-                                    v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                                    v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_WHITE);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
                                 .resetVelConstraint()

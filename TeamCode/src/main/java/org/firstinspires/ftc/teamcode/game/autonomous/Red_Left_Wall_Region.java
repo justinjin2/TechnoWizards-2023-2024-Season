@@ -67,7 +67,7 @@ public class Red_Left_Wall_Region extends Auto_Region {
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
-                    .splineToSplineHeading(new Pose2d(-50, -48, Math.toRadians(-210)), Math.toRadians(-210))
+                    .splineToSplineHeading(new Pose2d(-50, -47, Math.toRadians(-200)), Math.toRadians(-200))
                     .addTemporalMarker(1.2, ()->{
                         intake.intakeStart();
                     })
@@ -231,6 +231,9 @@ public class Red_Left_Wall_Region extends Auto_Region {
                     TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
                             .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
                             .forward(7)
+                            .addTemporalMarker(1.0, ()->{
+                                intake.setIntakePosition(intake.the5Pixel-0.015);
+                            })
                             .build();
                     drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;
@@ -241,10 +244,12 @@ public class Red_Left_Wall_Region extends Auto_Region {
                     double leftDistance = intake.getLeftPixelSensor();
                     double rightDistance = intake.getRightPixelSensor();
 
-                    if (cycleCounterCenter == scheduledCycleCenter) {
-                        rightPixelOn = true;
-                        pixelCount +=1;   //pre-load yellow pixel
-                    }
+                    //if (cycleCounterCenter == scheduledCycleCenter) {
+                    //    rightPixelOn = true;
+                    //    pixelCount +=1;   //pre-load yellow pixel
+                    //}
+
+                    //try to take two instead of one
 
                     if ((leftDistance < intake.leftPixelDetectDistance) && (!leftPixelOn)) {
                         claw.closeLeftClaw();
@@ -286,10 +291,10 @@ public class Red_Left_Wall_Region extends Auto_Region {
                                     })
                                     .addTemporalMarker(2.1, () -> {
                                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
-                                        claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
+                                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                                     })
                                     .resetVelConstraint()
-                                    .splineTo(new Vector2d(41, -55), Math.toRadians(0))
+                                    .splineTo(new Vector2d(39, -55), Math.toRadians(0))
                                     .addTemporalMarker(2.3, () -> {
                                         delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                         delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
@@ -304,8 +309,8 @@ public class Red_Left_Wall_Region extends Auto_Region {
                             TrajectorySequence backoff = drive.trajectorySequenceBuilder(backoffPose1)
                                     .setReversed(true)
                                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                    .splineTo(new Vector2d(-34, -57), Math.toRadians(-10))
-                                    .splineTo(new Vector2d(24, -57), Math.toRadians(-4))
+                                    .splineTo(new Vector2d(-34, -56), Math.toRadians(-10))
+                                    .splineTo(new Vector2d(24, -56), Math.toRadians(-4))
                                     .addTemporalMarker(0.8, () -> {
                                         claw.closeBothClaw();
                                     })
@@ -320,11 +325,11 @@ public class Red_Left_Wall_Region extends Auto_Region {
                                         claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                     })
                                     .addTemporalMarker(2.1, () -> {
-                                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_WHITE);
                                         claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                     })
                                     .resetVelConstraint()
-                                    .splineTo(new Vector2d(41, -55), Math.toRadians(25))
+                                    .splineTo(new Vector2d(41, -55), Math.toRadians(30))
                                     .addTemporalMarker(2.3, () -> {
                                         delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                         delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
@@ -365,7 +370,7 @@ public class Red_Left_Wall_Region extends Auto_Region {
                         } else {
                             Pose2d leftPosition = drive.getPoseEstimate();
                             TrajectorySequence toLeftPosition = drive.trajectorySequenceBuilder(leftPosition)
-                                    .lineToLinearHeading(new Pose2d(38, -25.5, Math.toRadians(175)))
+                                    .lineToLinearHeading(new Pose2d(38, -26, Math.toRadians(175)))
                                     .build();
                             drive.followTrajectorySequence(toLeftPosition);
                         }

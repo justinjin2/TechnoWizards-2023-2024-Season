@@ -79,7 +79,7 @@ public class Trajectories_Region {
                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
-                    .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(38, 28, Math.toRadians(175)))
                     .build();
         }
 

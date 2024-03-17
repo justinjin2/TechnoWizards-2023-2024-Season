@@ -148,7 +148,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
                         pixelCount = 0;
-                        if (cycleCounterCenter < scheduledCycleCenter) intake.the5Pixel -= 0.06; //not the first time
+                        if (cycleCounterCenter < scheduledCycleCenter) intake.the5Pixel -= 0.03; //not the first time
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
                     if (cycleCounterCenter == 0) {
@@ -257,7 +257,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
                                 .addTemporalMarker(2.1, ()->{
-                                    v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                                    v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_WHITE);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
                                 .addTemporalMarker(2.3, ()->{
