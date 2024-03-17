@@ -13,7 +13,7 @@ public class Claw {
 
     public ServoImplEx testServo;
 
-    public double clawOpenTime = 350;
+    public double clawOpenTime = 300;
     public double clawCloseTime = 200;
 
     public double leftClawOpenPosition = 1.0;

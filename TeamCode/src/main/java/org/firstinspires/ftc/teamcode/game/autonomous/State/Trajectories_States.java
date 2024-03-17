@@ -42,10 +42,10 @@ public class Trajectories_States {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(20,-41, Math.toRadians(285)), Math.toRadians(285))
-                    .addTemporalMarker(1, ()->{
+                    .addTemporalMarker(0.3, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
-                    .addTemporalMarker(1.5, ()->{
+                    .addTemporalMarker(0.7, ()->{
                         delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
@@ -58,13 +58,13 @@ public class Trajectories_States {
             sequence = drive.trajectorySequenceBuilder(startPose)
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(9, -41, Math.toRadians(325)), Math.toRadians(190))
-                    .addTemporalMarker(1, ()->{
+                    .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
                     .setReversed(false)
                     .lineTo(new Vector2d(12, -43))
-                    .addTemporalMarker(2.5, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
@@ -73,17 +73,18 @@ public class Trajectories_States {
         }
         else {
             sequence = drive.trajectorySequenceBuilder(startPose)
-                    .lineTo(new Vector2d(24, -45))
-                    .addTemporalMarker(1, ()->{
+                    .setReversed(true)
+                    .splineToConstantHeading(new Vector2d(25, -40), Math.toRadians(90))
+                    .splineToConstantHeading(new Vector2d(24, -50), Math.toRadians(270))
+                    .splineToLinearHeading(new Pose2d(38, -43, Math.toRadians(180)), Math.toRadians(50))
+                    .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.intakeSafePosition);
                     })
-                    .lineTo(new Vector2d(29, -59))
-                    .addTemporalMarker(2, ()->{
-                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                    .addTemporalMarker(0.8, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
                         claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
                     })
-                    .lineToLinearHeading(new Pose2d(38, -42,Math.toRadians(180)))
                     .build();
         }
 

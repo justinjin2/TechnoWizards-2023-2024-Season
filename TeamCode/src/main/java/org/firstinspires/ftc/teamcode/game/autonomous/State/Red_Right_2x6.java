@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.opmode.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.game.RobotState;
+import org.firstinspires.ftc.teamcode.game.autonomous.Auto_Region;
 import org.firstinspires.ftc.teamcode.game.autonomous.State.Auto_States;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.PropColor;
@@ -72,12 +73,6 @@ public class Red_Right_2x6 extends Auto_States {
                 hub.clearBulkCache();
             }
 
-            if ((getSecondsLeft() < 2) && (!cycleTimeOut)) { //time to park
-                robotState = RobotState.DELIVERY_DONE;
-                cycleCounterCenter = 0;
-                cycleTimeOut = true;
-            }
-
             if (parked) robotState = RobotState.IDLE;
 
             switch (robotState) {
@@ -110,7 +105,7 @@ public class Red_Right_2x6 extends Auto_States {
                     }
                     break;
                 case V4BAR_UP:
-                    if (generalTimer.milliseconds() > 150) {
+                    if (generalTimer.milliseconds() > 75) {
                         delivery.slideRunToPosition_Encoder(delivery.slideStart, delivery.slideRunHighVelocity);
                         robotState = RobotState.SLIDE_DOWN;
                     }
@@ -125,7 +120,7 @@ public class Red_Right_2x6 extends Auto_States {
                                     delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
                                 })
                                 .addTemporalMarker(0.5, ()->{
-                                    v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
+                                    v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                                 })
                         .addTemporalMarker(0.5, ()->{
                             intake.setIntakePosition(intake.intakeInitPosition);
@@ -138,10 +133,12 @@ public class Red_Right_2x6 extends Auto_States {
                     else if (cycleCounterCenter >1) {
                         Pose2d prepareIntake = drive.getPoseEstimate();
                         TrajectorySequence  awayBackDrop = drive.trajectorySequenceBuilder(prepareIntake)
-                                .splineTo(new Vector2d(11.00, -9.00), Math.toRadians(180.00))
+                                .setReversed(true)
+                                .splineToLinearHeading(new Pose2d(39, -12, Math.toRadians(180)), Math.toRadians(90))
+                                .setReversed(false)
                                 .splineToConstantHeading(new Vector2d(-47, -13), Math.toRadians(180))
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                .splineToConstantHeading(new Vector2d(-54, -13), Math.toRadians(180))
+                                .splineToConstantHeading(new Vector2d(-55, -11), Math.toRadians(180))
                                 .addTemporalMarker(0, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                                     delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
@@ -150,7 +147,7 @@ public class Red_Right_2x6 extends Auto_States {
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDownStage2);
                                 })
                                 .addTemporalMarker(0.8, ()->{
-                                    intake.setIntakePosition(intake.the5Pixel);
+                                    intake.setIntakePosition(intake.the5Pixel-0.01);
                                     v4Bar.setV4BarPosition(v4Bar.v4BarIntake);
                                     claw.setClawAnglePosition(claw.clawAngleIntake);
                                 })
@@ -169,9 +166,8 @@ public class Red_Right_2x6 extends Auto_States {
                         Pose2d prepareIntake2 = drive.getPoseEstimate();
                         TrajectorySequence  awayBackDrop2 = drive.trajectorySequenceBuilder(prepareIntake2)
                                 .splineTo(new Vector2d(11, -9), Math.toRadians(180))
-                                .splineToConstantHeading(new Vector2d(-47, -13), Math.toRadians(180))
-                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                .splineToConstantHeading(new Vector2d(-54, -24), Math.toRadians(180))
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .splineTo(new Vector2d(-54, -15), Math.toRadians(200))
                                 .addTemporalMarker(0, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                                     delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
@@ -198,42 +194,21 @@ public class Red_Right_2x6 extends Auto_States {
                     }
                     break;
                 case DELIVERY_DONE:
-                    if ((generalTimer.milliseconds() > 100) && (cycleCounterCenter > 0)) {
+                    if ((generalTimer.milliseconds() > 10) && (cycleCounterCenter > 0)) {
                         leftPixelOn = false;
                         rightPixelOn = false;
                         secondPixelTimeOut = false;
                         pixelCount = 0;
-                        if (cycleCounterCenter == 3 ) intake.the5Pixel -= 0.06;
+                        if (cycleCounterCenter == 3 ) intake.the5Pixel -= 0.045;
                         else if (cycleCounterCenter == 2){
                             intake.the5Pixel = 0.27; //third cycle
                         }
-
-
-
                         robotState = RobotState.AUTO_CYCLE_START;
                     }
             }
 
             switch (robotState) {
                 case AUTO_CYCLE_START:
-//                    Pose2d intakePose = drive.getPoseEstimate();
-//                    TrajectorySequence intakeStart = drive.trajectorySequenceBuilder(intakePose)
-//                            .splineToLinearHeading(new Pose2d(-47, -13, Math.toRadians(180)), Math.toRadians(180))
-//                            .addTemporalMarker(2, ()->{
-//                                claw.openBothClaw();
-//                                intake.setIntakePosition(intake.the5Pixel);
-//                            })
-//                            .addTemporalMarker(2.5, ()->{
-//                                intake.intakeStart();
-//                            })
-//                            .build();
-//                    drive.followTrajectorySequence(intakeStart);
-//                    Pose2d intakePose1 = drive.getPoseEstimate();
-//                    TrajectorySequence forward = drive.trajectorySequenceBuilder(intakePose1)
-//                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-//                        .forward(8)
-//                        .build();
-//                    drive.followTrajectorySequence(forward);
                     robotState = RobotState.INTAKE_START;
                     generalTimer.reset();
                     secondPixelTimer.reset();
@@ -269,25 +244,27 @@ public class Red_Right_2x6 extends Auto_States {
                            Pose2d deliveryPose= drive.getPoseEstimate();
                         TrajectorySequence backoff = drive.trajectorySequenceBuilder(deliveryPose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(41,-22), Math.toRadians(-22))
-                                .addTemporalMarker(1, ()->{
+                                .splineTo(new Vector2d(17, -11), Math.toRadians(355))
+                                .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                .splineTo(new Vector2d(41.5,-23), Math.toRadians(-22))
+                                .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })
-                                .addTemporalMarker(1.2, ()->{
+                                .addTemporalMarker(0.9, ()->{
                                     intake.intakeBackSpin();
                                 })
-                                .addTemporalMarker(1.7, ()->{
+                                .addTemporalMarker(1.19, ()->{
                                     intake.intakeStop();
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.9, ()->{
+                                .addTemporalMarker(1.2, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
-                                .addTemporalMarker(2.1, ()->{
+                                .addTemporalMarker(1.21, ()->{
                                     v4Bar.setV4BarPosition(Auto_States.V4BAR_DELIVERY);
                                     claw.setClawAnglePosition(Auto_States.CLAW_SECOND_ROUND);
                                 })
-                                .addTemporalMarker(2.3, ()->{
+                                .addTemporalMarker(1.6, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })
@@ -300,8 +277,10 @@ public class Red_Right_2x6 extends Auto_States {
                            Pose2d deliveryPose2 = drive.getPoseEstimate();
                            TrajectorySequence backoff2 = drive.trajectorySequenceBuilder(deliveryPose2)
                                    .setReversed(true)
-                                   .splineTo(new Vector2d(-5, -9), Math.toRadians(-32))
-                                   .splineTo(new Vector2d(40.7,-22), Math.toRadians(-22))
+                                   .splineTo(new Vector2d(15, -13), Math.toRadians(0))
+                                   .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
+                                   .splineTo(new Vector2d(41.5,-23), Math.toRadians(-22))
+
                                    .addTemporalMarker(0.8, ()->{
                                        claw.closeBothClaw();
                                    })
