@@ -69,7 +69,7 @@ public class Blue_Right_Center_Region extends Auto_Region {
                     .addTemporalMarker(0.5, ()->{
                         intake.setIntakePosition(intake.the5Pixel);
                     })
-                    .splineToSplineHeading(new Pose2d(-47, 14, Math.toRadians(180)), Math.toRadians(30))
+                    .splineToSplineHeading(new Pose2d(-47, 14, Math.toRadians(170)), Math.toRadians(30))
                     .addTemporalMarker(1.2, ()->{
                         intake.intakeStart();
                     })

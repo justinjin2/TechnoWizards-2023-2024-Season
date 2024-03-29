@@ -85,10 +85,10 @@ public class Blue_Left_Center_Region extends Auto_Region {
                     if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto_Region.SLIDE_POSITION_ONE) ||
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto_Region.SLIDE_POSITION_ONE)) {
                         if (cycleCounterCenter == scheduledCycleCenter) {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunMediumVelocity);
                             slidePosition = Auto_Region.SLIDE_POSITION_TWO;
                         } else {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND, delivery.slideRunHighVelocity);
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND, delivery.slideRunMediumVelocity);
                             slidePosition = Auto_Region.SLIDE_SECOND_ROUND;
                         }
                         generalTimer.reset();
@@ -123,7 +123,7 @@ public class Blue_Left_Center_Region extends Auto_Region {
                     {
                         Pose2d prepareIntake = drive.getPoseEstimate();
                         TrajectorySequence  awayBackDrop = drive.trajectorySequenceBuilder(prepareIntake)
-                            .lineToLinearHeading(new Pose2d(36, 15, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(36, 14.5, Math.toRadians(180)))
                                 .addTemporalMarker(0, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage2);
                                     delivery.slideAngleRunToPosition(delivery.slideAngleMaxDown);
@@ -250,18 +250,18 @@ public class Blue_Left_Center_Region extends Auto_Region {
                                 .addTemporalMarker(1.0, ()->{
                                     intake.intakeBackSpin();
                                 })
-                                .addTemporalMarker(1.7, ()->{
+                                .addTemporalMarker(1.3, ()->{
                                     intake.intakeStop();
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.9, ()->{
+                                .addTemporalMarker(1.4, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
-                                .addTemporalMarker(2.1, ()->{
+                                .addTemporalMarker(1.6, ()->{
                                     v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_WHITE);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
-                                .addTemporalMarker(2.3, ()->{
+                                .addTemporalMarker(2, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })

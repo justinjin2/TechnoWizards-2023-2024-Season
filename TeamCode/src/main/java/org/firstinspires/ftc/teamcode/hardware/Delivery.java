@@ -37,6 +37,8 @@ public class Delivery {
     VoltageToInches voltageToInches = new VoltageToInches();
 
     public int slideRunHighVelocity = 2800;
+    public int slideRunMediumVelocity = 2000;
+
     public int slideReturnVelocity = 1400;
     public int slideRunLowVelocity = 1000;
     public int slideAngleVelocity = 2800;
@@ -56,12 +58,12 @@ public class Delivery {
     public double droneLaunch = 1.0;
 
     public double hangerInit = 1;
-    public double hangerDeploy = 0.6;
+    public double hangerDeploy = 0.5;
 
     public double avoidAllianceDistance = 25 ;
     public int avoidCollisionTime = 3500;
-    public double intakeExtendLength = 7.2   ;
-    public double intakeExtendLength1 = 6.2;
+    public double intakeExtendLength = 6;
+    public double intakeExtendLength1 = 6;
     public boolean dumpYellow = false;
     public static double p1 = 0.005, i1 = 0.002, d1 = 0.0004;
     public static double f1 = 0;

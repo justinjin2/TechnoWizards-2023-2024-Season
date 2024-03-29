@@ -117,11 +117,11 @@ public class Red_Left_Wall_19746 extends Auto_Region {
                     if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto_Region.SLIDE_POSITION_ONE) ||
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto_Region.SLIDE_POSITION_ONE)) {
                         if ((cycleCounterCenter == scheduledCycleCenter) && !delivery.dumpYellow) {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
-                            slidePosition = Auto_Region.SLIDE_POSITION_TWO;
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO+10, delivery.slideRunMediumVelocity);
+                            slidePosition = Auto_Region.SLIDE_POSITION_TWO+10;
                         } else {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND+15, delivery.slideRunHighVelocity);
-                            slidePosition = Auto_Region.SLIDE_SECOND_ROUND+15;
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND+45, delivery.slideRunHighVelocity);
+                            slidePosition = Auto_Region.SLIDE_SECOND_ROUND + 45;
                         }
                         generalTimer.reset();
                         robotState = RobotState.DELIVERY_READY;
@@ -356,13 +356,13 @@ public class Red_Left_Wall_19746 extends Auto_Region {
                         if (getPosition().name().equals("RIGHT")) {
                             Pose2d rightPosition = drive.getPoseEstimate();
                             TrajectorySequence toRightPosition = drive.trajectorySequenceBuilder(rightPosition)
-                                    .lineToLinearHeading(new Pose2d(38, -42, Math.toRadians(175)))
+                                    .lineToLinearHeading(new Pose2d(38, -44.5, Math.toRadians(175)))
                                     .build();
                             drive.followTrajectorySequence(toRightPosition);
                         } else if (getPosition().name().equals("CENTER")) {
                             Pose2d centerPosition = drive.getPoseEstimate();
                             TrajectorySequence toCenterPosition = drive.trajectorySequenceBuilder(centerPosition)
-                                    .splineToLinearHeading(new Pose2d(38210, -37, Math.toRadians(175)), Math.toRadians(18))
+                                    .splineToLinearHeading(new Pose2d(38, -41, Math.toRadians(180)), Math.toRadians(18))
                                     .build();
                             drive.followTrajectorySequence(toCenterPosition);
                         } else {
@@ -371,7 +371,7 @@ public class Red_Left_Wall_19746 extends Auto_Region {
                                     .addTemporalMarker(0, () -> {
                                         v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_19746);
                                     })
-                                    .lineToLinearHeading(new Pose2d(38, -29.1, Math.toRadians(175)))
+                                    .lineToLinearHeading(new Pose2d(38.4, -29.1, Math.toRadians(175)))
                                     .build();
                             drive.followTrajectorySequence(toLeftPosition);
                         }

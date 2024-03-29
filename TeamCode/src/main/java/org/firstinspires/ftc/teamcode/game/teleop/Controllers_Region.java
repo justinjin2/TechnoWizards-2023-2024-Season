@@ -144,7 +144,7 @@ public class Controllers_Region {
         }
 
         if (currentGamepad2.a && !previousGamepad2.a) {
-            claw.closeBothClaw();
+            intake.intakeStop();
         }
 
 //        if (currentGamepad2.right_trigger > 0) {

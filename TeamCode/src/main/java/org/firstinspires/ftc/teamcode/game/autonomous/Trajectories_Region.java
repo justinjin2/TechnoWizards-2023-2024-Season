@@ -199,4 +199,114 @@ public class Trajectories_Region {
 
         return sequence;
     }
+    public TrajectorySequence getBlueLeft_8565(TeamPropDetector.TSEDetectorPipeline.TSEPosition position, Pose2d startPose) {
+
+        TrajectorySequence sequence;
+
+        if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(20,41, Math.toRadians(75)), Math.toRadians(75))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .setReversed(false)
+                    .splineToLinearHeading(new Pose2d(38, 33, Math.toRadians(180)), Math.toRadians(-18))
+                    .build();
+        }
+        else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.LEFT)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(23, 44))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .lineTo(new Vector2d(26, 58))
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .lineToLinearHeading(new Pose2d(38, 41,Math.toRadians(180)))
+                    .build();
+        }
+        else {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(9, 41, Math.toRadians(35)), Math.toRadians(190))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .setReversed(false)
+                    .lineTo(new Vector2d(12, 43))
+                    .addTemporalMarker(2.5, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .lineToLinearHeading(new Pose2d(38, 27, Math.toRadians(175)))
+                    .build();
+        }
+
+        return sequence;
+    }
+    public TrajectorySequence getRedRight_8565(TeamPropDetector.TSEDetectorPipeline.TSEPosition position, Pose2d startPose) {
+
+        TrajectorySequence sequence;
+
+        if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.CENTER)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(20,-42, Math.toRadians(285)), Math.toRadians(285))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .setReversed(false)
+                    .splineToLinearHeading(new Pose2d(38, -36, Math.toRadians(180)), Math.toRadians(18))
+                    .build();
+        }
+        else if (position.equals(TeamPropDetector.TSEDetectorPipeline.TSEPosition.RIGHT)) {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .lineTo(new Vector2d(24, -45))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .lineTo(new Vector2d(29, -59))
+                    .addTemporalMarker(2, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .lineToLinearHeading(new Pose2d(38, -41,Math.toRadians(180)))
+                    .build();
+        }
+        else {
+            sequence = drive.trajectorySequenceBuilder(startPose)
+                    .setReversed(true)
+                    .splineToLinearHeading(new Pose2d(9, -41, Math.toRadians(325)), Math.toRadians(190))
+                    .addTemporalMarker(1, ()->{
+                        intake.setIntakePosition(intake.intakeSafePosition);
+                    })
+                    .setReversed(false)
+                    .lineTo(new Vector2d(12, -43))
+                    .addTemporalMarker(2.5, ()->{
+                        delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
+                        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
+                        claw.setClawAnglePosition(Auto_Region.CLAW_DELIVERY);
+                    })
+                    .lineToLinearHeading(new Pose2d(38, -28.6, Math.toRadians(180)))
+                    .build();
+        }
+
+        return sequence;
+    }
 }

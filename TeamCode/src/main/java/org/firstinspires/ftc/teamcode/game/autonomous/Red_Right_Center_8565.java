@@ -16,7 +16,7 @@ import java.util.List;
 
 //@Disabled
 @Autonomous(group = "Area Championship Tournament")
-public class Red_Right_Center_Region extends Auto_Region {
+public class Red_Right_Center_8565 extends Auto_Region {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,7 +58,7 @@ public class Red_Right_Center_Region extends Auto_Region {
 
         startTimer();
 
-        drive.followTrajectorySequence(getTrajectories().getRedRight(getPosition(), startPose));
+        drive.followTrajectorySequence(getTrajectories().getRedRight_8565(getPosition(), startPose));
 
         robotState = RobotState.DELIVERY_START;
 
@@ -85,11 +85,11 @@ public class Red_Right_Center_Region extends Auto_Region {
                     if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto_Region.SLIDE_POSITION_ONE) ||
                             (Math.abs(delivery.getMotor2Position()) + 15 > Auto_Region.SLIDE_POSITION_ONE)) {
                         if (cycleCounterCenter == scheduledCycleCenter) {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO, delivery.slideRunMediumVelocity);
-                            slidePosition = Auto_Region.SLIDE_POSITION_TWO;
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_TWO+10, delivery.slideRunMediumVelocity);
+                            slidePosition = Auto_Region.SLIDE_POSITION_TWO+10;
                         } else {
-                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND, delivery.slideRunMediumVelocity);
-                            slidePosition = Auto_Region.SLIDE_SECOND_ROUND;
+                            delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_SECOND_ROUND+35, delivery.slideRunMediumVelocity);
+                            slidePosition = Auto_Region.SLIDE_SECOND_ROUND+35;
                         }
                         generalTimer.reset();
                         robotState = RobotState.DELIVERY_READY;
@@ -105,7 +105,7 @@ public class Red_Right_Center_Region extends Auto_Region {
                     }
                     break;
                 case CLAW_OPEN:
-                    if (clawOpenTimer.milliseconds() > claw.clawOpenTime) {
+                    if (clawOpenTimer.milliseconds() > claw.clawOpenTime+100) {
                         v4Bar.setV4BarPosition(v4Bar.v4BarDownStage1);
                         robotState=RobotState.V4BAR_UP;
                         generalTimer.reset();
@@ -249,18 +249,18 @@ public class Red_Right_Center_Region extends Auto_Region {
                                 .addTemporalMarker(1.0, ()->{
                                     intake.intakeBackSpin();
                                 })
-                                .addTemporalMarker(1.7, ()->{
+                                .addTemporalMarker(1.3, ()->{
                                     intake.intakeStop();
                                     v4Bar.setV4BarPosition(v4Bar.v4BarDeliveryStage1);
                                 })
-                                .addTemporalMarker(1.9, ()->{
+                                .addTemporalMarker(1.4, ()->{
                                     claw.setClawAnglePosition(claw.clawAngleDeliveryStage1);
                                 })
-                                .addTemporalMarker(2.1, ()->{
+                                .addTemporalMarker(1.6, ()->{
                                     v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY_WHITE);
                                     claw.setClawAnglePosition(Auto_Region.CLAW_SECOND_ROUND);
                                 })
-                                .addTemporalMarker(2.3, ()->{
+                                .addTemporalMarker(2, ()->{
                                     delivery.slideRunToPosition_Encoder(Auto_Region.SLIDE_POSITION_ONE, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })
