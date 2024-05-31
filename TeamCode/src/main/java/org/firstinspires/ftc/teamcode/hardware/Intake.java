@@ -32,15 +32,16 @@ public class Intake {
     public int leftPixelDetectDistance = 15;
     public int rightPixelDetectDistance = 15;
 
-    public double intakeInitPosition = 0.58;
-    public double intakeCenterPosition = 0.5;
+    public double intakeInitPosition = 0.53;
+    public double intakeCenterPosition = 0.45;
     public double intakeDownPosition = 0.22;
-    public double intakeHangerPosition = 0.29;
+    public double intakeHangerPosition = 0.24;
     public double intakeStepUp = 0.01;
     public double intakeStepDown= -0.01;
 
-    public double intakeSafePosition = 0.4;
-    public double the5Pixel = 0.28;
+    public double intakeSafePosition = 0.35;
+    public double the5Pixel = 0.23;
+//    public double the5Pixel = 0.28;
     public double theNextPixel = -0.015 ;
 
     public int backSpinTime = 500;

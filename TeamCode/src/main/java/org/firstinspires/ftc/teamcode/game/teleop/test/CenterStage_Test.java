@@ -62,7 +62,7 @@ public class CenterStage_Test extends LinearOpMode {
         delivery.init(hardwareMap);
         v4Bar.init(hardwareMap);
         claw.init(hardwareMap);
-
+        intake.setIntakePosition(intake.intakeCenterPosition);
         //delivery.resetSlide();
 //        claw.setClawAnglePosition(0.48);
 //        v4Bar.setV4BarPosition(Auto_Region.V4BAR_DELIVERY);
