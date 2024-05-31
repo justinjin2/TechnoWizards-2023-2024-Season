@@ -75,6 +75,8 @@ public class Red_Right_2x6 extends Auto_States {
 
             if (parked) robotState = RobotState.IDLE;
 
+            int extraSlide = 23;
+
             switch (robotState) {
                 case DELIVERY_START:
                     if (((Math.abs(delivery.getMotor1Position()) + 15) > Auto_States.SLIDE_POSITION_TWO) ||
@@ -82,15 +84,15 @@ public class Red_Right_2x6 extends Auto_States {
                         if (cycleCounterCenter == scheduledCycleCenter) {
                             slidePosition = Auto_States.SLIDE_POSITION_TWO;
                         } else {
-                            slidePosition = Auto_States.SLIDE_POSITION_TWO;
+                            slidePosition = Auto_States.SLIDE_POSITION_TWO + extraSlide;
                         }
                         generalTimer.reset();
                         robotState = RobotState.DELIVERY_READY;
                     }
                     break;
                 case DELIVERY_READY:
-                    if (((Math.abs(delivery.getMotor1Position()) + 10) > slidePosition) ||
-                            (Math.abs(delivery.getMotor2Position()) + 10 > slidePosition) ||
+                    if (((Math.abs(delivery.getMotor1Position()) + 9) > slidePosition) ||
+                            (Math.abs(delivery.getMotor2Position()) + 9 > slidePosition) ||
                             (generalTimer.milliseconds() > 800)) {
                         claw.openBothClaw();
                         robotState = RobotState.CLAW_OPEN;
@@ -246,7 +248,7 @@ public class Red_Right_2x6 extends Auto_States {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(17, -11), Math.toRadians(355))
                                 .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                .splineTo(new Vector2d(41.5,-23), Math.toRadians(-22))
+                                .splineTo(new Vector2d(42,-23), Math.toRadians(-22))
                                 .addTemporalMarker(0.8, ()->{
                                     claw.closeBothClaw();
                                 })
@@ -265,7 +267,7 @@ public class Red_Right_2x6 extends Auto_States {
                                     claw.setClawAnglePosition(Auto_States.CLAW_SECOND_ROUND);
                                 })
                                 .addTemporalMarker(1.6, ()->{
-                                    delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
+                                    delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO + extraSlide, delivery.slideRunHighVelocity);
                                     delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                 })
                                 .build();
@@ -279,7 +281,7 @@ public class Red_Right_2x6 extends Auto_States {
                                    .setReversed(true)
                                    .splineTo(new Vector2d(15, -13), Math.toRadians(0))
                                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH))
-                                   .splineTo(new Vector2d(41.5,-23), Math.toRadians(-22))
+                                   .splineTo(new Vector2d(42,-24.5), Math.toRadians(-19))
 
                                    .addTemporalMarker(0.8, ()->{
                                        claw.closeBothClaw();
@@ -299,7 +301,7 @@ public class Red_Right_2x6 extends Auto_States {
                                        claw.setClawAnglePosition(Auto_States.CLAW_SECOND_ROUND);
                                    })
                                    .addTemporalMarker(1.7, ()->{
-                                       delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO, delivery.slideRunHighVelocity);
+                                       delivery.slideRunToPosition_Encoder(Auto_States.SLIDE_POSITION_TWO + extraSlide, delivery.slideRunHighVelocity);
                                        delivery.slideAngleRunToPosition(SLIDE_ANGLE_POSITION);
                                    })
                                    .build();

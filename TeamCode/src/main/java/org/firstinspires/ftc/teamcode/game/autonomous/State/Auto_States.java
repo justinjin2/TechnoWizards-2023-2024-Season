@@ -55,7 +55,7 @@ public abstract class Auto_States extends LinearOpMode {
 
     // ------- Constants ------- //
     public static int SLIDE_POSITION_ONE       = 370;
-    public static int SLIDE_POSITION_TWO       = 415;
+    public static int SLIDE_POSITION_TWO       = 415 + 15;
     public static int SLIDE_SECOND_ROUND       = 535;
     public static int SLIDE_ANGLE_ROUND_ONE     = 0;
     public static int SLIDE_ANGLE_POSITION     = 200;
